@@ -110,9 +110,9 @@ export default function Home() {
 function Header({ results }: { results: boolean }) {
   return (
     <header className="mx-auto flex w-full max-w-7xl items-center justify-between px-5 py-5 sm:px-8 lg:px-10">
-      <a className="flex items-center gap-2.5" href="#top" aria-label="BookMatch, inicio">
+      <a className="flex items-center gap-2.5" href="#top" aria-label="NextBook, inicio">
         <span className="grid size-9 place-items-center rounded-full bg-primary text-primary-foreground"><BookOpen className="size-4" /></span>
-        <span className="font-heading text-xl font-semibold tracking-[-0.03em]">BookMatch</span>
+        <span className="font-heading text-xl font-semibold tracking-[-0.03em]">NextBook</span>
       </a>
       <span className="flex items-center gap-2 text-xs font-medium uppercase tracking-[.12em] text-muted-foreground sm:text-sm">
         <Check className="size-4 text-primary" /> {results ? 'Tu selección' : '250 libros analizados'}
@@ -200,7 +200,7 @@ function Question({ step, profile, update, toggleInterest }: QuestionProps) {
   );
 
   if (step === 3) return (
-    <QuestionFrame kicker="Una pista, no una jaula" title="¿Algún género preferido?" description="Puedes elegir uno o dejar que BookMatch te sorprenda.">
+    <QuestionFrame kicker="Una pista, no una jaula" title="¿Algún género preferido?" description="Puedes elegir uno o dejar que NextBook te sorprenda.">
       <div className="grid gap-2 sm:grid-cols-2">
         {genreOptions.map((genre) => <Choice compact key={genre.value} selected={profile.genre === genre.value} onClick={() => update('genre', genre.value)}>{genre.label}</Choice>)}
       </div>
@@ -253,8 +253,8 @@ function Results({ recommendations, profile, onRestart }: { recommendations: Ret
   return (
     <section id="top" className="mx-auto w-full max-w-7xl px-5 pb-20 pt-7 sm:px-8 lg:px-10">
       <div className="grid items-end gap-8 lg:grid-cols-[1fr_420px]">
-        <div><p className="eyebrow">Tu BookMatch</p><h1 className="mt-4 max-w-4xl font-heading text-[clamp(3.2rem,7vw,6.5rem)] leading-[.92] font-semibold tracking-[-0.065em]">Tres libros para tu <span className="text-primary italic">momento lector.</span></h1><p className="mt-6 max-w-2xl text-lg leading-8 text-muted-foreground">Hemos comparado tus respuestas con los 250 títulos del catálogo y estos son los que mejor encajan.</p></div>
-        <div className="overflow-hidden rounded-[1.5rem] border border-border bg-card"><img src="/og.png" alt="Libro abierto y una pila de libros de BookMatch" className="aspect-[1.9/1] h-full w-full object-cover" /></div>
+        <div><p className="eyebrow">Tu NextBook</p><h1 className="mt-4 max-w-4xl font-heading text-[clamp(3.2rem,7vw,6.5rem)] leading-[.92] font-semibold tracking-[-0.065em]">Tres libros para tu <span className="text-primary italic">momento lector.</span></h1><p className="mt-6 max-w-2xl text-lg leading-8 text-muted-foreground">Hemos comparado tus respuestas con los 250 títulos del catálogo y estos son los que mejor encajan.</p></div>
+        <div className="overflow-hidden rounded-[1.5rem] border border-border bg-card"><img src="/og.png" alt="Libro abierto y una pila de libros de NextBook" className="aspect-[1.9/1] h-full w-full object-cover" /></div>
       </div>
 
       <div className="mt-12 grid gap-5 lg:grid-cols-3">
