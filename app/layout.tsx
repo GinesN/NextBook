@@ -1,17 +1,19 @@
 import type { Metadata } from 'next';
 import './globals.css';
 
+export const dynamic = 'force-static';
+
 export const metadata: Metadata = {
-  metadataBase: new URL('https://nextbook-finder.ginesnavarro2006.chatgpt.site'),
+  metadataBase: new URL('https://ginesn.github.io/NextBook/'),
   title: 'NextBook — Encuentra tu próxima gran lectura',
   description: 'Responde unas preguntas y descubre tres libros elegidos para ti.',
   openGraph: {
     title: 'NextBook — Tu próxima gran lectura',
     description: 'Responde unas preguntas y descubre tres libros elegidos para ti.',
     type: 'website',
-    url: 'https://nextbook-finder.ginesnavarro2006.chatgpt.site',
+    url: 'https://ginesn.github.io/NextBook/',
     images: [{
-      url: 'https://nextbook-finder.ginesnavarro2006.chatgpt.site/og.png',
+      url: 'https://ginesn.github.io/NextBook/og.png',
       width: 1200,
       height: 630,
       alt: 'NextBook, tu próxima gran lectura',
@@ -21,7 +23,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'NextBook — Tu próxima gran lectura',
     description: 'Responde unas preguntas y descubre tres libros elegidos para ti.',
-    images: ['https://nextbook-finder.ginesnavarro2006.chatgpt.site/og.png'],
+    images: ['https://ginesn.github.io/NextBook/og.png'],
   },
 };
 
