@@ -35,6 +35,8 @@ jobs:
         run: pnpm build:github-pages
       - name: Preparar publicación
         uses: actions/configure-pages@v5
+        with:
+          enablement: true
       - name: Subir la web
         uses: actions/upload-pages-artifact@v3
         with:
