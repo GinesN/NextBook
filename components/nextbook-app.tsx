@@ -177,15 +177,10 @@ function Question({ step, profile, update, toggleInterest }: QuestionProps) {
 
   if (step === 1) return (
     <QuestionFrame kicker="El lector" title="¿Qué edad tiene?" description="Solo la usamos para descartar títulos que no correspondan a su franja de edad.">
-      <label className="mt-2 block">
-        <span className="sr-only">Edad del lector</span>
-        <span className="flex items-end gap-3 rounded-2xl border border-border bg-background/50 px-5 py-4">
-          <input className="w-full bg-transparent font-heading text-5xl font-semibold outline-none" type="number" min="13" max="100" value={profile.age} onChange={(event) => update('age', Math.max(13, Math.min(100, Number(event.target.value))))} />
-          <span className="pb-1 text-sm text-muted-foreground">años</span>
-        </span>
-      </label>
-      <div className="mt-4 flex flex-wrap gap-2">
-        {[13, 16, 18, 25, 40, 60].map((age) => <Pill key={age} selected={profile.age === age} onClick={() => update('age', age)}>{age}</Pill>)}
+      <div className="rounded-2xl border border-border bg-background/50 p-5 sm:p-6">
+        <div className="flex items-end justify-between gap-4"><span className="font-heading text-4xl font-semibold">{profile.age}</span><span className="text-sm font-medium text-primary">años</span></div>
+        <input className="range-control mt-6 w-full" aria-label="Edad del lector" type="range" min="13" max="100" step="1" value={profile.age} onChange={(event) => update('age', Number(event.target.value))} />
+        <div className="mt-3 flex justify-between text-xs text-muted-foreground"><span>13 años</span><span>100 años</span></div>
       </div>
     </QuestionFrame>
   );
