@@ -302,7 +302,7 @@ function Results({ recommendations, profile, onRestart }: { recommendations: Ret
 
       {recommendations.length === 0 && <p className="mt-6 rounded-2xl border border-border bg-card p-5 text-sm text-muted-foreground">No hay títulos disponibles con esta combinación de edad y presupuesto. Prueba a ampliar el presupuesto o ajustar la edad.</p>}
 
-      <div className="mt-10 flex flex-col items-start justify-between gap-5 border-t border-border pt-7 sm:flex-row sm:items-center"><p className="max-w-2xl text-sm leading-6 text-muted-foreground">Precios, disponibilidad y metadatos proceden del Excel inicial y son datos demo. La recomendación respeta la edad y el presupuesto indicados.</p><Button variant="outline" className="h-11 rounded-full px-5" onClick={onRestart}><RefreshCw className="size-4" /> Repetir cuestionario</Button></div>
+      <div className="mt-10 flex justify-end border-t border-border pt-7"><Button variant="outline" className="h-11 rounded-full px-5" onClick={onRestart}><RefreshCw className="size-4" /> Repetir cuestionario</Button></div>
     </section>
   );
 }

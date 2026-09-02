@@ -130,13 +130,17 @@ export function recommendBooks(books: Book[], profile: ReaderProfile): Recommend
       const readerContext = profile.recipient === 'gift'
         ? 'Está pensado como un regalo con personalidad, fácil de recomendar y de recordar.'
         : 'Es una lectura con la que puedes quedarte desde la primera página y hacerla tuya.';
+      const editorialReasons = reasonParts
+        .slice(0, 3)
+        .map((reason) => `${reason.charAt(0).toUpperCase()}${reason.slice(1)}`)
+        .join('. ');
 
       return {
         book,
         score,
         match,
         matchedInterests,
-        explanation: `${reasonParts.length ? `Lo elegimos porque ${reasonParts.slice(0, 3).join('. ')}.` : 'Lo elegimos por el equilibrio entre su tono, su ritmo y su recorrido dentro del catálogo.'} ${readerContext}`,
+        explanation: `${editorialReasons || 'Lo elegimos por el equilibrio entre su tono, su ritmo y su recorrido dentro del catálogo.'} ${readerContext}`,
       };
     })
     .sort((a, b) => b.score - a.score || b.book.popularity_1_100 - a.book.popularity_1_100 || a.book.book_id - b.book.book_id)
