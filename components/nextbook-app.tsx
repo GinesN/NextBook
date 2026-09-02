@@ -32,6 +32,7 @@ const initialProfile: ReaderProfile = {
 
 const difficultyLabels = ['Muy ligera', 'Accesible', 'Intermedia', 'Exigente', 'Muy exigente'];
 const accentClasses = ['bg-[#9a4c36]', 'bg-[#536849]', 'bg-[#3f5366]'];
+const siteBasePath = import.meta.env.BASE_URL;
 
 export default function Home() {
   const [step, setStep] = useState(0);
@@ -49,6 +50,8 @@ export default function Home() {
   const toggleInterest = (id: string) => {
     setProfile((current) => {
       const selected = current.interests.includes(id);
+      if (id === 'other') return { ...current, interests: selected ? [] : ['other'] };
+      if (current.interests.includes('other')) return { ...current, interests: [id] };
       if (!selected && current.interests.length >= 3) return current;
       return {
         ...current,
@@ -96,7 +99,7 @@ export default function Home() {
                 </Button>
               )}
               <Button disabled={!canContinue} className="h-12 flex-1 rounded-full px-5 text-base" size="lg" onClick={next}>
-                {step === totalSteps - 1 ? <><Sparkles className="size-4" /> Ver mis 3 libros</> : <>Continuar <ArrowRight className="ml-1 size-4" aria-hidden="true" /></>}
+                {step === totalSteps - 1 ? <><Sparkles className="size-4" /> Ver mis recomendaciones</> : <>Continuar <ArrowRight className="ml-1 size-4" aria-hidden="true" /></>}
               </Button>
             </div>
             {step === 2 && profile.interests.length === 0 && <p className="mt-3 text-center text-xs text-muted-foreground">Elige al menos un interés para continuar.</p>}
@@ -115,7 +118,7 @@ function Header({ results }: { results: boolean }) {
         <span className="font-heading text-xl font-semibold tracking-[-0.03em]">NextBook</span>
       </a>
       <span className="flex items-center gap-2 text-xs font-medium uppercase tracking-[.12em] text-muted-foreground sm:text-sm">
-        <Check className="size-4 text-primary" /> {results ? 'Tu selección' : '250 libros analizados'}
+        <Check className="size-4 text-primary" /> {results ? 'Tu selección' : 'Tu próxima lectura, entre 250 títulos'}
       </span>
     </header>
   );
@@ -179,8 +182,8 @@ function Question({ step, profile, update, toggleInterest }: QuestionProps) {
     <QuestionFrame kicker="El lector" title="¿Qué edad tiene?" description="Solo la usamos para descartar títulos que no correspondan a su franja de edad.">
       <div className="rounded-2xl border border-border bg-background/50 p-5 sm:p-6">
         <div className="flex items-end justify-between gap-4"><span className="font-heading text-4xl font-semibold">{profile.age}</span><span className="text-sm font-medium text-primary">años</span></div>
-        <input className="range-control mt-6 w-full" aria-label="Edad del lector" type="range" min="13" max="100" step="1" value={profile.age} onChange={(event) => update('age', Number(event.target.value))} />
-        <div className="mt-3 flex justify-between text-xs text-muted-foreground"><span>13 años</span><span>100 años</span></div>
+        <input className="range-control mt-6 w-full" aria-label="Edad del lector" type="range" min="5" max="100" step="1" value={profile.age} onChange={(event) => update('age', Number(event.target.value))} />
+        <div className="mt-3 flex justify-between text-xs text-muted-foreground"><span>5 años</span><span>100 años</span></div>
       </div>
     </QuestionFrame>
   );
@@ -224,8 +227,8 @@ function Question({ step, profile, update, toggleInterest }: QuestionProps) {
     <QuestionFrame kicker="Último detalle" title="¿Cuál es el presupuesto?" description="Solo mostraremos libros que entren en este límite.">
       <div className="rounded-2xl border border-border bg-background/50 p-5 sm:p-6">
         <div className="flex items-end justify-between gap-4"><span className="font-heading text-4xl font-semibold">{profile.budget === null ? 'Sin límite' : `${profile.budget} €`}</span><span className="text-sm text-muted-foreground">por libro</span></div>
-        <input className="range-control mt-6 w-full disabled:opacity-35" aria-label="Presupuesto máximo" type="range" min="12" max="30" step="1" disabled={profile.budget === null} value={profile.budget ?? 30} onChange={(event) => update('budget', Number(event.target.value))} />
-        <div className="mt-3 flex justify-between text-xs text-muted-foreground"><span>12 €</span><span>30 €</span></div>
+        <input className="range-control mt-6 w-full disabled:opacity-35" aria-label="Presupuesto máximo" type="range" min="10" max="30" step="1" disabled={profile.budget === null} value={profile.budget ?? 30} onChange={(event) => update('budget', Number(event.target.value))} />
+        <div className="mt-3 flex justify-between text-xs text-muted-foreground"><span>10 €</span><span>30 €</span></div>
       </div>
       <button type="button" className="mt-4 text-sm font-medium text-primary underline-offset-4 hover:underline" onClick={() => update('budget', profile.budget === null ? 22 : null)}>{profile.budget === null ? 'Definir un límite' : 'No tengo límite de presupuesto'}</button>
     </QuestionFrame>
@@ -248,8 +251,8 @@ function Results({ recommendations, profile, onRestart }: { recommendations: Ret
   return (
     <section id="top" className="mx-auto w-full max-w-7xl px-5 pb-20 pt-7 sm:px-8 lg:px-10">
       <div className="grid items-end gap-8 lg:grid-cols-[1fr_420px]">
-        <div><p className="eyebrow">Tu NextBook</p><h1 className="mt-4 max-w-4xl font-heading text-[clamp(3.2rem,7vw,6.5rem)] leading-[.92] font-semibold tracking-[-0.065em]">Tres libros para tu <span className="text-primary italic">momento lector.</span></h1><p className="mt-6 max-w-2xl text-lg leading-8 text-muted-foreground">Hemos comparado tus respuestas con los 250 títulos del catálogo y estos son los que mejor encajan.</p></div>
-        <div className="overflow-hidden rounded-[1.5rem] border border-border bg-card"><img src="/og.png" alt="Libro abierto y una pila de libros de NextBook" className="aspect-[1.9/1] h-full w-full object-cover" /></div>
+        <div><p className="eyebrow">Tu NextBook</p><h1 className="mt-4 max-w-4xl font-heading text-[clamp(3.2rem,7vw,6.5rem)] leading-[.92] font-semibold tracking-[-0.065em]">{recommendations.length === 1 ? 'Un libro para tu ' : 'Tus libros para tu '}<span className="text-primary italic">momento lector.</span></h1><p className="mt-6 max-w-2xl text-lg leading-8 text-muted-foreground">Hemos comparado tus respuestas con los 250 títulos del catálogo y estos son los que mejor encajan.</p></div>
+        <div className="overflow-hidden rounded-[1.5rem] border border-border bg-card"><img src={`${siteBasePath}og.png`} alt="Libro abierto y una pila de libros de NextBook" className="aspect-[1.9/1] h-full w-full object-cover" /></div>
       </div>
 
       <div className="mt-12 grid gap-5 lg:grid-cols-3">
@@ -268,7 +271,7 @@ function Results({ recommendations, profile, onRestart }: { recommendations: Ret
         ))}
       </div>
 
-      {recommendations.length < 3 && <p className="mt-6 rounded-2xl border border-border bg-card p-5 text-sm text-muted-foreground">Con ese presupuesto hay menos de tres títulos disponibles. Sube el límite para ampliar la selección.</p>}
+      {recommendations.length === 0 && <p className="mt-6 rounded-2xl border border-border bg-card p-5 text-sm text-muted-foreground">No hay títulos disponibles con esta combinación de edad y presupuesto. Prueba a ampliar el presupuesto o ajustar la edad.</p>}
 
       <div className="mt-10 flex flex-col items-start justify-between gap-5 border-t border-border pt-7 sm:flex-row sm:items-center"><p className="max-w-2xl text-sm leading-6 text-muted-foreground">Precios, disponibilidad y metadatos proceden del Excel inicial y son datos demo. La recomendación respeta la edad y el presupuesto indicados.</p><Button variant="outline" className="h-11 rounded-full px-5" onClick={onRestart}><RefreshCw className="size-4" /> Repetir cuestionario</Button></div>
     </section>

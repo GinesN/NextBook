@@ -45,6 +45,7 @@ export const interestOptions = [
   { id: 'history', label: 'Historia y conflicto', tokens: ['history', 'conflict'] },
   { id: 'adventure', label: 'Aventura y amistad', tokens: ['adventure', 'friendship'] },
   { id: 'suspense', label: 'Misterio y suspense', tokens: ['fear', 'suspense', 'dark', 'psychological'] },
+  { id: 'other', label: 'Otros', tokens: [] },
 ] as const;
 
 export const genreOptions = [
@@ -68,7 +69,8 @@ const genreLabel = (value: string) => genreOptions.find((option) => option.value
 const moodLabel = (value: string) => moodOptions.find((option) => option.value === value)?.label.toLowerCase() ?? value;
 
 export function recommendBooks(books: Book[], profile: ReaderProfile): Recommendation[] {
-  const selectedInterests = interestOptions.filter((option) => profile.interests.includes(option.id));
+  const selectedInterests = interestOptions.filter((option) => option.id !== 'other' && profile.interests.includes(option.id));
+  const otherSelected = profile.interests.includes('other');
   const desiredMood = moodOptions.find((option) => option.value === profile.mood) ?? moodOptions[0];
 
   const eligible = books.filter((book) => (
@@ -83,8 +85,12 @@ export function recommendBooks(books: Book[], profile: ReaderProfile): Recommend
       const matchedInterests = selectedInterests
         .filter((interest) => interest.tokens.some((token) => searchable.includes(token)))
         .map((interest) => interest.label);
+      const matchesKnownInterest = interestOptions
+        .filter((interest) => interest.id !== 'other')
+        .some((interest) => interest.tokens.some((token) => searchable.includes(token)));
+      const otherMatched = otherSelected && !matchesKnownInterest;
 
-      let score = matchedInterests.length * 8;
+      let score = matchedInterests.length * 8 + (otherMatched ? 8 : 0);
       const genreMatched = profile.genre !== 'any' && book.subgenre === profile.genre;
       if (genreMatched) score += 18;
 
@@ -102,6 +108,7 @@ export function recommendBooks(books: Book[], profile: ReaderProfile): Recommend
       const possible = Math.max(
         1,
         selectedInterests.length * 8
+          + (otherSelected ? 8 : 0)
           + (profile.genre === 'any' ? 0 : 18)
           + 10
           + 10
@@ -114,6 +121,7 @@ export function recommendBooks(books: Book[], profile: ReaderProfile): Recommend
 
       const reasonParts: string[] = [];
       if (matchedInterests.length) reasonParts.push(`conecta con ${matchedInterests.slice(0, 2).join(' y ').toLowerCase()}`);
+      if (otherMatched) reasonParts.push('abre una vía distinta a los temas habituales');
       if (genreMatched) reasonParts.push(`encaja en ${genreLabel(book.subgenre).toLowerCase()}`);
       if (moodMatched) reasonParts.push(`tiene el tono ${moodLabel(profile.mood)} que buscas`);
       if (difficultyGap <= 1) reasonParts.push(`su dificultad está muy cerca de tu nivel ideal`);
