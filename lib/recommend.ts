@@ -120,19 +120,23 @@ export function recommendBooks(books: Book[], profile: ReaderProfile): Recommend
       const match = Math.max(48, Math.min(99, Math.round((score / possible) * 100)));
 
       const reasonParts: string[] = [];
-      if (matchedInterests.length) reasonParts.push(`conecta con ${matchedInterests.slice(0, 2).join(' y ').toLowerCase()}`);
-      if (otherMatched) reasonParts.push('abre una vía distinta a los temas habituales');
-      if (genreMatched) reasonParts.push(`encaja en ${genreLabel(book.subgenre).toLowerCase()}`);
-      if (moodMatched) reasonParts.push(`tiene el tono ${moodLabel(profile.mood)} que buscas`);
-      if (difficultyGap <= 1) reasonParts.push(`su dificultad está muy cerca de tu nivel ideal`);
-      if (profile.recipient === 'gift' && book.gift_score_1_5 >= 4) reasonParts.push('es una opción especialmente segura para regalar');
+      if (matchedInterests.length) reasonParts.push(`sus temas de ${matchedInterests.slice(0, 2).join(' y ').toLowerCase()} dialogan con lo que te interesa`);
+      if (otherMatched) reasonParts.push('se aleja de las categorías habituales y abre una lectura con una mirada distinta');
+      if (genreMatched) reasonParts.push(`encuentra el tono propio de la ${genreLabel(book.subgenre).toLowerCase()} que elegiste`);
+      if (moodMatched) reasonParts.push(`mantiene el pulso ${moodLabel(profile.mood)} que quieres encontrar ahora`);
+      if (difficultyGap <= 1) reasonParts.push(`su nivel de dificultad acompaña tu ritmo sin pedirte un esfuerzo innecesario`);
+      if (profile.recipient === 'gift' && book.gift_score_1_5 >= 4) reasonParts.push('tiene un atractivo amplio que lo convierte en una apuesta especialmente acertada para regalar');
+
+      const readerContext = profile.recipient === 'gift'
+        ? 'Está pensado como un regalo con personalidad, fácil de recomendar y de recordar.'
+        : 'Es una lectura con la que puedes quedarte desde la primera página y hacerla tuya.';
 
       return {
         book,
         score,
         match,
         matchedInterests,
-        explanation: `Te lo recomendamos porque ${reasonParts.slice(0, 3).join('; ') || 'ofrece un equilibrio sólido entre popularidad, tono y dificultad'}.`,
+        explanation: `${reasonParts.length ? `Lo elegimos porque ${reasonParts.slice(0, 3).join('. ')}.` : 'Lo elegimos por el equilibrio entre su tono, su ritmo y su recorrido dentro del catálogo.'} ${readerContext}`,
       };
     })
     .sort((a, b) => b.score - a.score || b.book.popularity_1_100 - a.book.popularity_1_100 || a.book.book_id - b.book.book_id)

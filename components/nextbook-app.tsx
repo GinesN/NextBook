@@ -7,6 +7,7 @@ import booksData from '@/app/data/books.json';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Progress } from '@/components/ui/progress';
 import {
   formatPrice,
@@ -255,19 +256,47 @@ function Results({ recommendations, profile, onRestart }: { recommendations: Ret
         <div className="overflow-hidden rounded-[1.5rem] border border-border bg-card"><img src={`${siteBasePath}og.png`} alt="Libro abierto y una pila de libros de NextBook" className="aspect-[1.9/1] h-full w-full object-cover" /></div>
       </div>
 
-      <div className="mt-12 grid gap-5 lg:grid-cols-3">
+      <p className="mt-8 text-sm text-muted-foreground">Pulsa una recomendación para descubrir su ficha editorial.</p>
+      <div className="mt-5 grid gap-5 lg:grid-cols-3">
         {recommendations.map((recommendation, index) => (
-          <Card key={recommendation.book.book_id} className="result-card justify-between rounded-[1.5rem] border-0 py-0 ring-1 ring-border">
-            <div>
+          <Dialog key={recommendation.book.book_id}>
+            <DialogTrigger render={<button type="button" className="block h-full w-full text-left transition-transform duration-200 hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-4" />}>
+              <Card className="result-card h-full justify-between rounded-[1.5rem] border-0 py-0 ring-1 ring-border transition-shadow hover:shadow-xl hover:shadow-primary/10">
+                <div>
+                  <div className={`h-2 ${accentClasses[index]}`} />
+                  <CardHeader className="p-6 pb-3">
+                    <div className="flex items-center justify-between gap-4"><span className="font-heading text-3xl italic text-muted-foreground/60">0{index + 1}</span><Badge variant="secondary" className="h-7 px-3 text-sm">{recommendation.match}% afinidad</Badge></div>
+                    <div className="mt-8 min-h-28"><h2 className="font-heading text-3xl font-semibold leading-[1.03] tracking-[-0.045em]">{recommendation.book.title}</h2><p className="mt-3 text-sm text-muted-foreground">{recommendation.book.author}</p></div>
+                  </CardHeader>
+                  <CardContent className="px-6 pb-6"><p className="min-h-28 leading-6 text-foreground/80">{recommendation.explanation}</p><div className="mt-5 flex flex-wrap gap-2"><Badge variant="outline">{genreOptions.find((item) => item.value === recommendation.book.subgenre)?.label ?? recommendation.book.subgenre}</Badge><Badge variant="outline">Dificultad {recommendation.book.difficulty_1_5}/5</Badge></div></CardContent>
+                </div>
+                <div className="flex items-center justify-between border-t border-border bg-muted/45 px-6 py-5"><span className="text-xs uppercase tracking-[.12em] text-muted-foreground">Precio</span><span className="font-heading text-2xl font-semibold">{formatPrice(recommendation.book.demo_price_eur)}</span></div>
+              </Card>
+            </DialogTrigger>
+            <DialogContent className="max-h-[min(780px,calc(100dvh-2rem))] max-w-[calc(100%-2rem)] gap-0 overflow-y-auto rounded-[1.5rem] p-0 sm:max-w-2xl" showCloseButton>
               <div className={`h-2 ${accentClasses[index]}`} />
-              <CardHeader className="p-6 pb-3">
-                <div className="flex items-center justify-between gap-4"><span className="font-heading text-3xl italic text-muted-foreground/60">0{index + 1}</span><Badge variant="secondary" className="h-7 px-3 text-sm">{recommendation.match}% afinidad</Badge></div>
-                <div className="mt-8 min-h-28"><h2 className="font-heading text-3xl font-semibold leading-[1.03] tracking-[-0.045em]">{recommendation.book.title}</h2><p className="mt-3 text-sm text-muted-foreground">{recommendation.book.author}</p></div>
-              </CardHeader>
-              <CardContent className="px-6 pb-6"><p className="min-h-24 leading-6 text-foreground/80">{recommendation.explanation}</p><div className="mt-5 flex flex-wrap gap-2"><Badge variant="outline">{genreOptions.find((item) => item.value === recommendation.book.subgenre)?.label ?? recommendation.book.subgenre}</Badge><Badge variant="outline">Dificultad {recommendation.book.difficulty_1_5}/5</Badge></div></CardContent>
-            </div>
-            <div className="flex items-center justify-between border-t border-border bg-muted/45 px-6 py-5"><span className="text-xs uppercase tracking-[.12em] text-muted-foreground">Precio demo</span><span className="font-heading text-2xl font-semibold">{formatPrice(recommendation.book.demo_price_eur)}</span></div>
-          </Card>
+              <DialogHeader className="gap-3 px-7 pb-5 pt-8 sm:px-9">
+                <p className="eyebrow">Ficha editorial</p>
+                <DialogTitle className="max-w-xl font-heading text-4xl font-semibold leading-[.98] tracking-[-.05em] sm:text-5xl">{recommendation.book.title}</DialogTitle>
+                <DialogDescription className="text-base">{recommendation.book.author}</DialogDescription>
+              </DialogHeader>
+              <div className="grid gap-7 px-7 pb-8 sm:grid-cols-[1.2fr_.8fr] sm:px-9">
+                <div className="space-y-7">
+                  <section><p className="text-xs font-medium uppercase tracking-[.13em] text-primary">Por qué es para ti</p><p className="mt-3 leading-7 text-foreground/85">{recommendation.explanation}</p></section>
+                  <section><p className="text-xs font-medium uppercase tracking-[.13em] text-primary">Sobre el libro</p><p className="mt-3 leading-7 text-muted-foreground">{recommendation.book.description_seed}</p></section>
+                </div>
+                <aside className="rounded-2xl bg-muted/60 p-5">
+                  <dl className="space-y-5 text-sm">
+                    <div><dt className="text-xs uppercase tracking-[.12em] text-muted-foreground">Género</dt><dd className="mt-1 font-medium">{genreOptions.find((item) => item.value === recommendation.book.subgenre)?.label ?? recommendation.book.subgenre}</dd></div>
+                    <div><dt className="text-xs uppercase tracking-[.12em] text-muted-foreground">Temas</dt><dd className="mt-1 leading-6">{recommendation.book.themes}</dd></div>
+                    <div><dt className="text-xs uppercase tracking-[.12em] text-muted-foreground">Dificultad</dt><dd className="mt-1 font-medium">{difficultyLabels[recommendation.book.difficulty_1_5 - 1]} · {recommendation.book.difficulty_1_5}/5</dd></div>
+                    <div><dt className="text-xs uppercase tracking-[.12em] text-muted-foreground">Público</dt><dd className="mt-1">{recommendation.book.audience}</dd></div>
+                  </dl>
+                  <div className="mt-7 border-t border-border pt-5"><p className="text-xs uppercase tracking-[.12em] text-muted-foreground">Precio</p><p className="mt-1 font-heading text-3xl font-semibold">{formatPrice(recommendation.book.demo_price_eur)}</p></div>
+                </aside>
+              </div>
+            </DialogContent>
+          </Dialog>
         ))}
       </div>
 
