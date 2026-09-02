@@ -8,11 +8,11 @@ El recomendador sigue en https://ginesn.github.io/NextBook/.
 
 - `index.html`: propuesta de valor, recorrido, beneficios, hoja de ruta, preguntas frecuentes y metadatos sociales.
 - `style.css`: diseño responsive en crema y verde, tipografía editorial y adaptación a movimiento reducido.
-- `script.js`: recorrido interactivo, ejemplos ilustrativos y copia del enlace.
+- `script.js`: recorrido interactivo, ejemplos ilustrativos .
 - `qr-demo.png`: QR que apunta a la demo, no a la presentación.
 - La imagen de marca `../og.png` y el icono `../favicon.svg` reutilizan los recursos existentes de NextBook.
 
-Los ejemplos interactivos son ilustrativos, no ejecutan el algoritmo del recomendador. No se afirma que exista una integración de stock, analítica o soporte multi-librería. No hay formulario de contacto ni recogida de datos personales. El botón de LinkedIn abre el diálogo de compartir, sin publicar automáticamente. La tipografía se sirve desde Google Fonts con alternativas locales.
+Los ejemplos interactivos son ilustrativos, no ejecutan el algoritmo del recomendador. No se afirma que exista una integración de stock, analítica o soporte multi-librería. No hay formulario de contacto ni recogida de datos personales. La tipografía se sirve desde Google Fonts con alternativas locales.
 
 ## Publicación
 
@@ -20,4 +20,8 @@ La compilación existente `pnpm build:github-pages` copia esta carpeta de `publi
 
 ## Imagen y navegación
 
-La portada utiliza `hero-bookshop.png`, una fotografía generada con la herramienta integrada ImageGen: rincón de librería, libros en tonos salvia, terracota y crema sobre una mesa de roble, luz de ventana, composición cuadrada y sin texto. El marco mantiene la proporción de la imagen, sin recorte ni zoom. La imagen social existente se conserva. Todos los enlaces a la demo navegan en la misma pestaña para permitir volver a la landing con Atrás; GitHub y LinkedIn siguen abriéndose aparte.
+La portada utiliza `hero-bookshop.png`, una fotografía generada con la herramienta integrada ImageGen: rincón de librería, libros en tonos salvia, terracota y crema sobre una mesa de roble, luz de ventana, composición cuadrada y sin texto. El marco mantiene la proporción de la imagen, sin recorte ni zoom. La imagen social existente se conserva. Todos los enlaces a la demo navegan en la misma pestaña para permitir volver a la landing con Atrás.
+
+## Presentación para librerías
+
+La landing no muestra atribución personal, enlaces al perfil o repositorio, preguntas sobre seguimiento del proyecto ni botones para compartir en redes. El pie utiliza únicamente la marca NextBook. El dominio actual de GitHub Pages sigue incluyendo el nombre de la cuenta; este cambio de contenido no proporciona anonimato del alojamiento ni del repositorio público.

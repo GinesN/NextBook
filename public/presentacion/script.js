@@ -1,5 +1,4 @@
 const demoUrl = 'https://ginesn.github.io/NextBook/';
-const presentationUrl = `${demoUrl}presentacion/`;
 const panel = document.querySelector('#step-panel');
 const examples = {
   reflexivo: { label: 'Para pensar', description: 'Historias que invitan a mirar el mundo desde otro lugar.', books: [['Don Quijote', 'Miguel de Cervantes'], ['Cien años de soledad', 'Gabriel García Márquez'], ['Orgullo y prejuicio', 'Jane Austen']] },
@@ -31,12 +30,3 @@ function renderStep(index) {
 document.querySelectorAll('[data-step]').forEach(button => button.addEventListener('click', () => renderStep(Number(button.dataset.step))));
 renderStep(0);
 document.querySelector('#year').textContent = new Date().getFullYear();
-document.querySelector('#copy-link').addEventListener('click', async () => {
-  const status = document.querySelector('#copy-status');
-  try {
-    await navigator.clipboard.writeText(presentationUrl);
-    status.textContent = 'Enlace copiado. Ya puedes compartir la presentación.';
-  } catch {
-    status.textContent = `Puedes copiar este enlace: ${presentationUrl}`;
-  }
-});
