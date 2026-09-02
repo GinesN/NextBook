@@ -1,6 +1,7 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
 @import 'shadcn/tailwind.css';
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap');
 
 @custom-variant dark (&:is(.dark *));
 
@@ -23,8 +24,8 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --font-sans: Arial, Helvetica, sans-serif;
-  --font-heading: Georgia, 'Times New Roman', serif;
+  --font-sans: 'DM Sans', Arial, sans-serif;
+  --font-heading: Manrope, Arial, sans-serif;
   --radius-sm: calc(var(--radius) * .6);
   --radius-md: calc(var(--radius) * .8);
   --radius-lg: var(--radius);
@@ -34,46 +35,46 @@
 }
 
 :root {
-  --background: #f4f0e8;
-  --foreground: #201d19;
+  --background: #f5f2e9;
+  --foreground: #283c31;
   --card: #fffdf8;
-  --card-foreground: #201d19;
+  --card-foreground: #283c31;
   --popover: #fffdf8;
-  --popover-foreground: #201d19;
-  --primary: #95462f;
-  --primary-foreground: #fffaf5;
-  --secondary: #e8e1d6;
-  --secondary-foreground: #2f2a24;
-  --muted: #ebe5da;
-  --muted-foreground: #71695f;
-  --accent: #d8e2cd;
-  --accent-foreground: #26351f;
+  --popover-foreground: #283c31;
+  --primary: #284a39;
+  --primary-foreground: #fffdf8;
+  --secondary: #e7ebdf;
+  --secondary-foreground: #283c31;
+  --muted: #edf0e8;
+  --muted-foreground: #626c61;
+  --accent: #e7ebdf;
+  --accent-foreground: #284a39;
   --destructive: #b42318;
-  --border: #d8d0c4;
-  --input: #d8d0c4;
-  --ring: #b86449;
-  --radius: .85rem;
+  --border: #d7dbcf;
+  --input: #d7dbcf;
+  --ring: #b96546;
+  --radius: .7rem;
 }
 
 .dark {
-  --background: #191715;
-  --foreground: #f6f0e6;
-  --card: #24211e;
-  --card-foreground: #f6f0e6;
-  --popover: #24211e;
-  --popover-foreground: #f6f0e6;
-  --primary: #d98d70;
-  --primary-foreground: #23140f;
-  --secondary: #332e29;
-  --secondary-foreground: #f6f0e6;
-  --muted: #302b27;
-  --muted-foreground: #bdb3a7;
-  --accent: #374230;
-  --accent-foreground: #edf5e8;
+  --background: #1d2d24;
+  --foreground: #f5f2e9;
+  --card: #263c30;
+  --card-foreground: #f5f2e9;
+  --popover: #263c30;
+  --popover-foreground: #f5f2e9;
+  --primary: #9cb38d;
+  --primary-foreground: #173021;
+  --secondary: #314638;
+  --secondary-foreground: #f5f2e9;
+  --muted: #2b4033;
+  --muted-foreground: #c2cbbd;
+  --accent: #3b543f;
+  --accent-foreground: #edf2e9;
   --destructive: #f97066;
-  --border: #443d37;
-  --input: #443d37;
-  --ring: #d98d70;
+  --border: #49604c;
+  --input: #49604c;
+  --ring: #b96546;
 }
 
 @layer base {
@@ -85,16 +86,16 @@
 
 @layer components {
   .eyebrow { @apply text-xs font-semibold uppercase tracking-[.18em] text-primary; }
-  .question-shell { @apply relative self-start rounded-[2rem] border border-border/80 bg-card p-6 shadow-[0_30px_80px_rgba(45,35,27,.12)] sm:p-8 lg:mt-5; }
-  .question-shell::before { content: ''; @apply pointer-events-none absolute -inset-10 -z-10 rounded-full blur-2xl; background: radial-gradient(circle, rgba(180,91,64,.16), transparent 66%); }
-  .choice-card { @apply relative rounded-2xl border border-border bg-background/55 p-4 text-left transition-all hover:-translate-y-0.5 hover:border-primary/45 hover:bg-card focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/30 disabled:pointer-events-none disabled:opacity-40; }
-  .choice-card--selected { @apply border-primary bg-primary/7 shadow-[inset_0_0_0_1px_var(--primary)]; }
+  .question-shell { @apply relative self-start rounded-[1.1rem] border border-border bg-card p-6 shadow-[0_24px_65px_rgba(40,74,57,.10)] sm:p-9 lg:mt-5; }
+  .question-shell::before { content: ''; @apply pointer-events-none absolute -inset-10 -z-10 rounded-full blur-2xl; background: radial-gradient(circle, rgba(40,74,57,.13), transparent 66%); }
+  .choice-card { @apply relative rounded-xl border border-border bg-[#f9faf3] p-4 text-left transition-all hover:-translate-y-0.5 hover:border-primary/60 hover:bg-card focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/30 disabled:pointer-events-none disabled:opacity-40; }
+  .choice-card--selected { @apply border-primary bg-[#edf3ea] shadow-[inset_0_0_0_1px_var(--primary)]; }
   .choice-card--compact { @apply min-h-15 pr-11 font-medium; }
   .choice-dot { @apply absolute right-4 top-4 grid size-5 place-items-center rounded-full border border-border text-transparent; }
   .choice-dot--selected { @apply border-primary bg-primary text-primary-foreground; }
   .range-control { accent-color: var(--primary); }
   .result-card { transition: transform .25s ease, box-shadow .25s ease; }
-  .result-card:hover { transform: translateY(-4px); box-shadow: 0 26px 55px rgba(45,35,27,.12); }
+  .result-card:hover { transform: translateY(-4px); box-shadow: 0 26px 55px rgba(40,74,57,.14); }
 }
 
-::selection { background: #d7b7a9; color: #201d19; }
+::selection { background: #cddbc6; color: #283c31; }
