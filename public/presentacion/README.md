@@ -17,3 +17,7 @@ Los ejemplos interactivos son ilustrativos, no ejecutan el algoritmo del recomen
 ## Publicación
 
 La compilación existente `pnpm build:github-pages` copia esta carpeta de `public` a `github-pages-dist/presentacion`. El flujo de GitHub Pages publica la landing junto a la demo, cada una en su dirección. No requiere nuevas dependencias ni cambios en el recomendador.
+
+## Imagen y navegación
+
+La portada utiliza `hero-bookshop.png`, una fotografía generada con la herramienta integrada ImageGen: rincón de librería, libros en tonos salvia, terracota y crema sobre una mesa de roble, luz de ventana, composición cuadrada y sin texto. El marco mantiene la proporción de la imagen, sin recorte ni zoom. La imagen social existente se conserva. Todos los enlaces a la demo navegan en la misma pestaña para permitir volver a la landing con Atrás; GitHub y LinkedIn siguen abriéndose aparte.
