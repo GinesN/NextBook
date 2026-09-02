@@ -11,20 +11,25 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Progress } from '@/components/ui/progress';
 import {
   formatPrice,
+  getInterestFollowUp,
   genreOptions,
+  giftIntentOptions,
   interestOptions,
   moodOptions,
+  readerIntentOptions,
   recommendBooks,
   type Book,
   type ReaderProfile,
 } from '@/lib/recommend';
 
 const books = booksData as Book[];
-const totalSteps = 7;
+type QuestionId = 'recipient' | 'age' | 'interests' | 'intent' | 'focus' | 'genre' | 'mood' | 'difficulty' | 'budget';
 const initialProfile: ReaderProfile = {
   recipient: 'self',
   age: 25,
   interests: [],
+  intent: '',
+  focus: '',
   genre: 'any',
   mood: 'reflective',
   difficulty: 3,
@@ -39,9 +44,14 @@ export default function Home() {
   const [step, setStep] = useState(0);
   const [profile, setProfile] = useState<ReaderProfile>(initialProfile);
   const [showResults, setShowResults] = useState(false);
+  const questionSequence: QuestionId[] = ['recipient', 'age', 'interests', 'intent', 'focus', 'genre', 'mood', 'difficulty', 'budget'];
+  const totalSteps = questionSequence.length;
+  const currentQuestion = questionSequence[step];
 
   const recommendations = useMemo(() => recommendBooks(books, profile), [profile]);
-  const canContinue = step !== 2 || profile.interests.length > 0;
+  const canContinue = (currentQuestion !== 'interests' || profile.interests.length > 0)
+    && (currentQuestion !== 'intent' || profile.intent.length > 0)
+    && (currentQuestion !== 'focus' || profile.focus.length > 0);
   const progress = Math.round(((step + 1) / totalSteps) * 100);
 
   const update = <K extends keyof ReaderProfile>(key: K, value: ReaderProfile[K]) => {
@@ -51,12 +61,13 @@ export default function Home() {
   const toggleInterest = (id: string) => {
     setProfile((current) => {
       const selected = current.interests.includes(id);
-      if (id === 'other') return { ...current, interests: selected ? [] : ['other'] };
-      if (current.interests.includes('other')) return { ...current, interests: [id] };
+      if (id === 'other') return { ...current, interests: selected ? [] : ['other'], focus: '' };
+      if (current.interests.includes('other')) return { ...current, interests: [id], focus: '' };
       if (!selected && current.interests.length >= 3) return current;
       return {
         ...current,
         interests: selected ? current.interests.filter((item) => item !== id) : [...current.interests, id],
+        focus: '',
       };
     });
   };
@@ -83,7 +94,7 @@ export default function Home() {
         <Results recommendations={recommendations} profile={profile} onRestart={restart} />
       ) : (
         <section className="mx-auto grid w-full max-w-7xl gap-10 px-5 pb-14 pt-7 sm:px-8 lg:grid-cols-[minmax(0,1.03fr)_minmax(390px,.97fr)] lg:gap-16 lg:px-10 lg:pb-20 lg:pt-10">
-          <Intro step={step} />
+          <Intro step={step} totalSteps={totalSteps} />
           <section className="question-shell" aria-labelledby="question-title">
             <div className="flex items-center justify-between gap-4">
               <p className="text-sm font-medium text-muted-foreground">Pregunta {step + 1} de {totalSteps}</p>
@@ -91,7 +102,7 @@ export default function Home() {
             </div>
             <Progress aria-label="Progreso del cuestionario" className="mt-3" value={progress} />
 
-            <Question step={step} profile={profile} update={update} toggleInterest={toggleInterest} />
+            <Question questionId={currentQuestion} profile={profile} update={update} toggleInterest={toggleInterest} />
 
             <div className="mt-8 flex items-center gap-3">
               {step > 0 && (
@@ -103,7 +114,9 @@ export default function Home() {
                 {step === totalSteps - 1 ? <><Sparkles className="size-4" /> Ver mis recomendaciones</> : <>Continuar <ArrowRight className="ml-1 size-4" aria-hidden="true" /></>}
               </Button>
             </div>
-            {step === 2 && profile.interests.length === 0 && <p className="mt-3 text-center text-xs text-muted-foreground">Elige al menos un interés para continuar.</p>}
+            {currentQuestion === 'interests' && profile.interests.length === 0 && <p className="mt-3 text-center text-xs text-muted-foreground">Elige al menos un interés para continuar.</p>}
+            {currentQuestion === 'intent' && !profile.intent && <p className="mt-3 text-center text-xs text-muted-foreground">Elige qué esperas de esta lectura para continuar.</p>}
+            {currentQuestion === 'focus' && !profile.focus && <p className="mt-3 text-center text-xs text-muted-foreground">Elige la opción que más se parezca a lo que buscas.</p>}
           </section>
         </section>
       )}
@@ -125,11 +138,13 @@ function Header({ results }: { results: boolean }) {
   );
 }
 
-function Intro({ step }: { step: number }) {
+function Intro({ step, totalSteps }: { step: number; totalSteps: number }) {
   const notes = [
     'Una recomendación que empieza por la persona.',
     'La edad marca el punto de partida, no el límite.',
     'Los temas que te atraen revelan mucho de una lectura ideal.',
+    'Ahora afinamos qué esperas de esta lectura.',
+    'Cada interés abre una pregunta distinta para conocerte mejor.',
     'El género orienta; la sorpresa también forma parte del hallazgo.',
     'A veces elegimos un libro por cómo queremos sentirnos.',
     'La mejor lectura también respeta tu ritmo.',
@@ -148,21 +163,21 @@ function Intro({ step }: { step: number }) {
         “{notes[step]}”
       </blockquote>
       <div className="mt-9 flex flex-wrap gap-x-5 gap-y-2 text-sm text-muted-foreground">
-        <span>7 preguntas</span><span aria-hidden="true">•</span><span>Menos de 2 minutos</span><span aria-hidden="true">•</span><span>Sin registro</span>
+        <span>{totalSteps} preguntas que se adaptan a ti</span><span aria-hidden="true">•</span><span>Menos de 2 minutos</span><span aria-hidden="true">•</span><span>Sin registro</span>
       </div>
     </div>
   );
 }
 
 type QuestionProps = {
-  step: number;
+  questionId: QuestionId;
   profile: ReaderProfile;
   update: <K extends keyof ReaderProfile>(key: K, value: ReaderProfile[K]) => void;
   toggleInterest: (id: string) => void;
 };
 
-function Question({ step, profile, update, toggleInterest }: QuestionProps) {
-  if (step === 0) return (
+function Question({ questionId, profile, update, toggleInterest }: QuestionProps) {
+  if (questionId === 'recipient') return (
     <QuestionFrame kicker="Empecemos por lo esencial" title="¿Para quién buscamos?" description="Ajustaremos la selección según sea una lectura personal o un regalo.">
       <div className="grid gap-3 sm:grid-cols-2">
         {([
@@ -179,8 +194,8 @@ function Question({ step, profile, update, toggleInterest }: QuestionProps) {
     </QuestionFrame>
   );
 
-  if (step === 1) return (
-    <QuestionFrame kicker="El lector" title="¿Qué edad tiene?" description="Solo la usamos para descartar títulos que no correspondan a su franja de edad.">
+  if (questionId === 'age') return (
+    <QuestionFrame kicker="El lector" title={profile.recipient === 'gift' ? '¿Qué edad tiene quien lo recibirá?' : '¿Qué edad tienes?'} description="Solo la usamos para descartar títulos que no correspondan a su franja de edad.">
       <div className="rounded-xl border border-border bg-[#f9faf3] p-5 sm:p-6">
         <div className="flex items-end justify-between gap-4"><span className="font-heading text-4xl font-semibold">{profile.age}</span><span className="text-sm font-medium text-primary">años</span></div>
         <input className="range-control mt-6 w-full" aria-label="Edad del lector" type="range" min="5" max="100" step="1" value={profile.age} onChange={(event) => update('age', Number(event.target.value))} />
@@ -189,8 +204,8 @@ function Question({ step, profile, update, toggleInterest }: QuestionProps) {
     </QuestionFrame>
   );
 
-  if (step === 2) return (
-    <QuestionFrame kicker="Lo que le mueve" title="¿Qué temas le interesan?" description="Elige entre uno y tres. Priorizaremos los libros que conecten con ellos.">
+  if (questionId === 'interests') return (
+    <QuestionFrame kicker="Lo que le mueve" title={profile.recipient === 'gift' ? '¿Qué temas le interesan?' : '¿Qué temas te interesan?'} description="Elige entre uno y tres. Priorizaremos los libros que conecten con ellos.">
       <div className="grid gap-2 sm:grid-cols-2">
         {interestOptions.map((interest) => <Choice compact key={interest.id} selected={profile.interests.includes(interest.id)} onClick={() => toggleInterest(interest.id)} disabled={!profile.interests.includes(interest.id) && profile.interests.length >= 3}>{interest.label}</Choice>)}
       </div>
@@ -198,23 +213,41 @@ function Question({ step, profile, update, toggleInterest }: QuestionProps) {
     </QuestionFrame>
   );
 
-  if (step === 3) return (
-    <QuestionFrame kicker="Una pista, no una jaula" title="¿Algún género preferido?" description="Puedes elegir uno o dejar que NextBook te sorprenda.">
+  if (questionId === 'intent') {
+    const options = profile.recipient === 'gift' ? giftIntentOptions : readerIntentOptions;
+    return <QuestionFrame kicker="La intención" title={profile.recipient === 'gift' ? '¿Qué quieres que sienta al recibirlo?' : '¿Qué quieres que te deje esta lectura?'} description="Tu respuesta nos permite recomendar con una intención más clara, no solo por género.">
+      <div className="grid gap-3 sm:grid-cols-2">
+        {options.map((option) => <Choice key={option.id} selected={profile.intent === option.id} onClick={() => update('intent', option.id)}><span className="font-semibold">{option.label}</span><span className="mt-1 block text-sm text-muted-foreground">{option.detail}</span></Choice>)}
+      </div>
+    </QuestionFrame>;
+  }
+
+  if (questionId === 'focus') {
+    const followUp = getInterestFollowUp(profile.interests[0] ?? 'other');
+    return <QuestionFrame kicker={followUp.kicker} title={followUp.title} description={followUp.description}>
+      <div className="grid gap-3 sm:grid-cols-3">
+        {followUp.options.map((option) => <Choice key={option.id} selected={profile.focus === option.id} onClick={() => update('focus', option.id)}><span className="font-semibold">{option.label}</span><span className="mt-1 block text-sm text-muted-foreground">{option.detail}</span></Choice>)}
+      </div>
+    </QuestionFrame>;
+  }
+
+  if (questionId === 'genre') return (
+    <QuestionFrame kicker="Una pista, no una jaula" title={profile.recipient === 'gift' ? '¿Qué universo suele engancharle?' : '¿Qué universo te apetece explorar?'} description="Puedes elegir uno o dejar que NextBook te sorprenda.">
       <div className="grid gap-2 sm:grid-cols-2">
         {genreOptions.map((genre) => <Choice compact key={genre.value} selected={profile.genre === genre.value} onClick={() => update('genre', genre.value)}>{genre.label}</Choice>)}
       </div>
     </QuestionFrame>
   );
 
-  if (step === 4) return (
-    <QuestionFrame kicker="La sensación" title="¿Qué mood apetece?" description="Piensa en cómo quieres que se sienta la lectura.">
+  if (questionId === 'mood') return (
+    <QuestionFrame kicker="La sensación" title={profile.recipient === 'gift' ? '¿Con qué sensación debería quedarse?' : '¿Con qué sensación quieres quedarte?'} description="Piensa en cómo quieres que se sienta la lectura.">
       <div className="grid gap-3 sm:grid-cols-2">
         {moodOptions.map((mood) => <Choice key={mood.value} selected={profile.mood === mood.value} onClick={() => update('mood', mood.value)}><span className="font-semibold">{mood.label}</span><span className="mt-1 block text-sm text-muted-foreground">{mood.detail}</span></Choice>)}
       </div>
     </QuestionFrame>
   );
 
-  if (step === 5) return (
+  if (questionId === 'difficulty') return (
     <QuestionFrame kicker="El ritmo" title="¿Qué dificultad buscas?" description="Desde una lectura muy ligera hasta un libro que pida toda tu atención.">
       <div className="rounded-xl border border-border bg-[#f9faf3] p-5 sm:p-6">
         <div className="flex items-end justify-between gap-4"><span className="font-heading text-4xl font-semibold">{profile.difficulty}</span><span className="text-sm font-medium text-primary">{difficultyLabels[profile.difficulty - 1]}</span></div>
