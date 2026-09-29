@@ -1,3 +1,5 @@
-// Configuración pública del proveedor de autenticación.
-// Las claves públicas de Supabase se añadirán aquí al activar el acceso.
-window.NEXTBOOK_AUTH = window.NEXTBOOK_AUTH || {};
+// Configuración pública de Supabase Auth para el acceso de librerías.
+window.NEXTBOOK_AUTH = {
+  supabaseUrl: "https://aesmyvfjcfcjegytsacy.supabase.co",
+  supabaseAnonKey: "sb_publishable_7hEvf7ILNYgc5cKar9_u6w_oFgQJgsk"
+};
