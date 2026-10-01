@@ -16,11 +16,10 @@ export type CarlinBook = {
   confidence: number;
 };
 
-export type AgeGroup = '0-2' | '3-5' | '6-8' | '9-12' | '13-17' | 'adult';
 export type CarlinQuestion = 'recipient' | 'age' | 'type' | 'subgenre' | 'theme' | 'pace' | 'difficulty' | 'budget';
 export type CarlinProfile = {
   recipient: 'self' | 'gift' | null;
-  age: AgeGroup | null;
+  age: number | null;
   type: string | null;
   subgenre: string | null;
   theme: string | null;
@@ -47,15 +46,6 @@ export const initialCarlinProfile: CarlinProfile = {
   budget: null,
 };
 
-export const ageOptions: { value: AgeGroup; label: string }[] = [
-  { value: '0-2', label: '0 a 2 años' },
-  { value: '3-5', label: '3 a 5 años' },
-  { value: '6-8', label: '6 a 8 años' },
-  { value: '9-12', label: '9 a 12 años' },
-  { value: '13-17', label: '13 a 17 años' },
-  { value: 'adult', label: 'Persona adulta' },
-];
-
 const normalize = (value: string) => value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
 const readable = (value: string) => value.charAt(0).toUpperCase() + value.slice(1);
 const titleKey = (title: string) => normalize(title).replace(/\([^)]*\)/g, ' ').replace(/\b\d+\b/g, ' ').replace(/[^a-z]+/g, ' ').replace(/\s+/g, ' ').trim()
@@ -66,13 +56,13 @@ const adultAudienceNeedsReview = new Set([
   '9788427299511', '9788427256279',
 ]);
 
-function matchesAge(book: CarlinBook, age: AgeGroup) {
-  if (age === '0-2') return book.audience === 'Infantil 0-5';
-  if (age === '3-5') return book.audience === 'Infantil 0-5'
+function matchesAge(book: CarlinBook, age: number) {
+  if (age <= 2) return book.audience === 'Infantil 0-5';
+  if (age <= 5) return book.audience === 'Infantil 0-5'
     || (book.audience === 'Infantil 3-12' && ['Muy fácil', 'Fácil'].includes(book.difficulty) && book.subgenre !== 'Terror');
-  if (age === '6-8') return ['Infantil 3-12', 'Infantil 6-8', 'Infantil 6-12'].includes(book.audience);
-  if (age === '9-12') return ['Infantil 3-12', 'Infantil 6-12', 'Infantil/Juvenil 9-14'].includes(book.audience);
-  if (age === '13-17') return ['Infantil/Juvenil 9-14', 'Juvenil 13-17', 'Juvenil/Young Adult'].includes(book.audience);
+  if (age <= 8) return ['Infantil 3-12', 'Infantil 6-8', 'Infantil 6-12'].includes(book.audience);
+  if (age <= 12) return ['Infantil 3-12', 'Infantil 6-12', 'Infantil/Juvenil 9-14'].includes(book.audience);
+  if (age <= 17) return ['Infantil/Juvenil 9-14', 'Juvenil 13-17', 'Juvenil/Young Adult'].includes(book.audience);
   return book.audience === 'Adulto/General' && book.genre !== 'Infantil'
     && !/infantil|juvenil/.test(normalize(book.subgenre)) && !adultAudienceNeedsReview.has(book.id);
 }
@@ -110,7 +100,7 @@ function withAny(options: CatalogOption[], count: number): CatalogOption[] {
 
 export function typeOptions(books: CarlinBook[], profile: CarlinProfile): CatalogOption[] {
   const pool = inventoryFor(books, profile, 'age');
-  const labels: Record<string, string> = profile.age === 'adult'
+  const labels: Record<string, string> = profile.age !== null && profile.age >= 18
     ? { 'Ficción/creativo': 'Novelas e historias', 'No ficción': 'Ideas y vida real', Educativo: 'Aprender y practicar' }
     : { 'Ficción/creativo': 'Cuentos e historias', 'No ficción': 'Descubrir el mundo', Educativo: 'Aprender jugando' };
   return withAny(optionsByCount(pool.map((book) => book.type), 3).map((option) => ({ ...option, label: labels[option.value] ?? option.label })), pool.length);
@@ -124,22 +114,22 @@ export function subgenreOptions(books: CarlinBook[], profile: CarlinProfile): Ca
 export function themeOptions(books: CarlinBook[], profile: CarlinProfile): CatalogOption[] {
   const pool = inventoryFor(books, profile);
   const themes = pool.flatMap((book) => book.themes);
-  const usefulThemes = optionsByCount(themes, 50).filter((option) => option.count < pool.length).slice(0, 10);
+  const usefulThemes = optionsByCount(themes, 36, 2).filter((option) => option.count < pool.length);
   return withAny(usefulThemes, pool.length);
 }
 
-export function preferenceQuestion(books: CarlinBook[], profile: CarlinProfile): 'pace' | 'difficulty' | null {
-  if (!profile.type || profile.type === 'any') return null;
-  const field = profile.type === 'Ficción/creativo' ? 'pace' : 'difficulty';
-  const distinct = new Set(themedInventory(books, profile).map((book) => book[field]).filter(Boolean));
-  return distinct.size >= 2 ? field : null;
+export function preferenceQuestions(books: CarlinBook[], profile: CarlinProfile): ('pace' | 'difficulty')[] {
+  const pool = themedInventory(books, profile);
+  const questions: ('pace' | 'difficulty')[] = [];
+  if (profile.type === 'Ficción/creativo'
+    && new Set(pool.map((book) => book.pace).filter(Boolean)).size >= 2) questions.push('pace');
+  if (new Set(pool.map((book) => book.difficulty).filter(Boolean)).size >= 2) questions.push('difficulty');
+  return questions;
 }
 
-export function preferenceOptions(books: CarlinBook[], profile: CarlinProfile): CatalogOption[] {
-  const field = preferenceQuestion(books, profile);
-  if (!field) return [];
+export function preferenceOptions(books: CarlinBook[], profile: CarlinProfile, field: 'pace' | 'difficulty'): CatalogOption[] {
   const pool = themedInventory(books, profile);
-  return withAny(optionsByCount(pool.map((book) => book[field]), 6, 1), pool.length);
+  return withAny(optionsByCount(pool.map((book) => book[field]), 8, 1), pool.length);
 }
 
 export function budgetOptions(books: CarlinBook[], profile: CarlinProfile): { value: number | 'any'; label: string; count: number }[] {
@@ -155,14 +145,13 @@ export function budgetOptions(books: CarlinBook[], profile: CarlinProfile): { va
 export function carlinQuestionSequence(books: CarlinBook[], profile: CarlinProfile): CarlinQuestion[] {
   const questions: CarlinQuestion[] = ['recipient', 'age', 'type', 'subgenre'];
   if (themeOptions(books, profile).length > 1) questions.push('theme');
-  const preference = preferenceQuestion(books, profile);
-  if (preference) questions.push(preference);
+  questions.push(...preferenceQuestions(books, profile));
   questions.push('budget');
   return questions;
 }
 
 export function recommendCarlinBooks(books: CarlinBook[], profile: CarlinProfile): CarlinRecommendation[] {
-  if (!profile.age || !profile.type || !profile.subgenre || profile.budget === null) return [];
+  if (profile.age === null || !profile.type || !profile.subgenre || profile.budget === null) return [];
   const budget = profile.budget;
   const selectedTheme = !profile.theme || profile.theme === 'any' ? null : normalize(profile.theme);
   const eligible = themedInventory(books, profile).filter((book) => budget === 'any' || (book.price ?? Infinity) <= budget);
@@ -170,7 +159,7 @@ export function recommendCarlinBooks(books: CarlinBook[], profile: CarlinProfile
     const themeMatch = selectedTheme !== null && book.themes.some((theme) => normalize(theme) === selectedTheme);
     const paceMatch = profile.pace && profile.pace !== 'any' && book.pace === profile.pace;
     const difficultyMatch = profile.difficulty && profile.difficulty !== 'any' && book.difficulty === profile.difficulty;
-    const score = (themeMatch ? 24 : 0) + (paceMatch || difficultyMatch ? 12 : 0)
+    const score = (themeMatch ? 24 : 0) + (paceMatch ? 12 : 0) + (difficultyMatch ? 12 : 0)
       + (book.author ? 2 : 0) + book.confidence + Math.min(book.stock, 5);
     const reasons = [`Está en la sección «${book.subgenre}» de Carlin La Reina`];
     if (themeMatch) reasons.push(`trata ${profile.theme}`);
@@ -202,11 +191,11 @@ export function parseCarlinProfile(value: unknown): CarlinProfile {
   const input = value && typeof value === 'object' ? value as Record<string, unknown> : {};
   const option = (field: string) => typeof input[field] === 'string' && (input[field] as string).length <= 80
     ? input[field] as string : null;
-  const age = option('age');
+  const age = input.age;
   const budget = input.budget;
   return {
     recipient: input.recipient === 'self' || input.recipient === 'gift' ? input.recipient : null,
-    age: ageOptions.some((entry) => entry.value === age) ? age as AgeGroup : null,
+    age: typeof age === 'number' && Number.isInteger(age) && age >= 0 && age <= 100 ? age : null,
     type: option('type'),
     subgenre: option('subgenre'),
     theme: option('theme'),
@@ -226,7 +215,7 @@ export function nextCarlinResponse(books: CarlinBook[], profile: CarlinProfile):
   if (!profile.recipient) return ask('recipient', [
     { value: 'self', label: 'Para mí' }, { value: 'gift', label: 'Para regalar' },
   ]);
-  if (!profile.age) return ask('age', ageOptions);
+  if (profile.age === null) return ask('age', Array.from({ length: 11 }, (_, age) => ({ value: age * 10, label: `${age * 10} años` })));
 
   const types = typeOptions(books, profile);
   if (!selected(profile.type, types)) return ask('type', types);
@@ -235,9 +224,8 @@ export function nextCarlinResponse(books: CarlinBook[], profile: CarlinProfile):
 
   const themes = themeOptions(books, profile);
   if (themes.length > 1 && !selected(profile.theme, themes)) return ask('theme', themes);
-  const preference = preferenceQuestion(books, profile);
-  if (preference) {
-    const options = preferenceOptions(books, profile);
+  for (const preference of preferenceQuestions(books, profile)) {
+    const options = preferenceOptions(books, profile, preference);
     if (!selected(profile[preference], options)) return ask(preference, options);
   }
 
