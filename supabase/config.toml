@@ -1,0 +1,4 @@
+project_id = "nextbook"
+
+[functions.carlin-recommend]
+verify_jwt = true

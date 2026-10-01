@@ -1,6 +1,7 @@
+/* eslint-disable next/no-img-element -- GitHub Pages usa Vite y no dispone del optimizador de imágenes de Next. */
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { lazy, Suspense, useEffect, useMemo, useState, useSyncExternalStore } from 'react';
 import { ArrowLeft, ArrowRight, BookOpen, Check, Gift, RefreshCw, Sparkles, UserRound } from 'lucide-react';
 
 import booksData from '@/app/data/books.json';
@@ -23,6 +24,10 @@ import {
 } from '@/lib/recommend';
 
 const books = booksData as Book[];
+const CarlinApp = lazy(() => import('@/components/carlin-app'));
+const subscribeToLocation = () => () => {};
+const getCurrentView = () => new URLSearchParams(window.location.search).get('libreria') === 'carlin-la-reina' ? 'carlin' : 'demo';
+const getServerView = () => 'loading';
 type QuestionId = 'recipient' | 'age' | 'interests' | 'intent' | 'focus' | 'genre' | 'mood' | 'difficulty' | 'budget';
 const initialProfile: ReaderProfile = {
   recipient: 'self',
@@ -40,23 +45,11 @@ const difficultyLabels = ['Muy ligera', 'Accesible', 'Intermedia', 'Exigente', '
 const accentClasses = ['bg-[#284a39]', 'bg-[#7e9373]', 'bg-[#b96546]'];
 const siteBasePath = import.meta.env.BASE_URL;
 
-type BookstoreContext = {
-  slug: string;
-  name: string;
-};
-
-const bookstoreBySlug: Record<string, BookstoreContext> = {
-  'carlin-la-reina': { slug: 'carlin-la-reina', name: 'Carlin La Reina' },
-};
-
 export default function Home() {
-  const [bookstore, setBookstore] = useState<BookstoreContext | null>(null);
+  const view = useSyncExternalStore(subscribeToLocation, getCurrentView, getServerView);
   useEffect(() => {
-    const slug = new URLSearchParams(window.location.search).get('libreria');
-    const currentBookstore = slug ? bookstoreBySlug[slug] ?? null : null;
-    setBookstore(currentBookstore);
-    document.title = currentBookstore ? `${currentBookstore.name} · NextBook` : 'NextBook · Tu próxima lectura';
-  }, []);
+    document.title = view === 'carlin' ? 'Carlin La Reina · NextBook' : 'NextBook · Tu próxima lectura';
+  }, [view]);
   const [step, setStep] = useState(0);
   const [profile, setProfile] = useState<ReaderProfile>(initialProfile);
   const [showResults, setShowResults] = useState(false);
@@ -103,22 +96,17 @@ export default function Home() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  if (view === 'loading') return <main className="grid min-h-screen place-items-center bg-background text-foreground" aria-busy="true">Preparando NextBook…</main>;
+  if (view === 'carlin') return <Suspense fallback={<main className="grid min-h-screen place-items-center bg-background text-foreground" aria-busy="true">Cargando el catálogo de Carlin La Reina…</main>}><CarlinApp /></Suspense>;
+
   return (
     <main className="min-h-screen overflow-hidden bg-background text-foreground">
-      <Header results={showResults} bookstore={bookstore} />
-      {bookstore && (
-        <aside className="mx-auto w-full max-w-7xl px-5 pt-2 sm:px-8 lg:px-10" aria-label="Información del catálogo">
-          <div className="rounded-2xl border border-border bg-muted/50 px-5 py-4 text-sm leading-6 text-muted-foreground">
-            <strong className="text-foreground">Experiencia piloto de {bookstore.name}.</strong>{' '}
-            El cuestionario utiliza temporalmente los {books.length} títulos de la demo. El catálogo, los precios y el stock real de la librería se conectarán en la siguiente etapa.
-          </div>
-        </aside>
-      )}
+      <Header results={showResults} />
       {showResults ? (
-        <Results recommendations={recommendations} profile={profile} onRestart={restart} bookstore={bookstore} />
+        <Results recommendations={recommendations} onRestart={restart} />
       ) : (
         <section className="mx-auto grid w-full max-w-7xl gap-10 px-5 pb-14 pt-7 sm:px-8 lg:grid-cols-[minmax(0,1.03fr)_minmax(390px,.97fr)] lg:gap-16 lg:px-10 lg:pb-20 lg:pt-10">
-          <Intro step={step} totalSteps={totalSteps} bookstore={bookstore} />
+          <Intro step={step} totalSteps={totalSteps} />
           <section className="question-shell" aria-labelledby="question-title">
             <div className="flex items-center justify-between gap-4">
               <p className="text-sm font-medium text-muted-foreground">Pregunta {step + 1} de {totalSteps}</p>
@@ -148,7 +136,7 @@ export default function Home() {
   );
 }
 
-function Header({ results, bookstore }: { results: boolean; bookstore: BookstoreContext | null }) {
+function Header({ results }: { results: boolean }) {
   return (
     <header className="mx-auto flex w-full max-w-7xl items-center justify-between px-5 py-5 sm:px-8 lg:px-10">
       <a className="flex items-center gap-2.5" href="#top" aria-label="NextBook, inicio">
@@ -156,13 +144,13 @@ function Header({ results, bookstore }: { results: boolean; bookstore: Bookstore
         <span className="font-heading text-xl font-semibold tracking-[-0.03em]">NextBook</span>
       </a>
       <span className="flex items-center gap-2 text-xs font-medium uppercase tracking-[.12em] text-muted-foreground sm:text-sm">
-        <Check className="size-4 text-primary" /> {bookstore ? `${bookstore.name} · demo` : results ? 'Tu selección' : `Tu próxima lectura, entre ${books.length} títulos`}
+        <Check className="size-4 text-primary" /> {results ? 'Tu selección' : `Tu próxima lectura, entre ${books.length} títulos`}
       </span>
     </header>
   );
 }
 
-function Intro({ step, totalSteps, bookstore }: { step: number; totalSteps: number; bookstore: BookstoreContext | null }) {
+function Intro({ step, totalSteps }: { step: number; totalSteps: number }) {
   const notes = [
     'Una recomendación que empieza por la persona.',
     'La edad marca el punto de partida, no el límite.',
@@ -176,7 +164,7 @@ function Intro({ step, totalSteps, bookstore }: { step: number; totalSteps: numb
   ];
   return (
     <div id="top" className="flex flex-col justify-center lg:min-h-[650px]">
-      <p className="eyebrow">{bookstore ? `NextBook para ${bookstore.name}` : 'Tu próxima gran lectura'}</p>
+      <p className="eyebrow">Tu próxima gran lectura</p>
       <h1 className="mt-5 max-w-3xl font-heading text-[clamp(3.2rem,6.5vw,6.5rem)] leading-[.9] font-semibold tracking-[-0.07em]">
         Un libro que se sienta <span className="text-primary italic">muy tú.</span>
       </h1>
@@ -301,15 +289,11 @@ function Choice({ selected, onClick, children, compact = false, disabled = false
   return <button type="button" disabled={disabled} aria-pressed={selected} onClick={onClick} className={`choice-card ${compact ? 'choice-card--compact' : ''} ${selected ? 'choice-card--selected' : ''}`}><span className={`choice-dot ${selected ? 'choice-dot--selected' : ''}`}>{selected && <Check className="size-3.5" />}</span>{children}</button>;
 }
 
-function Pill({ selected, onClick, children }: { selected: boolean; onClick: () => void; children: React.ReactNode }) {
-  return <button type="button" aria-pressed={selected} onClick={onClick} className={`rounded-full border px-3 py-1.5 text-sm transition ${selected ? 'border-primary bg-primary text-primary-foreground' : 'border-border bg-card hover:border-primary/50'}`}>{children}</button>;
-}
-
-function Results({ recommendations, profile, onRestart, bookstore }: { recommendations: ReturnType<typeof recommendBooks>; profile: ReaderProfile; onRestart: () => void; bookstore: BookstoreContext | null }) {
+function Results({ recommendations, onRestart }: { recommendations: ReturnType<typeof recommendBooks>; onRestart: () => void }) {
   return (
     <section id="top" className="mx-auto w-full max-w-7xl px-5 pb-20 pt-7 sm:px-8 lg:px-10">
       <div className="grid items-end gap-8 lg:grid-cols-[1fr_420px]">
-        <div><p className="eyebrow">{bookstore ? `${bookstore.name} · Tu selección demo` : 'Tu NextBook'}</p><h1 className="mt-4 max-w-4xl font-heading text-[clamp(3.2rem,7vw,6.5rem)] leading-[.92] font-semibold tracking-[-0.065em]">{recommendations.length === 1 ? 'Un libro para tu ' : 'Tus libros para tu '}<span className="text-primary italic">momento lector.</span></h1><p className="mt-6 max-w-2xl text-lg leading-8 text-muted-foreground">Hemos comparado tus respuestas con los {books.length} títulos del catálogo {bookstore ? 'de demostración' : ''} y estos son los que mejor encajan.</p></div>
+        <div><p className="eyebrow">Tu NextBook</p><h1 className="mt-4 max-w-4xl font-heading text-[clamp(3.2rem,7vw,6.5rem)] leading-[.92] font-semibold tracking-[-0.065em]">{recommendations.length === 1 ? 'Un libro para tu ' : 'Tus libros para tu '}<span className="text-primary italic">momento lector.</span></h1><p className="mt-6 max-w-2xl text-lg leading-8 text-muted-foreground">Hemos comparado tus respuestas con los {books.length} títulos del catálogo de demostración y estos son los que mejor encajan.</p></div>
         <div className="overflow-hidden rounded-[1.5rem] border border-border bg-card"><img src={`${siteBasePath}og.png`} alt="Libro abierto y una pila de libros de NextBook" className="aspect-[1.9/1] h-full w-full object-cover" /></div>
       </div>
 
@@ -317,7 +301,7 @@ function Results({ recommendations, profile, onRestart, bookstore }: { recommend
       <div className="mt-5 grid gap-5 lg:grid-cols-3">
         {recommendations.map((recommendation, index) => (
           <Dialog key={recommendation.book.book_id}>
-            <DialogTrigger render={<button type="button" className="block h-full w-full text-left transition-transform duration-200 hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-4" />}>
+            <DialogTrigger render={<button type="button" aria-label={`Ver ficha de ${recommendation.book.title}`} className="block h-full w-full text-left transition-transform duration-200 hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-4" />}>
               <Card className="result-card h-full justify-between rounded-[1.5rem] border-0 py-0 ring-1 ring-border transition-shadow hover:shadow-xl hover:shadow-primary/10">
                 <div>
                   <div className={`h-2 ${accentClasses[index]}`} />

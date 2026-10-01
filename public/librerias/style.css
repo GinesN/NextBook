@@ -21,5 +21,10 @@
 .bookstore-card{display:grid;grid-template-columns:150px 1fr;gap:42px;align-items:center;margin-top:55px;padding:42px;border:1px solid var(--line);border-radius:10px;background:var(--white)}
 .bookstore-mark{display:grid;place-items:center;aspect-ratio:1;border-radius:50% 50% 50% 8px;background:var(--green);color:var(--paper);font:500 42px Georgia,serif}
 .pilot-label{font-size:9px;letter-spacing:.16em;color:var(--accent);font-weight:650}.bookstore-copy h2{margin:10px 0 12px;font-size:38px}.bookstore-copy p{color:var(--muted);margin-bottom:24px}
+.qr-panel{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:48px;align-items:center;margin-top:24px;padding:42px;border:1px solid var(--line);border-radius:10px;background:var(--paper)}
+.qr-panel-copy h2{max-width:620px;margin:10px 0 16px;font-size:clamp(32px,4vw,48px)}.qr-panel-copy>p:not(.eyebrow){max-width:600px;color:var(--muted);line-height:1.7}
+.qr-actions{display:flex;flex-wrap:wrap;align-items:center;gap:22px;margin-top:28px}.qr-actions .text-button{text-decoration:none}
+.qr-preview{display:grid;justify-items:center;gap:12px;padding:18px;border:1px solid var(--line);border-radius:8px;background:#fff;box-shadow:0 10px 30px #22331f10}.qr-preview img{display:block;width:min(100%,280px);height:auto;aspect-ratio:1}.qr-preview span{font-size:11px;font-weight:650;letter-spacing:.08em;color:var(--green);text-align:center;text-transform:uppercase}
 @media(max-width:900px){.access-layout{grid-template-columns:1fr;gap:45px}.login-card{max-width:560px}.dashboard-top{display:block}.text-button{margin-top:20px}}
-@media(max-width:600px){.access-layout{padding-block:45px 70px}.login-card{padding:35px 25px;border-radius:70px 7px 7px 7px}.bookstore-card{grid-template-columns:1fr;padding:28px}.bookstore-mark{width:100px}}
+@media(max-width:900px){.qr-panel{grid-template-columns:1fr;gap:30px}.qr-preview{width:min(100%,320px);box-sizing:border-box}}
+@media(max-width:600px){.access-layout{padding-block:45px 70px}.login-card{padding:35px 25px;border-radius:70px 7px 7px 7px}.bookstore-card{grid-template-columns:1fr;padding:28px}.bookstore-mark{width:100px}.qr-panel{padding:28px}.qr-actions{align-items:flex-start;flex-direction:column;gap:8px}}
