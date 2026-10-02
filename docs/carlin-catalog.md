@@ -17,6 +17,6 @@ Se corrigieron seis ediciones de *Harry Potter y el misterio del príncipe* que 
 
 Edad, tipo, sección, tema y presupuesto restringen la selección; ritmo o nivel ordenan los resultados. Las etiquetas de género, público y temas provienen del enriquecimiento del inventario y pueden requerir revisión editorial. El stock es una fotografía del archivo importado, no una sincronización en tiempo real: la disponibilidad y el precio deben confirmarse con la librería.
 
-Las fichas de resultados consultan portada y datos editoriales en Open Library cuando encuentra una coincidencia por ISBN o título. La cobertura de su catálogo varía; cuando no hay portada se muestra una cubierta gráfica de reserva. El enlace a la ficha externa aparece dentro del detalle del libro.
+Las fichas de resultados buscan portadas, sinopsis y datos editoriales en Google Books y Open Library, priorizando coincidencias por ISBN y comprobando título y autor. La cobertura varía; si no hay portada aparece una cubierta ilustrada propia y, si no hay sinopsis editorial, se muestran los temas catalogados sin inventar el argumento. Toda la tarjeta abre la ficha ampliada del libro.
 
 El QR del panel privado apunta a `https://ginesn.github.io/NextBook/?libreria=carlin-la-reina`. Si cambia la URL pública, hay que regenerar `public/librerias/carlin-la-reina/qr.svg`.

@@ -161,12 +161,12 @@ export function recommendCarlinBooks(books: CarlinBook[], profile: CarlinProfile
     const difficultyMatch = profile.difficulty && profile.difficulty !== 'any' && book.difficulty === profile.difficulty;
     const score = (themeMatch ? 24 : 0) + (paceMatch ? 12 : 0) + (difficultyMatch ? 12 : 0)
       + (book.author ? 2 : 0) + book.confidence + Math.min(book.stock, 5);
-    const reasons = [`Está en la sección «${book.subgenre}» de Carlin La Reina`];
-    if (themeMatch) reasons.push(`trata ${profile.theme}`);
-    if (paceMatch) reasons.push(`tiene un ritmo ${book.pace.toLowerCase()}`);
+    const reasons: string[] = [];
+    if (themeMatch) reasons.push(`conecta con ${profile.theme}`);
+    if (paceMatch) reasons.push(`avanza con un ritmo ${book.pace.toLowerCase()}`);
     if (difficultyMatch) reasons.push(`tiene un nivel ${book.difficulty.toLowerCase()}`);
-    if (reasons.length === 1) reasons.push('encaja con la edad y el tipo de lectura elegidos');
-    return { book, score, explanation: `${reasons.join(' y ')}.` };
+    if (reasons.length === 0) reasons.push('se ajusta a la edad y al tipo de lectura que buscas');
+    return { book, score, explanation: `Te puede encajar porque ${reasons.join(' y ')}.` };
   }).sort((a, b) => b.score - a.score || b.book.stock - a.book.stock || a.book.title.localeCompare(b.book.title, 'es'));
 
   const selected = new Set<string>();

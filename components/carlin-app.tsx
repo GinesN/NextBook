@@ -234,9 +234,50 @@ function Choice({ selected, disabled, onClick, index, question, label }: {
 
 type BookDetails = { title: string; authors: string[]; description?: string; cover?: string; publisher?: string; publishedDate?: string; pageCount?: number; categories?: string[]; infoLink?: string; loaded: boolean };
 
+const cleanBookText = (text?: string) => text?.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim() || undefined;
+const normalizeBookText = (text: string) => text.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+
+async function findGoogleBooksDetails(book: CarlinRecommendation['book'], signal: AbortSignal): Promise<BookDetails | undefined> {
+  const isbn = /^[0-9Xx]{10,13}$/.test(book.id);
+  const query = isbn ? `isbn:${book.id}` : `intitle:${book.title}${book.author ? `+inauthor:${book.author}` : ''}`;
+  const url = new URL('https://www.googleapis.com/books/v1/volumes');
+  url.search = new URLSearchParams({ q: query, maxResults: '5', printType: 'books' }).toString();
+  const response = await fetch(url, { signal });
+  if (!response.ok) return undefined;
+  const data = await response.json() as { items?: Array<{ volumeInfo?: { title?: string; authors?: string[]; description?: string; imageLinks?: { thumbnail?: string; smallThumbnail?: string }; publisher?: string; publishedDate?: string; pageCount?: number; categories?: string[]; infoLink?: string; industryIdentifiers?: Array<{ type?: string; identifier?: string }> } }> };
+  const targetTitle = normalizeBookText(book.title);
+  const targetAuthor = normalizeBookText(book.author);
+  const match = data.items?.find(({ volumeInfo }) => {
+    if (!volumeInfo?.title) return false;
+    const candidateTitle = normalizeBookText(volumeInfo.title);
+    const sameTitle = candidateTitle === targetTitle || candidateTitle.startsWith(targetTitle) || targetTitle.startsWith(candidateTitle);
+    if (!sameTitle) return false;
+    if (isbn && volumeInfo.industryIdentifiers?.length) {
+      return volumeInfo.industryIdentifiers.some(({ identifier }) => identifier?.replace(/[-\s]/g, '') === book.id);
+    }
+    return !targetAuthor || volumeInfo.authors?.some((author) => normalizeBookText(author).includes(targetAuthor) || targetAuthor.includes(normalizeBookText(author)));
+  })?.volumeInfo;
+  if (!match) return undefined;
+  const thumbnail = match.imageLinks?.thumbnail ?? match.imageLinks?.smallThumbnail;
+  return {
+    title: match.title ?? book.title,
+    authors: match.authors ?? (book.author ? [book.author] : []),
+    description: cleanBookText(match.description),
+    cover: thumbnail?.replace(/^http:/, 'https:'),
+    publisher: match.publisher,
+    publishedDate: match.publishedDate,
+    pageCount: match.pageCount,
+    categories: match.categories ?? [],
+    infoLink: match.infoLink?.replace(/^http:/, 'https:'),
+    loaded: true,
+  };
+}
+
 async function findBookDetails(book: CarlinRecommendation['book'], signal: AbortSignal): Promise<BookDetails> {
   type Edition = { title?: string; authors?: Array<{ name?: string }>; cover?: { medium?: string; large?: string }; info_url?: string; publish_date?: string; publishers?: Array<{ name?: string }>; number_of_pages?: number; subjects?: Array<{ name?: string }>; notes?: string | { value?: string } };
   let info: Edition | undefined;
+  let google: BookDetails | undefined;
+  try { google = await findGoogleBooksDetails(book, signal); } catch { /* Open Library sirve de respaldo. */ }
   if (/^[0-9Xx]{10,13}$/.test(book.id)) {
     const response = await fetch(`https://openlibrary.org/api/books?bibkeys=${encodeURIComponent(`ISBN:${book.id}`)}&jscmd=data&format=json`, { signal });
     if (response.ok) {
@@ -261,20 +302,32 @@ async function findBookDetails(book: CarlinRecommendation['book'], signal: Abort
       };
     }
   }
-  const cover = info?.cover?.large ?? info?.cover?.medium;
-  const note = typeof info?.notes === 'string' ? info.notes : info?.notes?.value;
+  const cover = google?.cover ?? info?.cover?.large ?? info?.cover?.medium;
+  const note = google?.description ?? cleanBookText(typeof info?.notes === 'string' ? info.notes : info?.notes?.value);
   return {
-    title: info?.title ?? book.title,
-    authors: info?.authors?.map((author) => author.name).filter((name): name is string => Boolean(name)) ?? (book.author ? [book.author] : []),
+    title: google?.title ?? info?.title ?? book.title,
+    authors: google?.authors ?? info?.authors?.map((author) => author.name).filter((name): name is string => Boolean(name)) ?? (book.author ? [book.author] : []),
     description: note,
     cover,
-    publisher: info?.publishers?.map((publisher) => publisher.name).filter(Boolean).join(', '),
-    publishedDate: info?.publish_date,
-    pageCount: info?.number_of_pages,
-    categories: info?.subjects?.map((subject) => subject.name).filter((name): name is string => Boolean(name)) ?? [],
-    infoLink: info?.info_url?.replace(/^http:/, 'https:') ?? `https://openlibrary.org/search?q=${encodeURIComponent(book.title)}`,
+    publisher: google?.publisher ?? info?.publishers?.map((publisher) => publisher.name).filter(Boolean).join(', '),
+    publishedDate: google?.publishedDate ?? info?.publish_date,
+    pageCount: google?.pageCount ?? info?.number_of_pages,
+    categories: google?.categories ?? info?.subjects?.map((subject) => subject.name).filter((name): name is string => Boolean(name)) ?? [],
+    infoLink: google?.infoLink ?? info?.info_url?.replace(/^http:/, 'https:') ?? `https://openlibrary.org/search?q=${encodeURIComponent(`${book.title} ${book.author}`)}`,
     loaded: true,
   };
+}
+
+function fallbackBookDescription(book: CarlinRecommendation['book']) {
+  if (book.themes.length) return `La ficha de este libro destaca ${book.themes.slice(0, 3).join(', ')}. No encontramos una sinopsis editorial para esta edición.`;
+  return 'No encontramos una sinopsis editorial para esta edición. Abre la ficha para consultar los datos disponibles del libro.';
+}
+
+function bookRecommendationReason(book: CarlinRecommendation['book'], explanation: string) {
+  const cleaned = explanation.replace(/^Está en la sección «[^»]+» de Carlin La Reina(?: y )?/i, '').trim();
+  if (cleaned) return cleaned.charAt(0).toUpperCase() + cleaned.slice(1);
+  if (book.themes.length) return `Conecta con temas como ${book.themes.slice(0, 3).join(', ')}.`;
+  return 'Elegido a partir de tus respuestas y de los libros disponibles en la librería.';
 }
 
 function Results({ recommendations, onRestart, onBack }: {
@@ -310,24 +363,29 @@ function Results({ recommendations, onRestart, onBack }: {
     </div>
 
     {recommendations.length > 0 ? <div className="carlin-results-grid">
-      {recommendations.map(({ book, explanation }, index) => <article className="carlin-result-card" key={book.id}>
-        <button type="button" className={`carlin-result-art carlin-result-art-${index + 1}`} aria-label={`Abrir la ficha de ${book.title}`} onClick={() => setSelectedBook(book)}>
-          {details[book.id]?.cover ? <img className="carlin-cover" src={details[book.id].cover} alt={`Portada de ${book.title}`} loading="lazy" /> : <>
-            <span className="carlin-result-art-top"><span>CARLIN LA REINA</span><span>NB / 0{index + 1}</span></span>
-            <span className="carlin-result-art-book-title">{book.title}</span>
-            <span className="carlin-result-art-bottom"><span>{book.author || book.subgenre}</span><span>✳</span></span>
-          </>}
-          <span className="carlin-cover-hint">{details[book.id]?.cover ? 'VER FICHA' : details[book.id]?.loaded ? 'VER DETALLES' : 'BUSCANDO PORTADA'}</span>
-        </button>
+      {recommendations.map(({ book, explanation }, index) => {
+        const info = details[book.id];
+        return <article className={`carlin-result-card carlin-result-card-${index + 1}`} key={book.id}>
+        <button type="button" className="carlin-result-card-trigger" aria-label={`Ver más información sobre ${book.title}`} aria-haspopup="dialog" onClick={() => setSelectedBook(book)}><span className="carlin-sr-only">Abrir información del libro</span></button>
+        <div className={`carlin-result-art carlin-result-art-${index + 1}`}>
+          {info?.cover ? <img className="carlin-cover" src={info.cover} alt={`Portada de ${book.title}`} loading="lazy" /> : <div className="carlin-fallback-cover">
+            <div className="carlin-fallback-brand"><BookOpen size={15} strokeWidth={1.5} /><span>CARLIN LA REINA</span><span>·</span><span>NB / 0{index + 1}</span></div>
+            <span className="carlin-fallback-mark" aria-hidden="true">✳</span>
+            <h3>{book.title}</h3>
+            <p>{book.author || 'Una lectura por descubrir'}</p>
+            <div className="carlin-fallback-foot"><span>UNA HISTORIA PARA TI</span><ArrowRight size={17} /></div>
+          </div>}
+        </div>
         <div className="carlin-result-body">
           <p className="carlin-result-kicker">RECOMENDACIÓN 0{index + 1}</p>
           <h2>{book.title}</h2>
           {book.author && <p className="carlin-result-author">{book.author}</p>}
-          <p className="carlin-result-explanation">{explanation}</p>
-          <div className="carlin-result-bottom"><span>PRECIO EN CATÁLOGO</span><strong>{book.price === null ? 'Consultar' : formatCarlinPrice(book.price)}</strong></div>
-          <button type="button" className="carlin-result-open" onClick={() => setSelectedBook(book)}>Ver ficha completa <ArrowRight size={15} /></button>
+          <p className="carlin-result-synopsis">{info?.description || (info?.loaded ? fallbackBookDescription(book) : 'Buscando la sinopsis y los datos de esta edición…')}</p>
+          <p className="carlin-result-explanation"><span>POR QUÉ TE PUEDE ENCAJAR</span>{bookRecommendationReason(book, explanation)}</p>
+          <div className="carlin-result-bottom"><span>{book.price === null ? 'Consultar en librería' : formatCarlinPrice(book.price)}</span><ArrowRight size={17} aria-hidden="true" /></div>
         </div>
-      </article>)}
+      </article>;
+      })}
     </div> : <div className="carlin-empty"><span>✳</span><h2>Esta vez no hemos dado con el libro.</h2><p>Prueba con un presupuesto más amplio o una sección diferente.</p><button type="button" onClick={onBack}>Cambiar mi presupuesto <ArrowRight size={16} /></button></div>}
 
     <div className="carlin-results-actions"><p>La disponibilidad y el precio pueden cambiar. Confírmalos con la librería antes de comprar.</p><button type="button" onClick={onRestart}><RefreshCw size={16} /> Empezar de nuevo</button></div>
@@ -339,13 +397,14 @@ function Results({ recommendations, onRestart, onBack }: {
           <p className="carlin-result-kicker">FICHA DEL LIBRO · CARLIN LA REINA</p>
           <h2 id="carlin-detail-title">{selectedBook.title}</h2>
           {selectedBook.author && <p className="carlin-result-author">{selectedBook.author}</p>}
-          <p className="carlin-detail-description">{details[selectedBook.id]?.description || `Una recomendación de la sección ${selectedBook.subgenre}, elegida según tus respuestas.`}</p>
-          {selectedBook.themes.length > 0 && <p className="carlin-detail-themes"><strong>Temas:</strong> {selectedBook.themes.join(' · ')}</p>}
+          <p className="carlin-detail-description">{details[selectedBook.id]?.description || (details[selectedBook.id]?.loaded ? fallbackBookDescription(selectedBook) : 'Buscando la sinopsis y los datos editoriales de esta edición…')}</p>
+          <p className="carlin-detail-reason">{bookRecommendationReason(selectedBook, recommendations.find(({ book }) => book.id === selectedBook.id)?.explanation ?? '')}</p>
+          {selectedBook.themes.length > 0 && <p className="carlin-detail-themes"><strong>Temas de la ficha:</strong> {selectedBook.themes.join(' · ')}</p>}
           <dl className="carlin-detail-facts">
             {details[selectedBook.id]?.publisher && <div><dt>Editorial</dt><dd>{details[selectedBook.id].publisher}</dd></div>}
             {details[selectedBook.id]?.publishedDate && <div><dt>Publicación</dt><dd>{details[selectedBook.id].publishedDate}</dd></div>}
             {details[selectedBook.id]?.pageCount && <div><dt>Páginas</dt><dd>{details[selectedBook.id].pageCount}</dd></div>}
-            {selectedBook.price !== null && <div><dt>Precio en catálogo</dt><dd>{formatCarlinPrice(selectedBook.price)}</dd></div>}
+            {selectedBook.price !== null && <div><dt>Precio</dt><dd>{formatCarlinPrice(selectedBook.price)}</dd></div>}
           </dl>
           <a className="carlin-detail-link" href={details[selectedBook.id]?.infoLink ?? `https://openlibrary.org/search?q=${encodeURIComponent(selectedBook.title)}`} target="_blank" rel="noreferrer">Ficha de Open Library <ExternalLink size={15} /></a>
         </div>

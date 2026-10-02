@@ -230,3 +230,34 @@
 .carlin-detail-link { display:inline-flex; align-items:center; gap:8px; margin-top:24px; color:#1e5142; font-size:12px; font-weight:700; }
 .carlin-detail-link:hover { color:#a1794d; }
 @media(max-width:560px) { .carlin-age-picker { padding:22px 18px; } .carlin-age-wheel strong { font-size:98px; } .carlin-detail-backdrop { padding:12px; } .carlin-detail-dialog { grid-template-columns:1fr; gap:20px; max-height:90vh; padding:48px 23px 25px; } .carlin-detail-cover { width:auto; max-width:45%; max-height:220px; justify-self:center; } .carlin-detail-copy h2 { margin-top:10px; font-size:42px; } .carlin-detail-description { margin-top:14px; font-size:13px; } }
+
+.carlin-result-card { position:relative; cursor:pointer; outline:none; }
+.carlin-result-card:focus-within { outline:3px solid #b88c55; outline-offset:4px; }
+.carlin-result-card-trigger { position:absolute; z-index:3; inset:0; width:100%; height:100%; border:0; background:transparent; cursor:pointer; }
+.carlin-sr-only { position:absolute; width:1px; height:1px; padding:0; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; clip-path:inset(50%); }
+.carlin-result-art { display:flex; aspect-ratio:1.13; min-height:0; padding:10px; background:#e9e3d7; transition:background .25s; }
+.carlin-result-art::before,.carlin-result-art::after { content:none; }
+.carlin-result-card:hover .carlin-result-art { background:#ded6c7; }
+.carlin-cover { background:#eee9de; }
+.carlin-fallback-cover { position:relative; display:flex; flex:1; flex-direction:column; justify-content:space-between; min-width:0; min-height:250px; padding:20px 21px 17px; overflow:hidden; border:1px solid #d3b77f99; color:#f8f3e8; background:linear-gradient(145deg,#24483d,#17352f 72%); isolation:isolate; }
+.carlin-result-art-2 .carlin-fallback-cover { background:linear-gradient(145deg,#8a6748,#604632 72%); }
+.carlin-result-art-3 .carlin-fallback-cover { background:linear-gradient(145deg,#526d77,#304b55 72%); }
+.carlin-fallback-cover::before { position:absolute; z-index:-1; top:50px; right:-42px; width:145px; height:235px; border:1px solid #e7c98a55; content:''; transform:rotate(28deg); }
+.carlin-fallback-cover::after { position:absolute; z-index:-1; right:0; bottom:0; left:0; height:36%; background:linear-gradient(0deg,#101e1b40,transparent); content:''; }
+.carlin-fallback-brand { display:flex; align-items:center; gap:7px; color:#efdbb4; font-size:8px; font-weight:700; letter-spacing:.15em; }
+.carlin-fallback-brand svg { flex:none; }
+.carlin-fallback-mark { position:absolute; top:31%; right:20px; color:#e8c98d63; font-size:56px; line-height:1; }
+.carlin-fallback-cover h3 { position:relative; max-width:93%; margin:auto 0 8px; font-family:'Cormorant Garamond',Georgia,serif; font-size:clamp(29px,3vw,43px); font-weight:500; letter-spacing:-.035em; line-height:.98; overflow-wrap:anywhere; }
+.carlin-fallback-cover>p { position:relative; margin:0; color:#f2e6d1; font-size:11px; letter-spacing:.035em; }
+.carlin-fallback-foot { display:flex; align-items:center; justify-content:space-between; margin-top:21px; padding-top:11px; border-top:1px solid #f4ead35c; color:#e6cf9f; font-size:8px; font-weight:700; letter-spacing:.14em; }
+.carlin-result-body { padding:19px 24px 21px; }
+.carlin-result-body h2 { margin-top:12px; }
+.carlin-result-synopsis { display:-webkit-box; flex:1; margin-top:16px; overflow:hidden; color:#506358; font-size:13px; line-height:1.7; -webkit-box-orient:vertical; -webkit-line-clamp:5; }
+.carlin-result-explanation { display:flex; flex-direction:column; gap:6px; flex:none; margin-top:14px; padding-top:12px; color:#737b70; font-size:11px; line-height:1.55; }
+.carlin-result-explanation span { color:#a47b4e; font-size:8px; font-weight:700; letter-spacing:.15em; }
+.carlin-result-bottom { align-items:center; margin-top:18px; padding-top:14px; border-top:1px solid #e5dfd3; color:#193d32; font-size:18px; font-weight:600; letter-spacing:0; }
+.carlin-result-bottom svg { flex:none; color:#a47b4e; transition:transform .2s; }
+.carlin-result-card:hover .carlin-result-bottom svg { transform:translateX(4px); }
+.carlin-detail-description { max-height:34vh; overflow:auto; }
+.carlin-detail-reason { margin-top:15px; padding:13px 15px; border-left:2px solid #b88c55; background:#f1ede3; color:#4d6053; font-size:12px; line-height:1.65; }
+@media(max-width:560px) { .carlin-result-art { aspect-ratio:1.15; } .carlin-fallback-cover { min-height:235px; padding:17px; } .carlin-fallback-cover h3 { font-size:34px; } .carlin-result-body { padding:19px 21px 21px; } .carlin-result-synopsis { -webkit-line-clamp:6; } }
