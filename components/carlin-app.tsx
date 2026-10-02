@@ -23,6 +23,14 @@ const progressByQuestion: Record<CarlinQuestion, number> = {
 };
 type HistoryEntry = { question: CarlinQuestion; options: PublicCatalogOption[]; profile: CarlinProfile };
 
+function keepElementVisible(id: string, block: ScrollLogicalPosition = 'nearest') {
+  requestAnimationFrame(() => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block }));
+}
+
+function keepQuestionVisible() {
+  keepElementVisible('question-title');
+}
+
 async function fetchNext(profile: CarlinProfile): Promise<CarlinResponse> {
   const response = await fetch(apiUrl, {
     method: 'POST', headers: apiUrl.includes('127.0.0.1')
@@ -69,7 +77,7 @@ export default function CarlinApp() {
       setHistory((current) => [...current, entry]);
       setQuestion('age');
       setOptions([]);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      keepQuestionVisible();
       return;
     }
     setPending(true);
@@ -79,10 +87,11 @@ export default function CarlinApp() {
       if (response.kind === 'question') {
         setQuestion(response.question);
         setOptions(response.options);
+        keepQuestionVisible();
       } else {
         setRecommendations(response.recommendations);
+        keepElementVisible('results-title', 'start');
       }
-      window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : 'No hemos podido conectar. Inténtalo de nuevo.');
     } finally {
@@ -101,6 +110,7 @@ export default function CarlinApp() {
     setProfile(entry.profile);
     setRecommendations(null);
     setError('');
+    keepQuestionVisible();
   };
 
   const restart = () => {
@@ -110,7 +120,7 @@ export default function CarlinApp() {
     setHistory([]);
     setRecommendations(null);
     setError('');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    keepQuestionVisible();
   };
 
   return <main id="top" className="carlin-page">
@@ -294,7 +304,7 @@ function Results({ recommendations, onRestart, onBack }: {
   return <section className="carlin-results">
     <div className="carlin-results-intro">
       <p className="carlin-overline"><span className="carlin-overline-rule" /> TU SELECCIÓN PERSONAL</p>
-      <h1>Las historias que<br /><em>podrían ser tuyas.</em></h1>
+      <h1 id="results-title">Las historias que<br /><em>podrían ser tuyas.</em></h1>
       <p>Elegidas de los libros de Carlin La Reina según tus respuestas. Quizá aquí empiece tu próxima gran lectura.</p>
       <div className="carlin-results-meta"><span>✦</span> CURADO POR NEXTBOOK PARA CARLIN LA REINA</div>
     </div>
