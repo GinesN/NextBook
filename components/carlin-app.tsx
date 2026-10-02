@@ -2,7 +2,7 @@
 /* eslint-disable next/no-img-element -- GitHub Pages publica esta app como sitio Vite estático. */
 
 import { useEffect, useState, type ReactNode } from 'react';
-import { ArrowLeft, ArrowRight, BookOpen, Check, ExternalLink, Gift, RefreshCw, UserRound, X } from 'lucide-react';
+import { ArrowLeft, ArrowRight, BookOpen, Check, Gift, RefreshCw, UserRound, X } from 'lucide-react';
 
 import {
   formatCarlinPrice, initialCarlinProfile,
@@ -232,7 +232,7 @@ function Choice({ selected, disabled, onClick, index, question, label }: {
   </button>;
 }
 
-type BookDetails = { title: string; authors: string[]; description?: string; cover?: string; publisher?: string; publishedDate?: string; pageCount?: number; categories?: string[]; infoLink?: string; loaded: boolean };
+type BookDetails = { title: string; authors: string[]; description?: string; cover?: string; publisher?: string; publishedDate?: string; pageCount?: number; categories?: string[]; loaded: boolean };
 
 const cleanBookText = (text?: string) => text?.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim() || undefined;
 const normalizeBookText = (text: string) => text.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
@@ -244,7 +244,7 @@ async function findGoogleBooksDetails(book: CarlinRecommendation['book'], signal
   url.search = new URLSearchParams({ q: query, maxResults: '5', printType: 'books' }).toString();
   const response = await fetch(url, { signal });
   if (!response.ok) return undefined;
-  const data = await response.json() as { items?: Array<{ volumeInfo?: { title?: string; authors?: string[]; description?: string; imageLinks?: { thumbnail?: string; smallThumbnail?: string }; publisher?: string; publishedDate?: string; pageCount?: number; categories?: string[]; infoLink?: string; industryIdentifiers?: Array<{ type?: string; identifier?: string }> } }> };
+  const data = await response.json() as { items?: Array<{ volumeInfo?: { title?: string; authors?: string[]; description?: string; imageLinks?: { thumbnail?: string; smallThumbnail?: string }; publisher?: string; publishedDate?: string; pageCount?: number; categories?: string[]; industryIdentifiers?: Array<{ type?: string; identifier?: string }> } }> };
   const targetTitle = normalizeBookText(book.title);
   const targetAuthor = normalizeBookText(book.author);
   const match = data.items?.find(({ volumeInfo }) => {
@@ -268,13 +268,12 @@ async function findGoogleBooksDetails(book: CarlinRecommendation['book'], signal
     publishedDate: match.publishedDate,
     pageCount: match.pageCount,
     categories: match.categories ?? [],
-    infoLink: match.infoLink?.replace(/^http:/, 'https:'),
     loaded: true,
   };
 }
 
 async function findBookDetails(book: CarlinRecommendation['book'], signal: AbortSignal): Promise<BookDetails> {
-  type Edition = { title?: string; authors?: Array<{ name?: string }>; cover?: { medium?: string; large?: string }; info_url?: string; publish_date?: string; publishers?: Array<{ name?: string }>; number_of_pages?: number; subjects?: Array<{ name?: string }>; notes?: string | { value?: string } };
+  type Edition = { title?: string; authors?: Array<{ name?: string }>; cover?: { medium?: string; large?: string }; publish_date?: string; publishers?: Array<{ name?: string }>; number_of_pages?: number; subjects?: Array<{ name?: string }>; notes?: string | { value?: string } };
   let info: Edition | undefined;
   let google: BookDetails | undefined;
   try { google = await findGoogleBooksDetails(book, signal); } catch { /* Open Library sirve de respaldo. */ }
@@ -295,7 +294,6 @@ async function findBookDetails(book: CarlinRecommendation['book'], signal: Abort
       if (match) info = {
         title: match.title, authors: (match.author_name ?? []).map((name) => ({ name })),
         cover: match.cover_i ? { large: `https://covers.openlibrary.org/b/id/${match.cover_i}-L.jpg?default=false` } : undefined,
-        info_url: match.key ? `https://openlibrary.org${match.key}` : undefined,
         publish_date: match.first_publish_year ? String(match.first_publish_year) : undefined,
         number_of_pages: match.number_of_pages_median,
         notes: match.first_sentence?.join(' '),
@@ -313,7 +311,6 @@ async function findBookDetails(book: CarlinRecommendation['book'], signal: Abort
     publishedDate: google?.publishedDate ?? info?.publish_date,
     pageCount: google?.pageCount ?? info?.number_of_pages,
     categories: google?.categories ?? info?.subjects?.map((subject) => subject.name).filter((name): name is string => Boolean(name)) ?? [],
-    infoLink: google?.infoLink ?? info?.info_url?.replace(/^http:/, 'https:') ?? `https://openlibrary.org/search?q=${encodeURIComponent(`${book.title} ${book.author}`)}`,
     loaded: true,
   };
 }
@@ -397,6 +394,7 @@ function Results({ recommendations, onRestart, onBack }: {
           <p className="carlin-result-kicker">FICHA DEL LIBRO · CARLIN LA REINA</p>
           <h2 id="carlin-detail-title">{selectedBook.title}</h2>
           {selectedBook.author && <p className="carlin-result-author">{selectedBook.author}</p>}
+          {selectedBook.price !== null && <p className="carlin-detail-price">{formatCarlinPrice(selectedBook.price)}</p>}
           <p className="carlin-detail-description">{details[selectedBook.id]?.description || (details[selectedBook.id]?.loaded ? fallbackBookDescription(selectedBook) : 'Buscando la sinopsis y los datos editoriales de esta edición…')}</p>
           <p className="carlin-detail-reason">{bookRecommendationReason(selectedBook, recommendations.find(({ book }) => book.id === selectedBook.id)?.explanation ?? '')}</p>
           {selectedBook.themes.length > 0 && <p className="carlin-detail-themes"><strong>Temas de la ficha:</strong> {selectedBook.themes.join(' · ')}</p>}
@@ -404,9 +402,7 @@ function Results({ recommendations, onRestart, onBack }: {
             {details[selectedBook.id]?.publisher && <div><dt>Editorial</dt><dd>{details[selectedBook.id].publisher}</dd></div>}
             {details[selectedBook.id]?.publishedDate && <div><dt>Publicación</dt><dd>{details[selectedBook.id].publishedDate}</dd></div>}
             {details[selectedBook.id]?.pageCount && <div><dt>Páginas</dt><dd>{details[selectedBook.id].pageCount}</dd></div>}
-            {selectedBook.price !== null && <div><dt>Precio</dt><dd>{formatCarlinPrice(selectedBook.price)}</dd></div>}
           </dl>
-          <a className="carlin-detail-link" href={details[selectedBook.id]?.infoLink ?? `https://openlibrary.org/search?q=${encodeURIComponent(selectedBook.title)}`} target="_blank" rel="noreferrer">Ficha de Open Library <ExternalLink size={15} /></a>
         </div>
       </dialog>
     </div>}

@@ -227,8 +227,6 @@
 .carlin-detail-facts div { min-width:85px; }
 .carlin-detail-facts dt { color:#998364; font-size:9px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; }
 .carlin-detail-facts dd { margin-top:5px; color:#263f34; font-size:12px; }
-.carlin-detail-link { display:inline-flex; align-items:center; gap:8px; margin-top:24px; color:#1e5142; font-size:12px; font-weight:700; }
-.carlin-detail-link:hover { color:#a1794d; }
 @media(max-width:560px) { .carlin-age-picker { padding:22px 18px; } .carlin-age-wheel strong { font-size:98px; } .carlin-detail-backdrop { padding:12px; } .carlin-detail-dialog { grid-template-columns:1fr; gap:20px; max-height:90vh; padding:48px 23px 25px; } .carlin-detail-cover { width:auto; max-width:45%; max-height:220px; justify-self:center; } .carlin-detail-copy h2 { margin-top:10px; font-size:42px; } .carlin-detail-description { margin-top:14px; font-size:13px; } }
 
 .carlin-result-card { position:relative; cursor:pointer; outline:none; }
@@ -260,4 +258,5 @@
 .carlin-result-card:hover .carlin-result-bottom svg { transform:translateX(4px); }
 .carlin-detail-description { max-height:34vh; overflow:auto; }
 .carlin-detail-reason { margin-top:15px; padding:13px 15px; border-left:2px solid #b88c55; background:#f1ede3; color:#4d6053; font-size:12px; line-height:1.65; }
+.carlin-detail-price { display:inline-flex; margin-top:16px; padding:8px 12px; border:1px solid #d8c9ad; color:#1d4035; font-family:'Cormorant Garamond',Georgia,serif; font-size:23px; font-weight:600; line-height:1; }
 @media(max-width:560px) { .carlin-result-art { aspect-ratio:1.15; } .carlin-fallback-cover { min-height:235px; padding:17px; } .carlin-fallback-cover h3 { font-size:34px; } .carlin-result-body { padding:19px 21px 21px; } .carlin-result-synopsis { -webkit-line-clamp:6; } }
