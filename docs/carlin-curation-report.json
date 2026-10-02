@@ -1,0 +1,43 @@
+{
+  "target": 500,
+  "available": 551,
+  "selected": 500,
+  "genres": {
+    "Ciencia ficción / distopía": 29,
+    "Clásicos": 10,
+    "Fantasía": 68,
+    "Cuentos y narrativa infantil": 60,
+    "Narrativa literaria": 24,
+    "Cómic / novela gráfica": 29,
+    "Aventura": 6,
+    "Thriller y misterio": 74,
+    "Romance": 80,
+    "Novela histórica": 40,
+    "Biografía / memorias": 4,
+    "Terror": 13,
+    "Narrativa contemporánea": 40,
+    "Historia y sociedad": 4,
+    "Bienestar y crecimiento personal": 9,
+    "Teatro": 4,
+    "Poesía": 3,
+    "Filosofía": 1,
+    "Divulgación científica": 1,
+    "Cocina": 1
+  },
+  "audiences": {
+    "Juvenil/Young Adult": 36,
+    "Infantil/Juvenil 9-14": 53,
+    "Adulto/General": 306,
+    "Infantil 6-8": 31,
+    "Infantil 3-12": 53,
+    "Infantil 0-5": 18,
+    "Juvenil 13-17": 3
+  },
+  "authors": 193,
+  "covers": 500,
+  "descriptions": 500,
+  "withPages": 500,
+  "excludedSchoolMaterials": true,
+  "source": "stock local + fichas bibliográficas por ISBN",
+  "salesRanking": false
+}

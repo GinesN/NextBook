@@ -1,13 +1,13 @@
 'use client';
 /* eslint-disable next/no-img-element -- GitHub Pages publica esta app como sitio Vite estático. */
 
-import { useEffect, useState, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { ArrowLeft, ArrowRight, BookOpen, Check, Gift, RefreshCw, UserRound, X } from 'lucide-react';
 
 import {
   formatCarlinPrice, initialCarlinProfile,
   type CarlinProfile, type CarlinQuestion, type CarlinRecommendation,
-  type CarlinResponse, type PublicCatalogOption,
+  type CarlinResponse, type CarlinSelectionContext, type PublicCatalogOption,
 } from '@/supabase/functions/_shared/carlin';
 
 const siteBasePath = import.meta.env.BASE_URL;
@@ -31,12 +31,21 @@ function keepQuestionVisible() {
   keepElementVisible('question-title');
 }
 
-async function fetchNext(profile: CarlinProfile): Promise<CarlinResponse> {
+const recentBooksStorageKey = 'nextbook:carlin:recent-books:v1';
+const newSelectionSeed = () => crypto.randomUUID();
+function readRecentBooks(): string[] {
+  try {
+    const ids: unknown = JSON.parse(localStorage.getItem(recentBooksStorageKey) ?? '[]');
+    return Array.isArray(ids) ? ids.filter((id): id is string => typeof id === 'string').slice(0, 120) : [];
+  } catch { return []; }
+}
+
+async function fetchNext(profile: CarlinProfile, selection: CarlinSelectionContext): Promise<CarlinResponse> {
   const response = await fetch(apiUrl, {
     method: 'POST', headers: apiUrl.includes('127.0.0.1')
       ? { 'Content-Type': 'application/json' }
       : { 'Content-Type': 'application/json', Authorization: `Bearer ${publicApiKey}`, apikey: publicApiKey },
-    body: JSON.stringify({ profile }),
+    body: JSON.stringify({ profile, selection }),
   });
   const data = await response.json().catch(() => null) as { error?: string; kind?: string } | null;
   if (!response.ok) throw new Error(data?.error || 'No hemos podido conectar con la librería.');
@@ -52,8 +61,36 @@ export default function CarlinApp() {
   const [recommendations, setRecommendations] = useState<CarlinRecommendation[] | null>(null);
   const [pending, setPending] = useState(false);
   const [error, setError] = useState('');
+  const [alternativesAvailable, setAlternativesAvailable] = useState(true);
+  const recentBooks = useRef<string[] | null>(null);
+  const selectionSeed = useRef<string | null>(null);
+  if (recentBooks.current === null) recentBooks.current = readRecentBooks();
+  if (selectionSeed.current === null) selectionSeed.current = newSelectionSeed();
   const currentValue = profile[question];
   const canContinue = currentValue !== null && currentValue !== '';
+
+  const showSelection = (response: Extract<CarlinResponse, { kind: 'results' }>) => {
+    const recent = [...new Set([...response.recommendations.map(({ book }) => book.id), ...(recentBooks.current ?? [])])].slice(0, 120);
+    recentBooks.current = recent;
+    try { localStorage.setItem(recentBooksStorageKey, JSON.stringify(recent)); } catch { /* Sigue funcionando con memoria de esta visita. */ }
+    setRecommendations(response.recommendations);
+    setAlternativesAvailable(response.alternativesAvailable ?? true);
+    keepElementVisible('results-title', 'start');
+  };
+
+  const moreRecommendations = async () => {
+    if (pending) return;
+    setPending(true);
+    setError('');
+    selectionSeed.current = newSelectionSeed();
+    try {
+      const response = await fetchNext(profile, { seed: selectionSeed.current, seenIds: recentBooks.current ?? [] });
+      if (response.kind !== 'results') throw new Error('Necesitamos ajustar tus respuestas antes de buscar otra selección.');
+      showSelection(response);
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : 'No hemos podido buscar otra selección. Inténtalo de nuevo.');
+    } finally { setPending(false); }
+  };
 
   const choose = (value: string | number) => {
     setError('');
@@ -82,15 +119,14 @@ export default function CarlinApp() {
     }
     setPending(true);
     try {
-      const response = await fetchNext(nextProfile);
+      const response = await fetchNext(nextProfile, { seed: selectionSeed.current ?? undefined, seenIds: recentBooks.current ?? [] });
       setHistory((current) => [...current, entry]);
       if (response.kind === 'question') {
         setQuestion(response.question);
         setOptions(response.options);
         keepQuestionVisible();
       } else {
-        setRecommendations(response.recommendations);
-        keepElementVisible('results-title', 'start');
+        showSelection(response);
       }
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : 'No hemos podido conectar. Inténtalo de nuevo.');
@@ -114,6 +150,7 @@ export default function CarlinApp() {
   };
 
   const restart = () => {
+    selectionSeed.current = newSelectionSeed();
     setProfile(initialCarlinProfile);
     setQuestion('recipient');
     setOptions(recipientOptions);
@@ -132,14 +169,14 @@ export default function CarlinApp() {
       <span className="carlin-edition">EDICIÓN LOCAL <span>01 / 01</span></span>
     </header>
 
-    {recommendations ? <Results recommendations={recommendations} onRestart={restart} onBack={back} /> : (
+    {recommendations ? <Results recommendations={recommendations} onRestart={restart} onBack={back} onMore={() => void moreRecommendations()} alternativesAvailable={alternativesAvailable} pending={pending} error={error} /> : (
       <div className="carlin-journey">
         <aside className="carlin-hero" style={{ backgroundImage: `linear-gradient(180deg,rgba(17,39,35,.25),rgba(10,31,27,.43) 34%,rgba(9,29,26,.92)),url('${siteBasePath}presentacion/hero-bookshop.png')` }}>
           <div className="carlin-hero-top"><span className="carlin-hero-orbit">✳</span><span>CARLIN LA REINA <span className="carlin-hero-separator">/</span> NEXTBOOK</span></div>
           <div className="carlin-hero-content">
             <p className="carlin-overline carlin-overline-light"><span className="carlin-overline-rule" /> UNA LIBRERÍA. INFINITAS HISTORIAS.</p>
             <h1>Hay un libro<br />que <em>te está</em><br />esperando.</h1>
-            <p className="carlin-hero-subtitle">Una selección hecha desde los estantes de Carlin La Reina, pensada alrededor de ti.</p>
+            <p className="carlin-hero-subtitle">500 libros seleccionados de los estantes de Carlin La Reina, para encontrar una lectura que encaje contigo.</p>
           </div>
           <div className="carlin-hero-bottom"><span>EL PLACER DE ENCONTRARLO</span><span className="carlin-hero-star">✦</span><span>SIN PERDERSE ENTRE MILES</span></div>
         </aside>
@@ -234,6 +271,13 @@ function Choice({ selected, disabled, onClick, index, question, label }: {
 
 type BookDetails = { title: string; authors: string[]; description?: string; cover?: string; publisher?: string; publishedDate?: string; pageCount?: number; categories?: string[]; loaded: boolean };
 
+function catalogBookDetails(book: CarlinRecommendation['book']): BookDetails {
+  return { title: book.title, authors: book.author ? [book.author] : [], description: book.description,
+    cover: book.coverUrl, publisher: book.publisher, publishedDate: book.publishedDate, pageCount: book.pageCount,
+    loaded: Boolean(book.publisher || book.description || book.coverUrl),
+  };
+}
+
 const cleanBookText = (text?: string) => text?.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim() || undefined;
 const normalizeBookText = (text: string) => text.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
 
@@ -273,6 +317,9 @@ async function findGoogleBooksDetails(book: CarlinRecommendation['book'], signal
 }
 
 async function findBookDetails(book: CarlinRecommendation['book'], signal: AbortSignal): Promise<BookDetails> {
+  // Las fichas comprobadas se sirven desde Supabase, sin repetir consultas externas.
+  const stored = catalogBookDetails(book);
+  if (stored.loaded) return stored;
   type Edition = { title?: string; authors?: Array<{ name?: string }>; cover?: { medium?: string; large?: string }; publish_date?: string; publishers?: Array<{ name?: string }>; number_of_pages?: number; subjects?: Array<{ name?: string }>; notes?: string | { value?: string } };
   let info: Edition | undefined;
   let google: BookDetails | undefined;
@@ -327,8 +374,8 @@ function bookRecommendationReason(book: CarlinRecommendation['book'], explanatio
   return 'Elegido a partir de tus respuestas y de los libros disponibles en la librería.';
 }
 
-function Results({ recommendations, onRestart, onBack }: {
-  recommendations: CarlinRecommendation[]; onRestart: () => void; onBack: () => void;
+function Results({ recommendations, onRestart, onBack, onMore, alternativesAvailable, pending, error }: {
+  recommendations: CarlinRecommendation[]; onRestart: () => void; onBack: () => void; onMore: () => void; alternativesAvailable: boolean; pending: boolean; error: string;
 }) {
   const [details, setDetails] = useState<Record<string, BookDetails>>({});
   const [selectedBook, setSelectedBook] = useState<CarlinRecommendation['book'] | null>(null);
@@ -339,7 +386,9 @@ function Results({ recommendations, onRestart, onBack }: {
       try {
         const found = await findBookDetails(book, controller.signal);
         if (!controller.signal.aborted) setDetails((current) => ({ ...current, [book.id]: found }));
-      } catch { /* Las fichas siguen funcionando aunque Google Books no responda. */ }
+      } catch {
+        if (!controller.signal.aborted) setDetails(current => ({ ...current, [book.id]: { ...catalogBookDetails(book), loaded: true } }));
+      }
     }));
     return () => controller.abort();
   }, [recommendations]);
@@ -361,11 +410,11 @@ function Results({ recommendations, onRestart, onBack }: {
 
     {recommendations.length > 0 ? <div className="carlin-results-grid">
       {recommendations.map(({ book, explanation }, index) => {
-        const info = details[book.id];
+        const info = details[book.id] ?? catalogBookDetails(book);
         return <article className={`carlin-result-card carlin-result-card-${index + 1}`} key={book.id}>
         <button type="button" className="carlin-result-card-trigger" aria-label={`Ver más información sobre ${book.title}`} aria-haspopup="dialog" onClick={() => setSelectedBook(book)}><span className="carlin-sr-only">Abrir información del libro</span></button>
         <div className={`carlin-result-art carlin-result-art-${index + 1}`}>
-          {info?.cover ? <img className="carlin-cover" src={info.cover} alt={`Portada de ${book.title}`} loading="lazy" /> : <div className="carlin-fallback-cover">
+          {info?.cover ? <img className="carlin-cover" src={info.cover} alt={`Portada de ${book.title}`} loading="lazy" onError={() => setDetails(current => ({ ...current, [book.id]: { ...info, cover: undefined } }))} /> : <div className="carlin-fallback-cover">
             <div className="carlin-fallback-brand"><BookOpen size={15} strokeWidth={1.5} /><span>CARLIN LA REINA</span><span>·</span><span>NB / 0{index + 1}</span></div>
             <span className="carlin-fallback-mark" aria-hidden="true">✳</span>
             <h3>{book.title}</h3>
@@ -385,7 +434,8 @@ function Results({ recommendations, onRestart, onBack }: {
       })}
     </div> : <div className="carlin-empty"><span>✳</span><h2>Esta vez no hemos dado con el libro.</h2><p>Prueba con un presupuesto más amplio o una sección diferente.</p><button type="button" onClick={onBack}>Cambiar mi presupuesto <ArrowRight size={16} /></button></div>}
 
-    <div className="carlin-results-actions"><p>La disponibilidad y el precio pueden cambiar. Confírmalos con la librería antes de comprar.</p><button type="button" onClick={onRestart}><RefreshCw size={16} /> Empezar de nuevo</button></div>
+    {error && <p className="carlin-error" role="alert">{error}</p>}
+    <div className="carlin-results-actions"><p>La disponibilidad y el precio pueden cambiar. Confírmalos con la librería antes de comprar.</p><div className="carlin-results-buttons">{alternativesAvailable && recommendations.length > 0 && <button type="button" onClick={onMore} disabled={pending}><RefreshCw size={16} className={pending ? 'carlin-spin' : ''} />{pending ? 'Buscando otras lecturas…' : 'Ver otras recomendaciones'}</button>}<button type="button" onClick={onRestart} disabled={pending}>Empezar de nuevo</button></div></div>
     {selectedBook && <div className="carlin-detail-backdrop" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) setSelectedBook(null); }}>
       <dialog open className="carlin-detail-dialog" aria-modal="true" aria-labelledby="carlin-detail-title">
         <button className="carlin-detail-close" type="button" aria-label="Cerrar ficha" onClick={() => setSelectedBook(null)}><X size={20} /></button>
@@ -399,6 +449,8 @@ function Results({ recommendations, onRestart, onBack }: {
           <p className="carlin-detail-reason">{bookRecommendationReason(selectedBook, recommendations.find(({ book }) => book.id === selectedBook.id)?.explanation ?? '')}</p>
           {selectedBook.themes.length > 0 && <p className="carlin-detail-themes"><strong>Temas de la ficha:</strong> {selectedBook.themes.join(' · ')}</p>}
           <dl className="carlin-detail-facts">
+            <div><dt>ISBN</dt><dd>{selectedBook.id}</dd></div>
+            {selectedBook.binding && <div><dt>Formato</dt><dd>{selectedBook.binding}</dd></div>}
             {details[selectedBook.id]?.publisher && <div><dt>Editorial</dt><dd>{details[selectedBook.id].publisher}</dd></div>}
             {details[selectedBook.id]?.publishedDate && <div><dt>Publicación</dt><dd>{details[selectedBook.id].publishedDate}</dd></div>}
             {details[selectedBook.id]?.pageCount && <div><dt>Páginas</dt><dd>{details[selectedBook.id].pageCount}</dd></div>}

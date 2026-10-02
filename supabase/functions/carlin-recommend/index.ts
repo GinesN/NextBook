@@ -1,5 +1,5 @@
 import { createClient } from 'npm:@supabase/supabase-js@2';
-import { nextCarlinResponse, parseCarlinProfile, type CarlinBook } from '../_shared/carlin.ts';
+import { applyCarlinEnrichment, nextCarlinResponse, parseCarlinProfile, parseCarlinSelectionContext, type CarlinBook } from '../_shared/carlin.ts';
 
 const bookstoreSlug = 'carlin-la-reina';
 const cacheDurationMs = 120_000;
@@ -15,7 +15,7 @@ function allowedOrigin(origin: string | null) {
   return null;
 }
 
-function corsHeaders(origin: string | null): HeadersInit {
+function corsHeaders(origin: string | null): Record<string, string> {
   return {
     'Access-Control-Allow-Origin': allowedOrigin(origin) ?? 'null',
     'Access-Control-Allow-Methods': 'POST, OPTIONS',
@@ -58,8 +58,19 @@ async function loadCatalog(): Promise<CarlinBook[]> {
     });
     if ((data ?? []).length < 1000) break;
   }
-  catalogCache = { books, expiresAt: Date.now() + cacheDurationMs };
-  return books;
+  const metadataRows: Array<{ book_id: string; metadata: Record<string, unknown> }> = [];
+  for (let from = 0; ; from += 1000) {
+    const { data, error } = await supabase.from('bookstore_curated').select('book_id,metadata')
+      .eq('bookstore_slug', bookstoreSlug).order('book_id').range(from, from + 999);
+    if (error) throw new Error(`Enrichment read failed: ${error.code}`);
+    metadataRows.push(...(data ?? []));
+    if ((data ?? []).length < 1000) break;
+  }
+  const curatedIds = new Set(metadataRows.filter(row => row.metadata.curated === true).map(row => row.book_id));
+  const enriched = applyCarlinEnrichment(books.filter(book => curatedIds.has(book.id)), metadataRows)
+    .filter(book => book.description && book.coverUrl && book.author && book.themes.length > 0);
+  catalogCache = { books: enriched, expiresAt: Date.now() + cacheDurationMs };
+  return enriched;
 }
 
 Deno.serve(async (request) => {
@@ -69,12 +80,12 @@ Deno.serve(async (request) => {
   if (request.method !== 'POST') return json({ error: 'Método no permitido.' }, 405, origin);
   try {
     const body = await request.text();
-    if (body.length > 2048) return json({ error: 'Solicitud demasiado grande.' }, 413, origin);
+    if (body.length > 8192) return json({ error: 'Solicitud demasiado grande.' }, 413, origin);
     const input = JSON.parse(body);
     const profile = parseCarlinProfile(input?.profile);
     const books = await loadCatalog();
     if (books.length === 0) return json({ error: 'El catálogo aún no está disponible.' }, 503, origin);
-    return json(nextCarlinResponse(books, profile), 200, origin);
+    return json(nextCarlinResponse(books, profile, parseCarlinSelectionContext(input?.selection)), 200, origin);
   } catch (error) {
     console.error('Carlin recommendation error', error instanceof Error ? error.message : 'unknown');
     return json({ error: 'No hemos podido consultar la librería. Inténtalo de nuevo.' }, 500, origin);

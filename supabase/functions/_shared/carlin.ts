@@ -14,6 +14,13 @@ export type CarlinBook = {
   price: number | null;
   stock: number;
   confidence: number;
+  description?: string;
+  publisher?: string;
+  coverUrl?: string;
+  pageCount?: number;
+  publishedDate?: string;
+  metadataSource?: string;
+  binding?: string;
 };
 
 export type CarlinQuestion = 'recipient' | 'age' | 'type' | 'subgenre' | 'theme' | 'pace' | 'difficulty' | 'budget';
@@ -28,12 +35,13 @@ export type CarlinProfile = {
   budget: number | 'any' | null;
 };
 export type CatalogOption = { value: string; label: string; count: number };
-export type PublicCarlinBook = Pick<CarlinBook, 'id' | 'title' | 'author' | 'subgenre' | 'themes' | 'price'>;
+export type PublicCarlinBook = Pick<CarlinBook, 'id' | 'title' | 'author' | 'subgenre' | 'themes' | 'price' | 'description' | 'publisher' | 'coverUrl' | 'pageCount' | 'publishedDate' | 'binding'>;
+export type CarlinSelectionContext = { seed?: string; seenIds?: string[] };
 export type CarlinRecommendation = { book: PublicCarlinBook; explanation: string };
 export type PublicCatalogOption = { value: string | number; label: string };
 export type CarlinResponse =
   | { kind: 'question'; question: CarlinQuestion; options: PublicCatalogOption[] }
-  | { kind: 'results'; recommendations: CarlinRecommendation[] };
+  | { kind: 'results'; recommendations: CarlinRecommendation[]; alternativesAvailable?: boolean };
 
 export const initialCarlinProfile: CarlinProfile = {
   recipient: null,
@@ -50,6 +58,28 @@ const normalize = (value: string) => value.normalize('NFD').replace(/[\u0300-\u0
 const readable = (value: string) => value.charAt(0).toUpperCase() + value.slice(1);
 const titleKey = (title: string) => normalize(title).replace(/\([^)]*\)/g, ' ').replace(/\b\d+\b/g, ' ').replace(/[^a-z]+/g, ' ').replace(/\s+/g, ' ').trim()
   || normalize(title).replace(/[^a-z0-9]+/g, ' ').trim();
+
+export function applyCarlinEnrichment(books: CarlinBook[], rows: Array<{ book_id: string; metadata: Record<string, unknown> }>) {
+  const byId = new Map(rows.map(row => [row.book_id, row.metadata]));
+  const text = (value: unknown, limit = 200) => typeof value === 'string' ? value.trim().slice(0, limit) : '';
+  return books.map(book => {
+    const metadata = byId.get(book.id);
+    if (!metadata) return book;
+    const specificThemes = Array.isArray(metadata.themes) ? metadata.themes.map(value => text(value, 60)).filter(Boolean) : [];
+    const curated = metadata.curated === true;
+    const themes = [...new Map([...specificThemes, ...(curated ? [] : book.themes)].map(theme => [normalize(theme), theme])).values()].slice(0, 16);
+    const pageCount = typeof metadata.page_count === 'number' && metadata.page_count > 0 ? Math.round(metadata.page_count) : undefined;
+    const cover = text(metadata.cover_url, 500);
+    return { ...book, themes,
+      author: curated ? text(metadata.author) || book.author : book.author || text(metadata.author), publisher: text(metadata.publisher),
+      description: metadata.description_language === 'es' ? text(metadata.description, 1600) : '',
+      pageCount, publishedDate: text(metadata.published_date, 80),
+      binding: text(metadata.binding, 120),
+      coverUrl: cover.startsWith('https://covers.openlibrary.org/b/') || cover.startsWith('https://static.cegal.es/imagenes/') ? cover : undefined,
+      metadataSource: text(metadata.source),
+    };
+  });
+}
 // Estas fichas figuran como adultas en el origen, aunque sus títulos parecen de series infantiles.
 const adultAudienceNeedsReview = new Set([
   '9788408321569', '9791387741372', '9791387695934', '9788408320289',
@@ -103,18 +133,18 @@ export function typeOptions(books: CarlinBook[], profile: CarlinProfile): Catalo
   const labels: Record<string, string> = profile.age !== null && profile.age >= 18
     ? { 'Ficción/creativo': 'Novelas e historias', 'No ficción': 'Ideas y vida real', Educativo: 'Aprender y practicar' }
     : { 'Ficción/creativo': 'Cuentos e historias', 'No ficción': 'Descubrir el mundo', Educativo: 'Aprender jugando' };
-  return withAny(optionsByCount(pool.map((book) => book.type), 3).map((option) => ({ ...option, label: labels[option.value] ?? option.label })), pool.length);
+  return withAny(optionsByCount(pool.map((book) => book.type), 3, 1).map((option) => ({ ...option, label: labels[option.value] ?? option.label })), pool.length);
 }
 
 export function subgenreOptions(books: CarlinBook[], profile: CarlinProfile): CatalogOption[] {
   const pool = inventoryFor(books, profile, 'type');
-  return withAny(optionsByCount(pool.map((book) => book.subgenre), 12), pool.length);
+  return withAny(optionsByCount(pool.map((book) => book.subgenre), 48, 1), pool.length);
 }
 
 export function themeOptions(books: CarlinBook[], profile: CarlinProfile): CatalogOption[] {
   const pool = inventoryFor(books, profile);
   const themes = pool.flatMap((book) => book.themes);
-  const usefulThemes = optionsByCount(themes, 36, 2).filter((option) => option.count < pool.length);
+  const usefulThemes = optionsByCount(themes, 48, 1).filter((option) => option.count < pool.length);
   return withAny(usefulThemes, pool.length);
 }
 
@@ -150,39 +180,95 @@ export function carlinQuestionSequence(books: CarlinBook[], profile: CarlinProfi
   return questions;
 }
 
-export function recommendCarlinBooks(books: CarlinBook[], profile: CarlinProfile): CarlinRecommendation[] {
+function selectionRandom(seed?: string) {
+  if (!seed) return Math.random;
+  let state = 2166136261;
+  for (const letter of seed) state = Math.imul(state ^ letter.charCodeAt(0), 16777619);
+  return () => {
+    state += 0x6d2b79f5;
+    let value = Math.imul(state ^ state >>> 15, state | 1);
+    value ^= value + Math.imul(value ^ value >>> 7, value | 61);
+    return ((value ^ value >>> 14) >>> 0) / 4294967296;
+  };
+}
+
+function matchingBooks(books: CarlinBook[], profile: CarlinProfile) {
+  return themedInventory(books, profile).filter(book => profile.budget === 'any' || (book.price ?? Infinity) <= (profile.budget ?? 0));
+}
+
+export function parseCarlinSelectionContext(value: unknown): CarlinSelectionContext {
+  const input = value && typeof value === 'object' ? value as Record<string, unknown> : {};
+  return {
+    seed: typeof input.seed === 'string' ? input.seed.slice(0, 80) : undefined,
+    seenIds: Array.isArray(input.seenIds) ? [...new Set(input.seenIds.filter((id): id is string => typeof id === 'string' && /^[a-zA-Z0-9_-]{1,40}$/.test(id)))].slice(0, 120) : [],
+  };
+}
+
+export function recommendCarlinBooks(books: CarlinBook[], profile: CarlinProfile, context: CarlinSelectionContext = {}): CarlinRecommendation[] {
   if (profile.age === null || !profile.type || !profile.subgenre || profile.budget === null) return [];
-  const budget = profile.budget;
+  const random = selectionRandom(context.seed);
+  const recentIds = context.seenIds ?? [];
+  const recentGroup = new Map<string, number>();
+  const recentTitle = new Map<string, number>();
+  for (const book of books) {
+    const index = recentIds.indexOf(book.id);
+    if (index < 0) continue;
+    recentGroup.set(book.group, Math.min(recentGroup.get(book.group) ?? Infinity, index));
+    recentTitle.set(titleKey(book.title), Math.min(recentTitle.get(titleKey(book.title)) ?? Infinity, index));
+  }
   const selectedTheme = !profile.theme || profile.theme === 'any' ? null : normalize(profile.theme);
-  const eligible = themedInventory(books, profile).filter((book) => budget === 'any' || (book.price ?? Infinity) <= budget);
+  const eligible = matchingBooks(books, profile);
   const ranked = eligible.map((book) => {
     const themeMatch = selectedTheme !== null && book.themes.some((theme) => normalize(theme) === selectedTheme);
     const paceMatch = profile.pace && profile.pace !== 'any' && book.pace === profile.pace;
     const difficultyMatch = profile.difficulty && profile.difficulty !== 'any' && book.difficulty === profile.difficulty;
-    const score = (themeMatch ? 24 : 0) + (paceMatch ? 12 : 0) + (difficultyMatch ? 12 : 0)
-      + (book.author ? 2 : 0) + book.confidence + Math.min(book.stock, 5);
+    const score = (paceMatch ? 12 : 0) + (difficultyMatch ? 12 : 0);
     const reasons: string[] = [];
     if (themeMatch) reasons.push(`conecta con ${profile.theme}`);
     if (paceMatch) reasons.push(`avanza con un ritmo ${book.pace.toLowerCase()}`);
     if (difficultyMatch) reasons.push(`tiene un nivel ${book.difficulty.toLowerCase()}`);
     if (reasons.length === 0) reasons.push('se ajusta a la edad y al tipo de lectura que buscas');
-    return { book, score, explanation: `Te puede encajar porque ${reasons.join(' y ')}.` };
-  }).sort((a, b) => b.score - a.score || b.book.stock - a.book.stock || a.book.title.localeCompare(b.book.title, 'es'));
+    return { book, score, recent: Math.min(recentGroup.get(book.group) ?? Infinity, recentTitle.get(titleKey(book.title)) ?? Infinity), explanation: `Te puede encajar porque ${reasons.join(' y ')}.` };
+  });
 
   const selected = new Set<string>();
   const selectedTitles: string[] = [];
   const recommendations: CarlinRecommendation[] = [];
-  for (const item of ranked) {
-    if (selected.has(item.book.group)) continue;
+  const selectedAuthors = new Set<string>();
+  const selectedGenres = new Set<string>();
+  while (recommendations.length < 3) {
+    let candidates = ranked.filter(item => {
+      const title = titleKey(item.book.title);
+      return !selected.has(item.book.group) && !selectedTitles.some(previous => previous === title
+        || (previous.length >= 20 && title.includes(previous)) || (title.length >= 20 && previous.includes(title)));
+    });
+    if (!candidates.length) break;
+    const fresh = candidates.filter(item => item.recent === Infinity);
+    if (fresh.length) candidates = fresh;
+    else {
+      // Al agotar títulos nuevos, recupera los vistos hace más tiempo.
+      const oldest = Math.max(...candidates.map(item => item.recent));
+      candidates = candidates.filter(item => item.recent >= Math.max(0, oldest - 12));
+      const notLastSet = candidates.filter(item => item.recent >= 3);
+      if (notLastSet.length) candidates = notLastSet;
+    }
+    const bestScore = Math.max(...candidates.map(item => item.score));
+    candidates = candidates.filter(item => item.score === bestScore);
+    const mixedAuthors = candidates.filter(item => !item.book.author || !selectedAuthors.has(normalize(item.book.author)));
+    if (mixedAuthors.length) candidates = mixedAuthors;
+    const mixedGenres = candidates.filter(item => !selectedGenres.has(item.book.subgenre));
+    if (profile.subgenre === 'any' && mixedGenres.length) candidates = mixedGenres;
+    // Muestreo ponderado: la calidad favorece un título, sin fijarlo siempre arriba.
+    const draws = candidates.map(item => ({ item, draw: -Math.log(Math.max(random(), Number.EPSILON)) / (1 + Math.max(0, Math.min(1, item.book.confidence))) }));
+    draws.sort((a, b) => a.draw - b.draw);
+    const item = draws[0].item;
     const normalizedTitle = titleKey(item.book.title);
-    if (selectedTitles.some((title) => title === normalizedTitle
-      || (title.length >= 20 && normalizedTitle.includes(title))
-      || (normalizedTitle.length >= 20 && title.includes(normalizedTitle)))) continue;
     selected.add(item.book.group);
     selectedTitles.push(normalizedTitle);
-    const { id, title, author, subgenre, themes, price } = item.book;
-    recommendations.push({ book: { id, title, author, subgenre, themes: themes.slice(0, 3), price }, explanation: item.explanation });
-    if (recommendations.length === 3) break;
+    if (item.book.author) selectedAuthors.add(normalize(item.book.author));
+    selectedGenres.add(item.book.subgenre);
+    const { id, title, author, subgenre, themes, price, description, publisher, coverUrl, pageCount, publishedDate, binding } = item.book;
+    recommendations.push({ book: { id, title, author, subgenre, themes: themes.slice(0, 6), price, description, publisher, coverUrl, pageCount, publishedDate, binding }, explanation: item.explanation });
   }
   return recommendations;
 }
@@ -205,7 +291,7 @@ export function parseCarlinProfile(value: unknown): CarlinProfile {
   };
 }
 
-export function nextCarlinResponse(books: CarlinBook[], profile: CarlinProfile): CarlinResponse {
+export function nextCarlinResponse(books: CarlinBook[], profile: CarlinProfile, context: CarlinSelectionContext = {}): CarlinResponse {
   const ask = (question: CarlinQuestion, options: PublicCatalogOption[]): CarlinResponse => ({
     kind: 'question', question, options: options.map(({ value, label }) => ({ value, label })),
   });
@@ -231,7 +317,7 @@ export function nextCarlinResponse(books: CarlinBook[], profile: CarlinProfile):
 
   const budgets = budgetOptions(books, profile);
   if (!selected(profile.budget, budgets)) return ask('budget', budgets);
-  return { kind: 'results', recommendations: recommendCarlinBooks(books, profile) };
+  return { kind: 'results', recommendations: recommendCarlinBooks(books, profile, context), alternativesAvailable: new Set(matchingBooks(books, profile).map(book => titleKey(book.title))).size > 3 };
 }
 
 export const formatCarlinPrice = (price: number) => new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(price);

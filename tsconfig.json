@@ -26,5 +26,5 @@
     ".next/dev/types/**/*.ts",
     "**/*.mts"
   ],
-  "exclude": ["node_modules", "supabase/functions/carlin-recommend"]
+  "exclude": ["node_modules", "work", "supabase/functions/carlin-recommend"]
 }
