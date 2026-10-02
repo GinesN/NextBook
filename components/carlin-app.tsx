@@ -272,13 +272,14 @@ function Choice({ selected, disabled, onClick, index, question, label }: {
 type BookDetails = { title: string; authors: string[]; description?: string; cover?: string; publisher?: string; publishedDate?: string; pageCount?: number; categories?: string[]; loaded: boolean };
 
 function catalogBookDetails(book: CarlinRecommendation['book']): BookDetails {
-  return { title: book.title, authors: book.author ? [book.author] : [], description: book.description,
+  return { title: book.title, authors: book.author ? [book.author] : [], description: cleanBookText(book.description),
     cover: book.coverUrl, publisher: book.publisher, publishedDate: book.publishedDate, pageCount: book.pageCount,
     loaded: Boolean(book.publisher || book.description || book.coverUrl),
   };
 }
 
-const cleanBookText = (text?: string) => text?.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim() || undefined;
+const cleanBookText = (text?: string) => text?.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim()
+  .replace(/^[^a-záéíóúüñ]{40,}(?=[A-ZÁÉÍÓÚÜÑ][a-záéíóúüñ])/, '').trim() || undefined;
 const normalizeBookText = (text: string) => text.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
 
 async function findGoogleBooksDetails(book: CarlinRecommendation['book'], signal: AbortSignal): Promise<BookDetails | undefined> {

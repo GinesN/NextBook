@@ -250,8 +250,8 @@
 .carlin-fallback-foot { display:flex; align-items:center; justify-content:space-between; margin-top:21px; padding-top:11px; border-top:1px solid #f4ead35c; color:#e6cf9f; font-size:8px; font-weight:700; letter-spacing:.14em; }
 .carlin-result-body { padding:19px 24px 21px; }
 .carlin-result-body h2 { margin-top:12px; }
-.carlin-result-synopsis { display:-webkit-box; flex:1; margin-top:16px; overflow:hidden; color:#506358; font-size:13px; line-height:1.7; -webkit-box-orient:vertical; -webkit-line-clamp:5; }
-.carlin-result-explanation { display:flex; flex-direction:column; gap:6px; flex:none; margin-top:14px; padding-top:12px; color:#737b70; font-size:11px; line-height:1.55; }
+.carlin-result-synopsis { display:-webkit-box; flex:none; max-height:8.5em; margin-top:16px; overflow:hidden; color:#506358; font-size:13px; line-height:1.7; -webkit-box-orient:vertical; -webkit-line-clamp:5; }
+.carlin-result-explanation { display:flex; flex-direction:column; gap:6px; flex:none; margin-top:auto; padding-top:14px; color:#737b70; font-size:11px; line-height:1.55; }
 .carlin-result-explanation span { color:#a47b4e; font-size:8px; font-weight:700; letter-spacing:.15em; }
 .carlin-result-bottom { align-items:center; margin-top:18px; padding-top:14px; border-top:1px solid #e5dfd3; color:#193d32; font-size:18px; font-weight:600; letter-spacing:0; }
 .carlin-result-bottom svg { flex:none; color:#a47b4e; transition:transform .2s; }
@@ -265,4 +265,4 @@
 .carlin-spin { animation:carlin-spin 1s linear infinite; }
 @keyframes carlin-spin { to { transform:rotate(360deg); } }
 @media(max-width:560px) { .carlin-results-buttons { flex-direction:column; } }
-@media(max-width:560px) { .carlin-result-art { aspect-ratio:1.15; } .carlin-fallback-cover { min-height:235px; padding:17px; } .carlin-fallback-cover h3 { font-size:34px; } .carlin-result-body { padding:19px 21px 21px; } .carlin-result-synopsis { -webkit-line-clamp:6; } }
+@media(max-width:560px) { .carlin-result-art { aspect-ratio:1.15; } .carlin-fallback-cover { min-height:235px; padding:17px; } .carlin-fallback-cover h3 { font-size:34px; } .carlin-result-body { padding:19px 21px 21px; } .carlin-result-synopsis { max-height:10.2em; -webkit-line-clamp:6; } }
