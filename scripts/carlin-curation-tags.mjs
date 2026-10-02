@@ -33,6 +33,8 @@ export function curatedClassification(book, source) {
   if (/crepusculo|luna nueva|eclipse|amanecer/.test(title) && /meyer/.test(author)) subgenre = 'Romance';
   if (/harry potter|hobbit|senor de los anillos/.test(title)) subgenre = 'Fantasía';
   if (/cronica de una muerte anunciada/.test(title)) subgenre = 'Narrativa literaria';
+  if (/matar a un ruisenor/.test(title) && /harper lee/.test(author)) subgenre = 'Clásicos';
+  if (/conspiracion|imperium|dictador/.test(title) && /robert harris/.test(author)) subgenre = 'Novela histórica';
   if (/casa de bernarda alba|hamlet|romeo y julieta|macbeth|sueno de (una )?noche de verano|entremeses/.test(title)) subgenre = 'Teatro';
   if (/marca del meridiano/.test(title)) subgenre = 'Thriller y misterio';
   if (/reina del sur/.test(title)) subgenre = 'Thriller y misterio';

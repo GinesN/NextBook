@@ -15,6 +15,8 @@ test('corrige obras conocidas sin confundir título y materias', () => {
   assert.equal(curatedClassification(book, { ...source, title: 'La casa de Bernarda Alba', categories: 'Biografías y estudios literarios' }).subgenre, 'Teatro');
   assert.equal(curatedClassification(book, { ...source, title: '1984 (edición definitiva)', categories: 'Ficción contemporánea' }).subgenre, 'Ciencia ficción / distopía');
   assert.equal(curatedClassification(book, { ...source, title: 'Harry Potter y el misterio del príncipe' }).subgenre, 'Fantasía');
+  assert.equal(curatedClassification(book, { ...source, title: 'Matar a un ruiseñor', author: 'Harper Lee' }).subgenre, 'Clásicos');
+  assert.equal(curatedClassification(book, { ...source, title: 'Conspiración', author: 'Robert Harris' }).subgenre, 'Novela histórica');
   assert.equal(curatedClassification(book, { ...source, title: 'La montaña parlante', author: 'Tea Stilton', categories: 'Ficción infantil y juvenil' }).audience, 'Infantil/Juvenil 9-14');
 });
 test('deduplica ediciones conservando números de la saga', () => {
