@@ -3,6 +3,7 @@
 
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { ArrowLeft, ArrowRight, BookOpen, Check, Gift, RefreshCw, UserRound, X } from 'lucide-react';
+import { LegalFooter } from '@/components/legal-footer';
 
 import {
   formatCarlinPrice, initialCarlinProfile,
@@ -33,12 +34,6 @@ function keepQuestionVisible() {
 
 const recentBooksStorageKey = 'nextbook:carlin:recent-books:v1';
 const newSelectionSeed = () => crypto.randomUUID();
-function readRecentBooks(): string[] {
-  try {
-    const ids: unknown = JSON.parse(localStorage.getItem(recentBooksStorageKey) ?? '[]');
-    return Array.isArray(ids) ? ids.filter((id): id is string => typeof id === 'string').slice(0, 120) : [];
-  } catch { return []; }
-}
 
 async function fetchNext(profile: CarlinProfile, selection: CarlinSelectionContext): Promise<CarlinResponse> {
   const response = await fetch(apiUrl, {
@@ -62,17 +57,19 @@ export default function CarlinApp() {
   const [pending, setPending] = useState(false);
   const [error, setError] = useState('');
   const [alternativesAvailable, setAlternativesAvailable] = useState(true);
-  const recentBooks = useRef<string[] | null>(null);
+  const recentBooks = useRef<string[]>([]);
   const selectionSeed = useRef<string | null>(null);
-  if (recentBooks.current === null) recentBooks.current = readRecentBooks();
   if (selectionSeed.current === null) selectionSeed.current = newSelectionSeed();
+  useEffect(() => {
+    // Retira únicamente el historial antiguo; la nueva selección vive en memoria.
+    try { localStorage.removeItem(recentBooksStorageKey); } catch { /* Almacenamiento bloqueado. */ }
+  }, []);
   const currentValue = profile[question];
   const canContinue = currentValue !== null && currentValue !== '';
 
   const showSelection = (response: Extract<CarlinResponse, { kind: 'results' }>) => {
     const recent = [...new Set([...response.recommendations.map(({ book }) => book.id), ...(recentBooks.current ?? [])])].slice(0, 120);
     recentBooks.current = recent;
-    try { localStorage.setItem(recentBooksStorageKey, JSON.stringify(recent)); } catch { /* Sigue funcionando con memoria de esta visita. */ }
     setRecommendations(response.recommendations);
     setAlternativesAvailable(response.alternativesAvailable ?? true);
     keepElementVisible('results-title', 'start');
@@ -206,6 +203,7 @@ export default function CarlinApp() {
         </section>
       </div>
     )}
+    <LegalFooter />
   </main>;
 }
 

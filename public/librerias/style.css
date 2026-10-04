@@ -28,3 +28,4 @@
 @media(max-width:900px){.access-layout{grid-template-columns:1fr;gap:45px}.login-card{max-width:560px}.dashboard-top{display:block}.text-button{margin-top:20px}}
 @media(max-width:900px){.qr-panel{grid-template-columns:1fr;gap:30px}.qr-preview{width:min(100%,320px);box-sizing:border-box}}
 @media(max-width:600px){.access-layout{padding-block:45px 70px}.login-card{padding:35px 25px;border-radius:70px 7px 7px 7px}.bookstore-card{grid-template-columns:1fr;padding:28px}.bookstore-mark{width:100px}.qr-panel{padding:28px}.qr-actions{align-items:flex-start;flex-direction:column;gap:8px}}
+footer .legal-links{display:flex;gap:22px;font-size:12px;color:var(--muted)}footer .legal-links a:hover{text-decoration:underline;text-underline-offset:4px}

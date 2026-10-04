@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Progress } from '@/components/ui/progress';
+import { LegalFooter } from '@/components/legal-footer';
 import {
   formatPrice,
   getInterestFollowUp,
@@ -132,6 +133,7 @@ export default function Home() {
           </section>
         </section>
       )}
+      <LegalFooter />
     </main>
   );
 }
