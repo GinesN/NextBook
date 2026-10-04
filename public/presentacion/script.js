@@ -12,7 +12,6 @@ function renderStep(index) {
     button.classList.toggle('active', active);
     button.setAttribute('aria-pressed', String(active));
   });
-  document.querySelector('#step-count').textContent = `0${index + 1} / 03`;
   if (index === 0) {
     panel.innerHTML = `<h3>¿Y si tu próximo libro<br>está aquí?</h3><p>Escanea y descubre la demo.</p><a class="qr-link" href="${demoUrl}"><img src="./qr-demo.png" width="128" height="128" alt="Código QR para abrir la demo de NextBook"></a><a class="text-link" style="align-self:center" href="${demoUrl}">O ábrela desde aquí ↗</a>`;
   } else if (index === 1) {
@@ -24,7 +23,7 @@ function renderStep(index) {
     }));
     document.querySelector('#show-example').addEventListener('click', () => renderStep(2));
   } else {
-    panel.innerHTML = `<h3 class="result-heading">Tres puertas a otra historia.</h3><p style="text-align:left">${examples[mood].label}. Selección ilustrativa.</p>${examples[mood].books.map(([title, author], index) => `<div class="recommendation"><span>0${index + 1}</span><div><strong>${title}</strong><small>${author}</small></div></div>`).join('')}<a class="text-link preview-demo-link" href="${demoUrl}">Obtener mis recomendaciones reales ↗</a>`;
+    panel.innerHTML = `<h3 class="result-heading">Tres puertas a otra historia.</h3><p style="text-align:left">${examples[mood].label}. Selección ilustrativa.</p>${examples[mood].books.map(([title, author]) => `<div class="recommendation"><div><strong>${title}</strong><small>${author}</small></div></div>`).join('')}<a class="text-link preview-demo-link" href="${demoUrl}">Obtener mis recomendaciones reales ↗</a>`;
   }
 }
 document.querySelectorAll('[data-step]').forEach(button => button.addEventListener('click', () => renderStep(Number(button.dataset.step))));
