@@ -23,6 +23,7 @@ Fecha: 4 de octubre de 2026. Alcance: landing, demo de 250 títulos, cuestionari
 - Consultas reales con la clave publicable rechazadas sobre catálogo, enriquecimiento, selección curada e instantáneas (401, permiso 42501).
 - RLS verificada en las cinco tablas. Prueba bajo el rol `authenticated`: la cuenta asignada lee su librería; otra identidad no lee ninguna asignación. Ninguna tiene permisos de lectura del inventario.
 - Registro de nuevas cuentas y usuarios anónimos desactivados en Supabase.
+- Security Advisor de Supabase: cero errores y un aviso por la detección de contraseñas filtradas desactivada. El ajuste indica que solo está disponible en Pro y planes superiores.
 - Peticiones reales al recomendador: 200 y tres libros para un perfil completo; 400 para JSON/perfil incorrectos; 413 para exceso de tamaño; 403 para un origen no permitido.
 - Revisión de archivos e historial Git con patrones de claves secretas de Supabase, tokens de GitHub y claves privadas: sin coincidencias. La clave publicable del cliente es pública por diseño y no concede privilegios de administración.
 - Navegación de la landing, demo completa, fichas, alternativas, vuelta a la landing y rechazo de credenciales inválidas comprobados en navegador. Carlin se completó en móvil: tres recomendaciones, tres portadas cargadas, diálogo modal real, foco contenido y restaurado, sin desbordamiento horizontal.
@@ -32,6 +33,8 @@ Fecha: 4 de octubre de 2026. Alcance: landing, demo de 250 títulos, cuestionari
 El QR, el cuestionario y las fichas recomendadas son públicos. Una persona puede recopilar las fichas que la API ofrece mediante sucesivas consultas; no se devuelven cantidades de stock, datos de cuentas, instantáneas ni el inventario completo. El área visual de acceso contiene enlaces públicos y un QR. Un futuro panel que modifique datos deberá aplicar la autorización en cada operación del servidor, además de comprobar la sesión en la interfaz.
 
 La API pública todavía no tiene un límite persistente de peticiones por IP o una protección contra tráfico distribuido. El límite de cuerpo, los plazos y la caché contienen el trabajo de una petición; no impiden un bot que envíe muchas peticiones válidas. Añadir ese control es recomendable antes de una difusión con mucho tráfico.
+
+La protección de Supabase contra contraseñas filtradas no está disponible en el plan actual. No se ha contratado un plan de pago. El registro público permanece cerrado; las cuentas autorizadas deben utilizar contraseñas únicas y fuertes. [Documentación de seguridad de contraseñas](https://supabase.com/docs/guides/auth/password-security#password-strength-and-leaked-password-protection).
 
 GitHub Pages no permite configurar aquí cabeceras HTTP propias como `frame-ancestors` o `Permissions-Policy`. La CSP por meta protege scripts, conexiones y objetos, pero no aporta protección contra enmarcado. Antes de incorporar operaciones privadas sensibles, conviene utilizar un alojamiento que permita esas cabeceras.
 
