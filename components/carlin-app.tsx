@@ -376,7 +376,6 @@ function Results({ recommendations, onRestart, onBack, onMore, alternativesAvail
 }) {
   const [details, setDetails] = useState<Record<string, BookDetails>>({});
   const [selectedBook, setSelectedBook] = useState<CarlinRecommendation['book'] | null>(null);
-  const selectedAffinity = recommendations.find(({ book }) => book.id === selectedBook?.id)?.affinity;
 
   useEffect(() => {
     const controller = new AbortController();
@@ -404,8 +403,6 @@ function Results({ recommendations, onRestart, onBack, onMore, alternativesAvail
       <h1 id="results-title">Las historias que<br /><em>podrían ser tuyas.</em></h1>
       <p>Elegidas de los libros de Carlin La Reina según tus respuestas. Quizá aquí empiece tu próxima gran lectura.</p>
       <div className="carlin-results-meta"><BookOpen size={18} strokeWidth={1.5} aria-hidden="true" /> CURADO POR NEXTBOOK PARA CARLIN LA REINA</div>
-      {recommendations.some(item => item.affinity) && <p className="carlin-affinity-note">La afinidad resume la coincidencia con tus preferencias concretas de género, temas, ritmo y nivel. Es orientativa; puedes ver los criterios en la ficha.</p>}
-      {recommendations.some(item => item.explanation.includes('Para completar tus opciones')) && <p className="carlin-affinity-note">Cuando hay pocas coincidencias, completamos la selección con alternativas de otros temas o géneros. Te explicamos qué cambia en cada libro.</p>}
       {recommendations.length > 0 && recommendations.length < 3 && <p className="carlin-affinity-note">Con la edad y el presupuesto indicados no hay tres títulos distintos disponibles. Puedes ampliar el presupuesto para explorar más opciones.</p>}
     </div>
 
@@ -424,7 +421,7 @@ function Results({ recommendations, onRestart, onBack, onMore, alternativesAvail
           </div>}
         </div>
         <div className="carlin-result-body">
-          <div className="carlin-result-labels"><p className="carlin-result-kicker">PARA TU MOMENTO LECTOR</p>{affinity && <span className="carlin-affinity">{affinity.percent}% de afinidad</span>}</div>
+          <div className="carlin-result-labels"><p className="carlin-result-kicker">PARA TU MOMENTO LECTOR</p>{affinity && <span className="carlin-affinity" aria-label={`${affinity.percent}% de afinidad`}>{affinity.percent}%</span>}</div>
           <h2>{book.title}</h2>
           {book.author && <p className="carlin-result-author">{book.author}</p>}
           <p className="carlin-result-synopsis">{info?.description || (info?.loaded ? fallbackBookDescription(book) : 'Buscando la sinopsis y los datos de esta edición…')}</p>
@@ -447,8 +444,6 @@ function Results({ recommendations, onRestart, onBack, onMore, alternativesAvail
           {selectedBook.author && <p className="carlin-result-author">{selectedBook.author}</p>}
           {selectedBook.price !== null && <p className="carlin-detail-price">{formatCarlinPrice(selectedBook.price)}</p>}
           <p className="carlin-detail-description">{details[selectedBook.id]?.description || (details[selectedBook.id]?.loaded ? fallbackBookDescription(selectedBook) : 'Buscando la sinopsis y los datos editoriales de esta edición…')}</p>
-          <p className="carlin-detail-reason">{bookRecommendationReason(selectedBook, recommendations.find(({ book }) => book.id === selectedBook.id)?.explanation ?? '')}</p>
-          {selectedAffinity && <div className="carlin-detail-affinity"><h3>{selectedAffinity.percent}% de afinidad con tus respuestas</h3><p>Coincidencia orientativa con las preferencias que has concretado. «Sorpréndeme» deja ese criterio abierto.</p><ul>{selectedAffinity.criteria.map(criterion => <li key={criterion.label}><span aria-hidden="true">{criterion.matched ? '✓' : '—'}</span><span>{criterion.label}<small>{criterion.matched ? 'Coincide con tu elección' : 'Esta selección ofrece una alternativa'}</small></span></li>)}</ul></div>}
           {selectedBook.themes.length > 0 && <p className="carlin-detail-themes"><strong>Temas de la ficha:</strong> {selectedBook.themes.join(' · ')}</p>}
           <dl className="carlin-detail-facts">
             <div><dt>ISBN</dt><dd>{selectedBook.id}</dd></div>
