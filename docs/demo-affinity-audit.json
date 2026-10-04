@@ -1,0 +1,78 @@
+{
+  "catalog": 250,
+  "uniqueDescriptions": 250,
+  "uniqueThemeCombinations": 250,
+  "genres": [
+    {
+      "genre": "Literary / Classic",
+      "primary": 96,
+      "includingSecondary": 120
+    },
+    {
+      "genre": "Adventure",
+      "primary": 12,
+      "includingSecondary": 16
+    },
+    {
+      "genre": "Fantasy",
+      "primary": 19,
+      "includingSecondary": 25
+    },
+    {
+      "genre": "Romance / Contemporary",
+      "primary": 13,
+      "includingSecondary": 34
+    },
+    {
+      "genre": "Mystery / Thriller",
+      "primary": 12,
+      "includingSecondary": 24
+    },
+    {
+      "genre": "Science fiction",
+      "primary": 13,
+      "includingSecondary": 17
+    },
+    {
+      "genre": "Memoir / Reportage",
+      "primary": 3,
+      "includingSecondary": 3
+    },
+    {
+      "genre": "Historical fiction",
+      "primary": 29,
+      "includingSecondary": 56
+    },
+    {
+      "genre": "Horror",
+      "primary": 3,
+      "includingSecondary": 6
+    },
+    {
+      "genre": "Young adult",
+      "primary": 10,
+      "includingSecondary": 13
+    },
+    {
+      "genre": "Contemporary fiction",
+      "primary": 37,
+      "includingSecondary": 71
+    },
+    {
+      "genre": "Essay / Philosophy",
+      "primary": 3,
+      "includingSecondary": 3
+    }
+  ],
+  "profiles": 5328,
+  "recommendations": 15768,
+  "profilesWithFewerThanThreeEligible": 72,
+  "distinctSelections": 1064,
+  "distinctRecommendedTitles": 212,
+  "affinity": {
+    "distinctValues": 71,
+    "min": 18,
+    "max": 95
+  },
+  "validation": "Synthetic profiles check behavior and constraints; they do not measure real reader satisfaction."
+}
