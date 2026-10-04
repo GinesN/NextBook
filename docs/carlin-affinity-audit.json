@@ -1,0 +1,183 @@
+{
+  "date": "2026-10-04",
+  "activeCuratedBooks": 500,
+  "genres": {
+    "Aventura": 6,
+    "Bienestar y crecimiento personal": 9,
+    "Biografía / memorias": 4,
+    "Ciencia ficción / distopía": 29,
+    "Clásicos": 11,
+    "Cocina": 1,
+    "Cuentos y narrativa infantil": 60,
+    "Cómic / novela gráfica": 29,
+    "Divulgación científica": 1,
+    "Fantasía": 68,
+    "Filosofía": 1,
+    "Historia y sociedad": 4,
+    "Narrativa contemporánea": 40,
+    "Narrativa literaria": 24,
+    "Novela histórica": 41,
+    "Poesía": 3,
+    "Romance": 80,
+    "Teatro": 4,
+    "Terror": 13,
+    "Thriller y misterio": 72
+  },
+  "audiences": {
+    "Adulto/General": 306,
+    "Infantil 0-5": 18,
+    "Infantil 3-12": 53,
+    "Infantil 6-8": 31,
+    "Infantil/Juvenil 9-14": 53,
+    "Juvenil 13-17": 3,
+    "Juvenil/Young Adult": 36
+  },
+  "pace": {
+    "Equilibrado": 370,
+    "Pausado": 39,
+    "Ágil": 91
+  },
+  "difficulty": {
+    "Alta": 35,
+    "Fácil": 288,
+    "Media": 104,
+    "Muy fácil": 73
+  },
+  "descriptions": 500,
+  "covers": 500,
+  "pages": 500,
+  "ageCoverage": [
+    {
+      "age": 0,
+      "eligible": 18,
+      "under20": 17
+    },
+    {
+      "age": 5,
+      "eligible": 64,
+      "under20": 62
+    },
+    {
+      "age": 8,
+      "eligible": 84,
+      "under20": 82
+    },
+    {
+      "age": 12,
+      "eligible": 106,
+      "under20": 103
+    },
+    {
+      "age": 16,
+      "eligible": 92,
+      "under20": 85
+    },
+    {
+      "age": 30,
+      "eligible": 306,
+      "under20": 263
+    },
+    {
+      "age": 80,
+      "eligible": 306,
+      "under20": 263
+    }
+  ],
+  "profiles": 904,
+  "fullSelections": 904,
+  "lowCoverageRecommendations": 34,
+  "changedSelections": 728,
+  "questionCount": {
+    "min": 7,
+    "max": 9
+  },
+  "model": {
+    "samples": 2712,
+    "distinctPercentages": 54,
+    "min": 38,
+    "max": 95,
+    "mean": 75.54,
+    "exact100": 0,
+    "exact50": 8,
+    "histogram": {
+      "38": 2,
+      "42": 1,
+      "43": 3,
+      "44": 6,
+      "45": 4,
+      "46": 4,
+      "47": 4,
+      "48": 2,
+      "49": 8,
+      "50": 8,
+      "51": 28,
+      "52": 4,
+      "53": 10,
+      "54": 26,
+      "55": 44,
+      "56": 14,
+      "57": 16,
+      "58": 80,
+      "59": 25,
+      "60": 35,
+      "61": 12,
+      "62": 60,
+      "63": 58,
+      "64": 87,
+      "65": 32,
+      "66": 39,
+      "67": 89,
+      "68": 156,
+      "69": 57,
+      "70": 63,
+      "71": 33,
+      "72": 62,
+      "73": 90,
+      "74": 75,
+      "75": 94,
+      "76": 164,
+      "77": 61,
+      "78": 37,
+      "79": 18,
+      "80": 112,
+      "81": 36,
+      "82": 18,
+      "83": 49,
+      "84": 57,
+      "85": 93,
+      "86": 44,
+      "87": 132,
+      "88": 132,
+      "89": 94,
+      "90": 26,
+      "91": 20,
+      "92": 25,
+      "93": 247,
+      "95": 16
+    }
+  },
+  "baseline": {
+    "samples": 2712,
+    "distinctPercentages": 12,
+    "min": 0,
+    "max": 100,
+    "mean": 73.72,
+    "exact100": 719,
+    "exact50": 225,
+    "histogram": {
+      "0": 9,
+      "22": 18,
+      "28": 1,
+      "36": 163,
+      "44": 126,
+      "50": 225,
+      "56": 232,
+      "64": 264,
+      "72": 331,
+      "78": 306,
+      "86": 318,
+      "100": 719
+    }
+  },
+  "validation": "Pruebas sintéticas de consistencia sobre el catálogo privado; no validación de satisfacción de lectores."
+}

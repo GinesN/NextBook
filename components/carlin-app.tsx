@@ -19,8 +19,8 @@ const recipientOptions: PublicCatalogOption[] = [
   { value: 'self', label: 'Para mí' }, { value: 'gift', label: 'Para regalar' },
 ];
 const progressByQuestion: Record<CarlinQuestion, number> = {
-  recipient: 8, age: 18, type: 30, subgenre: 42, theme: 55,
-  pace: 68, difficulty: 80, budget: 92,
+  recipient: 8, age: 18, type: 30, subgenre: 40, theme: 50,
+  pace: 62, difficulty: 74, length: 84, budget: 94,
 };
 type HistoryEntry = { question: CarlinQuestion; options: PublicCatalogOption[]; profile: CarlinProfile };
 
@@ -92,12 +92,13 @@ export default function CarlinApp() {
   const choose = (value: string | number) => {
     setError('');
     const updated = { ...profile, [question]: value } as CarlinProfile;
-    if (question === 'recipient') Object.assign(updated, { age: 30, type: null, subgenre: null, theme: null, pace: null, difficulty: null, budget: null });
-    if (question === 'age') Object.assign(updated, { type: null, subgenre: null, theme: null, pace: null, difficulty: null, budget: null });
-    if (question === 'type') Object.assign(updated, { subgenre: null, theme: null, pace: null, difficulty: null, budget: null });
-    if (question === 'subgenre') Object.assign(updated, { theme: null, pace: null, difficulty: null, budget: null });
-    if (question === 'theme') Object.assign(updated, { pace: null, difficulty: null, budget: null });
-    if (question === 'pace' || question === 'difficulty') updated.budget = null;
+    if (question === 'recipient') Object.assign(updated, { age: 30, type: null, subgenre: null, theme: null, pace: null, difficulty: null, length: null, budget: null });
+    if (question === 'age') Object.assign(updated, { type: null, subgenre: null, theme: null, pace: null, difficulty: null, length: null, budget: null });
+    if (question === 'type') Object.assign(updated, { subgenre: null, theme: null, pace: null, difficulty: null, length: null, budget: null });
+    if (question === 'subgenre') Object.assign(updated, { theme: null, pace: null, difficulty: null, length: null, budget: null });
+    if (question === 'theme') Object.assign(updated, { pace: null, difficulty: null, length: null, budget: null });
+    if (question === 'pace' || question === 'difficulty') Object.assign(updated, { length: null, budget: null });
+    if (question === 'length') updated.budget = null;
     setProfile(updated);
     if (question !== 'age') void advance(updated);
   };
@@ -178,7 +179,7 @@ export default function CarlinApp() {
         </aside>
 
         <section className="carlin-workspace" aria-labelledby="question-title" aria-busy={pending}>
-          <div className="carlin-workspace-head"><span>EL DESCUBRIMIENTO</span><span>{String(history.length + 1).padStart(2, '0')} <span className="carlin-step-total">/ 08</span></span></div>
+          <div className="carlin-workspace-head"><span>EL DESCUBRIMIENTO</span><span>{String(history.length + 1).padStart(2, '0')} <span className="carlin-step-total">/ 09</span></span></div>
           <div className="carlin-progress" aria-hidden="true"><span style={{ width: `${progressByQuestion[question]}%` }} /></div>
           <span className="sr-only">Progreso del cuestionario: {progressByQuestion[question]} %</span>
           <div className="carlin-question-content">
@@ -210,7 +211,7 @@ function kickerFor(question: CarlinQuestion) {
   const values: Record<CarlinQuestion, string> = {
     recipient: '01 — EMPEZAMOS POR TI', age: '02 — EL LECTOR', type: '03 — LA PRIMERA PISTA',
     subgenre: '04 — AFINAMOS', theme: '05 — LO QUE TE MUEVE',
-    pace: '06 — EL RITMO', difficulty: '06 — EL NIVEL', budget: '07 — EL ÚLTIMO DETALLE',
+    pace: '06 — EL RITMO', difficulty: '07 — EL NIVEL', length: '08 — A TU MEDIDA', budget: '09 — EL ÚLTIMO DETALLE',
   };
   return values[question];
 }
@@ -224,6 +225,7 @@ function titleFor(question: CarlinQuestion, gift: boolean) {
     theme: gift ? '¿Qué tema le haría ilusión?' : '¿Qué tema te llama?',
     pace: gift ? '¿Qué ritmo le gustaría?' : '¿Qué ritmo te apetece?',
     difficulty: gift ? '¿Qué nivel le vendría bien?' : '¿Qué nivel buscas?',
+    length: gift ? '¿Qué extensión suele disfrutar?' : '¿Qué extensión te apetece?',
     budget: '¿Qué presupuesto tienes?',
   };
   return values[question];
@@ -238,6 +240,7 @@ function descriptionFor(question: CarlinQuestion) {
     theme: 'Explora los temas presentes en los libros disponibles. Hay más opciones en la lista; también puedes dejarte sorprender.',
     pace: 'Hay lecturas que se saborean y otras que no te dejan parar.',
     difficulty: 'Buscaremos un nivel que resulte cómodo y estimulante.',
+    length: 'Puedes elegir una lectura breve o una historia en la que quedarte más tiempo.',
     budget: 'Ajustaremos las recomendaciones al precio que prefieras.',
   };
   return values[question];
