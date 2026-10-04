@@ -56,6 +56,7 @@ function PaginationLink({
       nativeButton={false}
       render={
         <a
+          aria-label={props['aria-label'] ?? (typeof props.children === 'string' || typeof props.children === 'number' ? `Page ${props.children}` : 'Page')}
           aria-current={isActive ? 'page' : undefined}
           data-slot="pagination-link"
           data-active={isActive}

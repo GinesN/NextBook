@@ -1,7 +1,6 @@
 import assert from 'node:assert/strict';
 import { readFileSync, writeFileSync } from 'node:fs';
 import { applyCarlinEnrichment, initialCarlinProfile, typeOptions, subgenreOptions, themeOptions, preferenceOptions, budgetOptions, carlinQuestionSequence, recommendCarlinBooks, carlinAffinity } from '../supabase/functions/_shared/carlin.ts';
-
 // El inventario completo sigue en work/; solo publica estadísticas agregadas.
 const entries = JSON.parse(readFileSync('work/curation/selected.json','utf8'));
 const books = applyCarlinEnrichment(entries.map(item=>item.book),entries.map(item=>({book_id:item.book.id,metadata:item.metadata})));
@@ -74,7 +73,7 @@ for (const age of [5,8,12,16,30]) {
   }
 }
 const summarize = (values,hist) => ({samples:values.length,distinctPercentages:hist.size,min:Math.min(...values),max:Math.max(...values),mean:Math.round(100*values.reduce((sum,value)=>sum+value,0)/values.length)/100,exact100:hist.get(100)??0,exact50:hist.get(50)??0,histogram:Object.fromEntries([...hist].sort((a,b)=>a[0]-b[0]))});
-const counts = field=>Object.fromEntries([...new Set(books.map(book=>book[field]))].sort().map(value=>[value,books.filter(book=>book[field]===value).length]));
+const counts = field=>Object.fromEntries([...new Set(books.map(book=>book[field]))].sort((a,b)=>String(a).localeCompare(String(b),'es')).map(value=>[value,books.filter(book=>book[field]===value).length]));
 const report = {date:'2026-10-04',activeCuratedBooks:books.length,genres:counts('subgenre'),audiences:counts('audience'),pace:counts('pace'),difficulty:counts('difficulty'),descriptions:books.filter(book=>book.description).length,covers:books.filter(book=>book.coverUrl).length,pages:books.filter(book=>book.pageCount).length,ageCoverage,profiles,fullSelections,lowCoverageRecommendations:lowCoverage,changedSelections:baseline?reordered:undefined,questionCount:{min:questionMinimum,max:questionMaximum},model:summarize(modelPercentages,histogram),baseline:baseline?summarize(baselinePercentages,oldHistogram):undefined,validation:'Pruebas sintéticas de consistencia sobre el catálogo privado; no validación de satisfacción de lectores.'};
 writeFileSync('docs/carlin-affinity-audit.json',JSON.stringify(report,null,2)+'\n');
 console.log(JSON.stringify({...report,genres:undefined,audiences:undefined,pace:undefined,difficulty:undefined,model:{...report.model,histogram:undefined},baseline:report.baseline?{...report.baseline,histogram:undefined}:undefined},null,2));

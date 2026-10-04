@@ -1,7 +1,7 @@
 /* eslint-disable next/no-img-element -- GitHub Pages usa Vite y no dispone del optimizador de imágenes de Next. */
 'use client';
 
-import { lazy, Suspense, useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { ArrowLeft, ArrowRight, BookOpen, Check, Gift, RefreshCw, UserRound } from 'lucide-react';
 
 import booksData from '@/app/data/books.json';
@@ -34,19 +34,11 @@ import {
 } from '@/lib/recommend';
 
 const books = booksData as Book[];
-const CarlinApp = lazy(() => import('@/components/carlin-app'));
-const subscribeToLocation = () => () => {};
-const getCurrentView = () => new URLSearchParams(window.location.search).get('libreria') === 'carlin-la-reina' ? 'carlin' : 'demo';
-const getServerView = () => 'loading';
 const difficultyLabels = ['Muy ligera', 'Accesible', 'Intermedia', 'Exigente', 'Muy exigente'];
 const accentClasses = ['bg-[#284a39]', 'bg-[#7e9373]', 'bg-[#b96546]'];
 const siteBasePath = import.meta.env.BASE_URL;
 
 export default function Home() {
-  const view = useSyncExternalStore(subscribeToLocation, getCurrentView, getServerView);
-  useEffect(() => {
-    document.title = view === 'carlin' ? 'Carlin La Reina · NextBook' : 'NextBook · Tu próxima lectura';
-  }, [view]);
   const [currentQuestion, setCurrentQuestion] = useState<QuestionId>('recipient');
   const [profile, setProfile] = useState<ReaderProfile>(createInitialProfile);
   const [showResults, setShowResults] = useState(false);
@@ -115,9 +107,6 @@ export default function Home() {
     setShowResults(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
-
-  if (view === 'loading') return <main className="grid min-h-screen place-items-center bg-background text-foreground" aria-busy="true">Preparando NextBook…</main>;
-  if (view === 'carlin') return <Suspense fallback={<main className="grid min-h-screen place-items-center bg-background text-foreground" aria-busy="true">Cargando el catálogo de Carlin La Reina…</main>}><CarlinApp /></Suspense>;
 
   return (
     <main className="min-h-screen overflow-hidden bg-background text-foreground">

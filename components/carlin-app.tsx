@@ -4,6 +4,7 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { ArrowLeft, ArrowRight, BookOpen, Check, Gift, RefreshCw, UserRound, X } from 'lucide-react';
 import { LegalFooter } from '@/components/legal-footer';
+import { fetchCarlinNext } from '@/lib/carlin-api';
 
 import {
   formatCarlinPrice, initialCarlinProfile,
@@ -36,16 +37,7 @@ const recentBooksStorageKey = 'nextbook:carlin:recent-books:v1';
 const newSelectionSeed = () => crypto.randomUUID();
 
 async function fetchNext(profile: CarlinProfile, selection: CarlinSelectionContext): Promise<CarlinResponse> {
-  const response = await fetch(apiUrl, {
-    method: 'POST', headers: apiUrl.includes('127.0.0.1')
-      ? { 'Content-Type': 'application/json' }
-      : { 'Content-Type': 'application/json', Authorization: `Bearer ${publicApiKey}`, apikey: publicApiKey },
-    body: JSON.stringify({ profile, selection }),
-  });
-  const data = await response.json().catch(() => null) as { error?: string; kind?: string } | null;
-  if (!response.ok) throw new Error(data?.error || 'No hemos podido conectar con la librería.');
-  if (data?.kind !== 'question' && data?.kind !== 'results') throw new Error('La librería ha devuelto una respuesta inesperada.');
-  return data as CarlinResponse;
+  return fetchCarlinNext(apiUrl, publicApiKey, profile, selection);
 }
 
 export default function CarlinApp() {
@@ -367,18 +359,12 @@ function fallbackBookDescription(book: CarlinRecommendation['book']) {
   return 'No encontramos una sinopsis editorial para esta edición. Abre la ficha para consultar los datos disponibles del libro.';
 }
 
-function bookRecommendationReason(book: CarlinRecommendation['book'], explanation: string) {
-  const cleaned = explanation.replace(/^Está en la sección «[^»]+» de Carlin La Reina(?: y )?/i, '').trim();
-  if (cleaned) return cleaned.charAt(0).toUpperCase() + cleaned.slice(1);
-  if (book.themes.length) return `Conecta con temas como ${book.themes.slice(0, 3).join(', ')}.`;
-  return 'Elegido a partir de tus respuestas y de los libros disponibles en la librería.';
-}
-
 function Results({ recommendations, onRestart, onBack, onMore, alternativesAvailable, pending, error }: {
   recommendations: CarlinRecommendation[]; onRestart: () => void; onBack: () => void; onMore: () => void; alternativesAvailable: boolean; pending: boolean; error: string;
 }) {
   const [details, setDetails] = useState<Record<string, BookDetails>>({});
   const [selectedBook, setSelectedBook] = useState<CarlinRecommendation['book'] | null>(null);
+  const dialogRef = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -395,9 +381,18 @@ function Results({ recommendations, onRestart, onBack, onMore, alternativesAvail
 
   useEffect(() => {
     if (!selectedBook) return;
-    const closeOnEscape = (event: KeyboardEvent) => { if (event.key === 'Escape') setSelectedBook(null); };
-    window.addEventListener('keydown', closeOnEscape);
-    return () => window.removeEventListener('keydown', closeOnEscape);
+    const opener = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    const dialog = dialogRef.current;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    dialog?.showModal();
+    const closeFromBackdrop = (event: MouseEvent) => {
+      if (event.target !== dialog || !dialog) return;
+      const bounds = dialog.getBoundingClientRect();
+      if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) setSelectedBook(null);
+    };
+    dialog?.addEventListener('click', closeFromBackdrop);
+    return () => { dialog?.removeEventListener('click', closeFromBackdrop); dialog?.close(); document.body.style.overflow = previousOverflow; opener?.focus(); };
   }, [selectedBook]);
 
   return <section className="carlin-results">
@@ -410,7 +405,7 @@ function Results({ recommendations, onRestart, onBack, onMore, alternativesAvail
     </div>
 
     {recommendations.length > 0 ? <div className="carlin-results-grid">
-      {recommendations.map(({ book, explanation, affinity }, index) => {
+      {recommendations.map(({ book, affinity }, index) => {
         const info = details[book.id] ?? catalogBookDetails(book);
         return <article className={`carlin-result-card carlin-result-card-${index + 1}`} key={book.id}>
         <button type="button" className="carlin-result-card-trigger" aria-label={`Ver más información sobre ${book.title}`} aria-haspopup="dialog" onClick={() => setSelectedBook(book)}><span className="carlin-sr-only">Abrir información del libro</span></button>
@@ -428,7 +423,6 @@ function Results({ recommendations, onRestart, onBack, onMore, alternativesAvail
           <h2>{book.title}</h2>
           {book.author && <p className="carlin-result-author">{book.author}</p>}
           <p className="carlin-result-synopsis">{info?.description || (info?.loaded ? fallbackBookDescription(book) : 'Buscando la sinopsis y los datos de esta edición…')}</p>
-          <p className="carlin-result-explanation"><span>POR QUÉ TE PUEDE ENCAJAR</span>{bookRecommendationReason(book, explanation)}</p>
           <div className="carlin-result-bottom"><span>{book.price === null ? 'Consultar en librería' : formatCarlinPrice(book.price)}</span><ArrowRight size={17} aria-hidden="true" /></div>
         </div>
       </article>;
@@ -437,8 +431,8 @@ function Results({ recommendations, onRestart, onBack, onMore, alternativesAvail
 
     {error && <p className="carlin-error" role="alert">{error}</p>}
     <div className="carlin-results-actions"><p>La disponibilidad y el precio pueden cambiar. Confírmalos con la librería antes de comprar.</p><div className="carlin-results-buttons">{alternativesAvailable && recommendations.length > 0 && <button type="button" onClick={onMore} disabled={pending}><RefreshCw size={16} className={pending ? 'carlin-spin' : ''} />{pending ? 'Buscando otras lecturas…' : 'Ver otras recomendaciones'}</button>}<button type="button" onClick={onRestart} disabled={pending}>Empezar de nuevo</button></div></div>
-    {selectedBook && <div className="carlin-detail-backdrop" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) setSelectedBook(null); }}>
-      <dialog open className="carlin-detail-dialog" aria-modal="true" aria-labelledby="carlin-detail-title">
+    {selectedBook && <div className="carlin-detail-backdrop">
+      <dialog ref={dialogRef} className="carlin-detail-dialog" aria-modal="true" aria-labelledby="carlin-detail-title" onCancel={() => setSelectedBook(null)}>
         <button className="carlin-detail-close" type="button" aria-label="Cerrar ficha" onClick={() => setSelectedBook(null)}><X size={20} /></button>
         {details[selectedBook.id]?.cover && <img className="carlin-detail-cover" src={details[selectedBook.id].cover} alt={`Portada de ${selectedBook.title}`} />}
         <div className="carlin-detail-copy">

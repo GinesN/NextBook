@@ -37,4 +37,5 @@ next-env.d.ts
 /.wrangler/
 /outputs/
 /work/
+/public/librerias/auth.js
 *.tsbuildinfo

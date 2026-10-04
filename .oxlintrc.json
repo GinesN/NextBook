@@ -29,7 +29,12 @@
     "build/**",
     "dist/**",
     "coverage/**",
-    "next-env.d.ts"
+    "next-env.d.ts",
+    "work/**",
+    "outputs/**",
+    "github-pages-dist/**",
+    "public/librerias/auth.js",
+    "supabase/functions/carlin-recommend/index.ts"
   ],
   "rules": {
     "no-array-constructor": "error",
@@ -52,5 +57,15 @@
     "typescript/no-require-imports": "error",
     "typescript/no-unnecessary-type-constraint": "error",
     "typescript/no-unsafe-function-type": "error"
-  }
+  },
+  "overrides": [
+    {
+      "files": [
+        "components/ui/*.tsx"
+      ],
+      "rules": {
+        "jsx-a11y/prefer-tag-over-role": "off"
+      }
+    }
+  ]
 }

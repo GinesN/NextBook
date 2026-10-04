@@ -95,11 +95,14 @@ function Carousel({
 
   React.useEffect(() => {
     if (!api) return;
+    // Synchronize with the external carousel API, not derived React state.
+    // eslint-disable-next-line react/react-compiler
     onSelect(api);
     api.on('reInit', onSelect);
     api.on('select', onSelect);
 
     return () => {
+      api?.off('reInit', onSelect);
       api?.off('select', onSelect);
     };
   }, [api, onSelect]);
