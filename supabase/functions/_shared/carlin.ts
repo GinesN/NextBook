@@ -214,8 +214,9 @@ function selectionRandom(seed?: string) {
   };
 }
 
-function matchingBooks(books: CarlinBook[], profile: CarlinProfile) {
-  return themedInventory(books, profile).filter(book => profile.budget === 'any' || (book.price ?? Infinity) <= (profile.budget ?? 0));
+function recommendationPool(books: CarlinBook[], profile: CarlinProfile) {
+  // Edad, disponibilidad y presupuesto nunca se amplían para completar la selección.
+  return inventoryFor(books, profile, 'age').filter(book => profile.budget === 'any' || (book.price ?? Infinity) <= (profile.budget ?? 0));
 }
 
 export function carlinAffinity(book: CarlinBook, profile: CarlinProfile): CarlinAffinity | undefined {
@@ -257,9 +258,15 @@ export function recommendCarlinBooks(books: CarlinBook[], profile: CarlinProfile
     recentTitle.set(titleKey(book.title), Math.min(recentTitle.get(titleKey(book.title)) ?? Infinity, index));
   }
   const selectedTheme = !profile.theme || profile.theme === 'any' ? null : normalize(profile.theme);
-  const eligible = matchingBooks(books, profile);
+  const eligible = recommendationPool(books, profile);
+  const requestedTypes = new Set(inventoryFor(books, profile, 'type').map(book => book.type));
   const ranked = eligible.map((book) => {
     const themeMatch = selectedTheme !== null && book.themes.some((theme) => normalize(theme) === selectedTheme);
+    const genreMatch = !profile.subgenre || profile.subgenre === 'any' || book.subgenre === profile.subgenre;
+    const pathMatch = profile.type === 'any' || matchesReadingPath(book, profile.type!);
+    // Primero completa con el mismo género; solo después amplía el camino de lectura.
+    const tier = genreMatch && pathMatch ? (selectedTheme === null || themeMatch ? 0 : 1)
+      : pathMatch ? 2 : requestedTypes.has(book.type) ? 3 : 4;
     const paceMatch = profile.pace && profile.pace !== 'any' && book.pace === profile.pace;
     const difficultyMatch = profile.difficulty && profile.difficulty !== 'any' && book.difficulty === profile.difficulty;
     const affinity = carlinAffinity(book, profile);
@@ -268,8 +275,10 @@ export function recommendCarlinBooks(books: CarlinBook[], profile: CarlinProfile
     if (themeMatch) reasons.push(`conecta con ${profile.theme}`);
     if (paceMatch) reasons.push(`avanza con un ritmo ${book.pace.toLowerCase()}`);
     if (difficultyMatch) reasons.push(`tiene un nivel ${book.difficulty.toLowerCase()}`);
-    if (reasons.length === 0) reasons.push('se ajusta a la edad y al tipo de lectura que buscas');
-    return { book, score, affinity, recent: Math.min(recentGroup.get(book.group) ?? Infinity, recentTitle.get(titleKey(book.title)) ?? Infinity), explanation: `Te puede encajar porque ${reasons.join(' y ')}.` };
+    if (reasons.length === 0) reasons.push(genreMatch && pathMatch ? 'se ajusta a la edad y al tipo de lectura que buscas' : 'es adecuado para la edad indicada y respeta tu presupuesto');
+    const alternative = tier === 1 ? ' Para completar tus opciones, explora otros temas dentro de tu elección de lectura.'
+      : tier > 1 ? ` Para completar tus opciones, amplía tu elección hacia ${book.subgenre.toLowerCase()}.` : '';
+    return { book, tier, score, affinity, recent: Math.min(recentGroup.get(book.group) ?? Infinity, recentTitle.get(titleKey(book.title)) ?? Infinity), explanation: `Te puede encajar porque ${reasons.join(' y ')}.${alternative}` };
   });
 
   const selected = new Set<string>();
@@ -284,6 +293,8 @@ export function recommendCarlinBooks(books: CarlinBook[], profile: CarlinProfile
         || (previous.length >= 20 && title.includes(previous)) || (title.length >= 20 && previous.includes(title)));
     });
     if (!candidates.length) break;
+    const closestTier = Math.min(...candidates.map(item => item.tier));
+    candidates = candidates.filter(item => item.tier === closestTier);
     const fresh = candidates.filter(item => item.recent === Infinity);
     if (fresh.length) candidates = fresh;
     else {
@@ -361,7 +372,7 @@ export function nextCarlinResponse(books: CarlinBook[], profile: CarlinProfile, 
 
   const budgets = budgetOptions(books, profile);
   if (!selected(profile.budget, budgets)) return ask('budget', budgets);
-  return { kind: 'results', recommendations: recommendCarlinBooks(books, profile, context), alternativesAvailable: new Set(matchingBooks(books, profile).map(book => titleKey(book.title))).size > 3 };
+  return { kind: 'results', recommendations: recommendCarlinBooks(books, profile, context), alternativesAvailable: new Set(recommendationPool(books, profile).map(book => titleKey(book.title))).size > 3 };
 }
 
 export const formatCarlinPrice = (price: number) => new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(price);

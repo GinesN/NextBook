@@ -91,20 +91,45 @@ test('los caminos de lectura se adaptan a edad y stock y filtran la selección',
   const chosen = { ...profile, type: 'reading:romance', subgenre: null };
   const response = nextCarlinResponse(catalog, chosen, { seed: 'romance' });
   assert.equal(response.kind, 'results');
-  assert.deepEqual(ids(response.recommendations), ['romance']);
+  assert.equal(response.recommendations.length, 3);
+  assert.equal(response.recommendations[0].book.id, 'romance');
+  assert.equal(response.recommendations[0].affinity.percent, 100);
+  assert.ok(response.recommendations.slice(1).every(item => item.affinity.percent < 100 && /amplía tu elección/.test(item.explanation)));
+  assert.equal(response.alternativesAvailable, true);
   assert.equal(chosen.subgenre, null); // Resolver un camino no muta las respuestas originales.
 });
 
 test('un camino con varios géneros permite afinarlos sin salir de ese camino', () => {
-  const fantasy = { ...books[0], id: 'fantasy', group: 'fantasy', subgenre: 'Fantasía' };
-  const scifi = { ...books[0], id: 'scifi', group: 'scifi', subgenre: 'Ciencia ficción / distopía' };
+  const fantasy = { ...books[0], id: 'fantasy', group: 'fantasy', title: 'La torre encantada', subgenre: 'Fantasía' };
+  const scifi = { ...books[0], id: 'scifi', group: 'scifi', title: 'Viaje a otro planeta', subgenre: 'Ciencia ficción / distopía' };
   const catalog = [...books, fantasy, scifi];
   const chosen = { ...profile, type: 'reading:imagination', subgenre: null };
   const question = nextCarlinResponse(catalog, chosen);
   assert.equal(question.question, 'subgenre');
   assert.deepEqual(new Set(question.options.map(option => option.value)), new Set(['any', 'Fantasía', 'Ciencia ficción / distopía']));
   const results = nextCarlinResponse(catalog, { ...chosen, subgenre: 'Fantasía' });
-  assert.deepEqual(ids(results.recommendations), ['fantasy']);
+  assert.equal(results.recommendations.length, 3);
+  assert.deepEqual(ids(results.recommendations).slice(0, 2), ['fantasy', 'scifi']);
+});
+
+test('completa tres opciones relajando el tema antes del género sin falsear la afinidad', () => {
+  const exact = { ...books[0], themes: ['secretos'] };
+  const alternatives = books.slice(1, 5);
+  const excluded = [
+    { ...exact, id: 'expensive', group: 'expensive', title: 'Demasiado caro', price: 21 },
+    { ...exact, id: 'sold-out', group: 'sold-out', title: 'Agotado', stock: 0 },
+    { ...exact, id: 'child', group: 'child', title: 'Para niños', audience: 'Infantil 0-5' },
+    { ...exact, id: 'unknown', group: 'unknown', title: 'Sin precio', price: null },
+    { ...exact, id: 'book-edition', title: `${exact.title} (otra edición)` },
+  ];
+  const chosen = { ...profile, theme: 'secretos', pace: 'Rápido', difficulty: 'Media' };
+  const selection = recommendCarlinBooks([exact, ...alternatives, ...excluded], chosen, { seed: 'fill', seenIds: [exact.id] });
+  assert.equal(selection.length, 3);
+  assert.ok(selection[0].book.title.startsWith(exact.title)); // Una novedad lejana no sustituye la mejor coincidencia.
+  assert.equal(selection[0].affinity.percent, 100);
+  assert.ok(selection.slice(1).every(item => item.affinity.percent === 64 && /otros temas/.test(item.explanation)));
+  assert.ok(ids(selection).every(id => id.startsWith('book-')));
+  assert.equal(new Set(selection.map(item => item.book.title)).size, 3);
 });
 
 test('la afinidad refleja las preferencias concretas y no inventa puntuaciones al sorprender', () => {

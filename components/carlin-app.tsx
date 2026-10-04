@@ -405,6 +405,8 @@ function Results({ recommendations, onRestart, onBack, onMore, alternativesAvail
       <p>Elegidas de los libros de Carlin La Reina según tus respuestas. Quizá aquí empiece tu próxima gran lectura.</p>
       <div className="carlin-results-meta"><BookOpen size={18} strokeWidth={1.5} aria-hidden="true" /> CURADO POR NEXTBOOK PARA CARLIN LA REINA</div>
       {recommendations.some(item => item.affinity) && <p className="carlin-affinity-note">La afinidad resume la coincidencia con tus preferencias concretas de género, temas, ritmo y nivel. Es orientativa; puedes ver los criterios en la ficha.</p>}
+      {recommendations.some(item => item.explanation.includes('Para completar tus opciones')) && <p className="carlin-affinity-note">Cuando hay pocas coincidencias, completamos la selección con alternativas de otros temas o géneros. Te explicamos qué cambia en cada libro.</p>}
+      {recommendations.length > 0 && recommendations.length < 3 && <p className="carlin-affinity-note">Con la edad y el presupuesto indicados no hay tres títulos distintos disponibles. Puedes ampliar el presupuesto para explorar más opciones.</p>}
     </div>
 
     {recommendations.length > 0 ? <div className="carlin-results-grid">
