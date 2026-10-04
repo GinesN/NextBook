@@ -382,6 +382,7 @@ function Results({ recommendations, eligibleCount, onRestart, onEdit, onAlternat
       <p className="mt-7 text-xs leading-5 text-muted-foreground">Catálogo de demostración: precios y disponibilidad simulados. Temas, ritmo, dificultad y edades son orientaciones editoriales.</p>
 
       <div className="mt-10 flex flex-wrap justify-end gap-3 border-t border-border pt-7">
+        <Button render={<a href={`${siteBasePath}presentacion/`} />} nativeButton={false} className="h-11 w-full rounded-full px-5 sm:mr-auto sm:w-auto"><ArrowLeft className="size-4" aria-hidden="true" /> Volver a la landing</Button>
         <Button variant="ghost" className="h-11 rounded-full px-5" onClick={onEdit}><ArrowLeft className="size-4" /> Revisar respuestas</Button>
         {onAlternatives && <Button variant="outline" className="h-11 rounded-full px-5" onClick={onAlternatives}><BookOpen className="size-4" /> Ver otra selección</Button>}
         <Button variant="outline" className="h-11 rounded-full px-5" onClick={onRestart}><RefreshCw className="size-4" /> Repetir cuestionario</Button>
