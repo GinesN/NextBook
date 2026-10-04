@@ -4,12 +4,28 @@ import { readFileSync } from 'node:fs';
 import {
   bookGenres, bookThemeLabels, createInitialProfile, getAvailableFocus, getAvailableGenres,
   getAvailableInterests, getEligibleBooks, getInterestFollowUp, getQuestionSequence,
-  interestOptions, recommendBooks, scoreBook, updateReaderProfile,
+  interestOptions, isQuestionAnswered, recommendBooks, scoreBook, updateReaderProfile,
 } from '../lib/recommend.ts';
 
 const books = JSON.parse(readFileSync(new URL('../app/data/books.json', import.meta.url), 'utf8'));
-const profile = (patch = {}) => ({ ...createInitialProfile(), budget: null, ...patch });
+const profile = (patch = {}) => ({ ...createInitialProfile(), recipient: 'self', age: 25, genre: 'any', mood: 'any', pace: null, difficulty: 3, budget: null, ...patch });
 const ids = items => items.map(item => item.book.book_id);
+
+test('every question starts unanswered, including optional preferences; a fresh restart is blank', () => {
+  const empty = createInitialProfile();
+  for (const question of ['recipient', 'age', 'genre', 'interests', 'focus', 'intent', 'mood', 'pace', 'difficulty', 'budget']) {
+    assert.equal(isQuestionAnswered(empty, question), false, question);
+  }
+  assert.equal(scoreBook(books[0], empty).match, null);
+  for (const question of ['pace', 'difficulty', 'budget']) {
+    assert.equal(isQuestionAnswered({ ...empty, [question]: null }, question), true, `${question}: explicitly open`);
+  }
+  assert.equal(isQuestionAnswered({ ...empty, age: 12 }, 'age'), false);
+  assert.equal(isQuestionAnswered({ ...empty, age: 25 }, 'age'), true);
+  assert.equal(isQuestionAnswered({ ...empty, budget: 22 }, 'budget'), true);
+  assert.equal(isQuestionAnswered({ ...empty, budget: undefined }, 'budget'), false);
+  assert.equal(isQuestionAnswered(createInitialProfile(), 'recipient'), false);
+});
 
 test('250 distinct books have individual Spanish descriptions and usable editorial metadata', () => {
   assert.equal(books.length, 250);
@@ -107,7 +123,7 @@ test('changing earlier answers clears dependent choices without erasing unrelate
   assert.equal(changedGenre.mood, 'emotional');
   assert.equal(changedGenre.pace, 2);
   const younger = updateReaderProfile(p, 'age', 13, books);
-  assert.equal(younger.genre, 'any');
+  assert.equal(younger.genre, '');
   assert.deepEqual(younger.interests, []);
   assert.equal(younger.focus, '');
 });

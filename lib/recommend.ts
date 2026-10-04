@@ -6,16 +6,16 @@ export type Book = {
   description_seed: string; keywords: string; catalog_status: string;
 };
 export type ReaderProfile = {
-  recipient: 'self' | 'gift'; age: number; interests: string[]; intent: string;
-  focus: string; genre: string; mood: string; pace: number | null;
-  difficulty: number | null; budget: number | null;
+  recipient: 'self' | 'gift' | ''; age: number | null; interests: string[]; intent: string;
+  focus: string; genre: string; mood: string; pace: number | null | undefined;
+  difficulty: number | null | undefined; budget: number | null | undefined;
 };
 export type Recommendation = { book: Book; score: number; match: number | null; matchedInterests: string[] };
 export type QuestionId = 'recipient' | 'age' | 'genre' | 'interests' | 'focus' | 'intent' | 'mood' | 'pace' | 'difficulty' | 'budget';
 type AdaptiveOption = { id: string; label: string; detail: string; tokens: string[] };
 type InterestFollowUp = { kicker: string; title: string; description: string; options: AdaptiveOption[] };
 export const createInitialProfile = (): ReaderProfile => ({
-  recipient: 'self', age: 25, interests: [], intent: '', focus: '', genre: 'any', mood: 'any', pace: null, difficulty: 3, budget: 22,
+  recipient: '', age: null, interests: [], intent: '', focus: '', genre: '', mood: '', pace: undefined, difficulty: undefined, budget: undefined,
 });
 export const interestOptions = [
   { id: 'relationships', label: 'Amor y relaciones', tokens: ['love', 'relationships', 'intimacy', 'desire'] },
@@ -143,12 +143,12 @@ export const bookGenres = (book: Book) => book.genres?.length ? book.genres : [b
 const overlap = (tokens: string[], tags: Set<string>) => tokens.filter(token => tags.has(token)).length;
 const hasInterest = (book: Book, interest: typeof interestOptions[number]) => overlap(interest.tokens, tagsOf(book)) > 0;
 export function getEligibleBooks(books: Book[], profile: ReaderProfile): Book[] {
-  return books.filter(book => book.demo_stock && Number.isFinite(book.age_min) && book.age_min <= profile.age
-    && Number.isFinite(book.demo_price_eur) && (profile.budget === null || book.demo_price_eur <= profile.budget));
+  return books.filter(book => book.demo_stock && Number.isFinite(book.age_min) && (profile.age === null || book.age_min <= profile.age)
+    && Number.isFinite(book.demo_price_eur) && (profile.budget == null || book.demo_price_eur <= profile.budget));
 }
 function questionPool(books: Book[], profile: ReaderProfile): Book[] {
   const agePool = getEligibleBooks(books, { ...profile, budget: null });
-  return profile.genre === 'any' ? agePool : agePool.filter(book => bookGenres(book).includes(profile.genre));
+  return !profile.genre || profile.genre === 'any' ? agePool : agePool.filter(book => bookGenres(book).includes(profile.genre));
 }
 export const getAvailableGenres = (books: Book[], profile: ReaderProfile) => genreOptions.filter(
   genre => genre.value === 'any' || getEligibleBooks(books, { ...profile, budget: null }).some(book => bookGenres(book).includes(genre.value)),
@@ -175,13 +175,28 @@ export function getQuestionSequence(books: Book[], profile: ReaderProfile): Ques
     ...(new Set(pool.map(book => book.pace_1_3).filter(Boolean)).size > 1 ? ['pace' as const] : []),
     ...(new Set(pool.map(book => book.difficulty_1_5)).size > 1 ? ['difficulty' as const] : []), 'budget'];
 }
+export function isQuestionAnswered(profile: ReaderProfile, question: QuestionId): boolean {
+  const integerBetween = (value: unknown, min: number, max: number) => typeof value === 'number' && Number.isInteger(value) && value >= min && value <= max;
+  switch (question) {
+    case 'recipient': return profile.recipient === 'self' || profile.recipient === 'gift';
+    case 'age': return integerBetween(profile.age, 13, 100);
+    case 'genre': return genreOptions.some(option => option.value === profile.genre);
+    case 'interests': return profile.interests.length > 0 && profile.interests.length <= 3;
+    case 'focus': return getInterestFollowUp(profile.interests).options.some(option => option.id === profile.focus);
+    case 'intent': return (profile.recipient === 'gift' ? giftIntentOptions : readerIntentOptions).some(option => option.id === profile.intent);
+    case 'mood': return moodOptions.some(option => option.value === profile.mood);
+    case 'pace': return profile.pace === null || integerBetween(profile.pace, 1, 3);
+    case 'difficulty': return profile.difficulty === null || integerBetween(profile.difficulty, 1, 5);
+    case 'budget': return profile.budget === null || typeof profile.budget === 'number' && Number.isFinite(profile.budget) && profile.budget >= 0;
+  }
+}
 export function updateReaderProfile<K extends keyof ReaderProfile>(profile: ReaderProfile, key: K, value: ReaderProfile[K], books: Book[]): ReaderProfile {
   const next = { ...profile, [key]: value };
   if (key === 'recipient' && value !== profile.recipient) next.intent = '';
   if (key === 'genre' && value !== profile.genre) { next.interests = []; next.focus = ''; }
   if (key === 'interests') next.focus = '';
   if (key === 'age') {
-    if (!getAvailableGenres(books, next).some(genre => genre.value === next.genre)) { next.genre = 'any'; next.focus = ''; }
+    if (!getAvailableGenres(books, next).some(genre => genre.value === next.genre)) { next.genre = ''; next.focus = ''; }
     next.interests = next.interests.filter(id => getAvailableInterests(books, next).some(interest => interest.id === id));
     if (!getAvailableFocus(books, next).options.some(option => option.id === next.focus)) next.focus = '';
   }
@@ -207,7 +222,7 @@ export function scoreBook(book: Book, profile: ReaderProfile): Recommendation {
     signal(28, similarities.reduce<number>((sum, value) => sum + value, 0) / interests.length);
   }
   if (focus?.tokens.length) signal(12, Math.min(1, overlap(focus.tokens, tags) / Math.min(2, focus.tokens.length)));
-  if (profile.genre !== 'any') {
+  if (profile.genre && profile.genre !== 'any') {
     const genres = bookGenres(book);
     const similarity = book.subgenre === profile.genre ? 1 : genres.includes(profile.genre) ? 0.85
       : relatedGenres.some(family => family.includes(profile.genre) && genres.some(genre => family.includes(genre))) ? 0.25 : 0;
@@ -215,8 +230,8 @@ export function scoreBook(book: Book, profile: ReaderProfile): Recommendation {
   }
   if (intent?.tokens.length) signal(8, Math.min(1, overlap(intent.tokens, tags) / 2));
   if (mood?.tokens.length) signal(12, overlap(mood.tokens, tags) > 0 ? 1 : 0);
-  if (profile.pace !== null && profile.pace >= 1 && profile.pace <= 3) signal(10, book.pace_1_3 ? Math.max(0, 1 - Math.abs(book.pace_1_3 - profile.pace) / 2) : 0.5);
-  if (profile.difficulty !== null && profile.difficulty >= 1 && profile.difficulty <= 5) {
+  if (typeof profile.pace === 'number' && profile.pace >= 1 && profile.pace <= 3) signal(10, book.pace_1_3 ? Math.max(0, 1 - Math.abs(book.pace_1_3 - profile.pace) / 2) : 0.5);
+  if (typeof profile.difficulty === 'number' && profile.difficulty >= 1 && profile.difficulty <= 5) {
     // A harder book costs more than a book that is easier than requested.
     const gap = book.difficulty_1_5 - profile.difficulty;
     signal(18, Math.max(0, 1 - Math.abs(gap) * (gap > 0 ? 0.4 : 0.2)));

@@ -14,7 +14,7 @@ Se contrastaron casos menos seguros con las fichas editoriales de [The Last Man]
 
 ## Preguntas
 
-Las respuestas de una opción avanzan con un clic. Edad, presupuesto, dificultad y elección de hasta tres temas conservan el botón para confirmar. La interfaz mantiene visible la pregunta y enfoca su título al avanzar, sin volver a la introducción.
+Las respuestas de una opción, incluida dificultad, avanzan con un clic. Edad, presupuesto y elección de hasta tres temas conservan el botón para confirmar. Todas las preguntas empiezan sin respuesta, incluidas las opciones de sorpresa o sin preferencia. Edad y presupuesto se introducen en campos vacíos; una preferencia todavía no contestada se distingue de una opción abierta elegida expresamente. La interfaz mantiene visible la pregunta y enfoca su título al avanzar, sin volver a la introducción.
 
 Edad determina qué géneros se pueden ofrecer; género determina los temas respaldados por ese catálogo. La pregunta de detalle combina todos los temas elegidos, sin depender del orden de selección. Se omite al elegir descubrir sin preferencias temáticas, y las preguntas de ritmo y dificultad se omiten si la franja de edad no contiene variación. Cambiar destinatario elimina una intención incompatible; cambiar género o edad revisa las preferencias dependientes. La vuelta atrás utiliza la secuencia real de preguntas.
 

@@ -22,6 +22,7 @@ import {
   getEligibleBooks,
   getQuestionSequence,
   giftIntentOptions,
+  isQuestionAnswered,
   moodOptions,
   paceOptions,
   readerIntentOptions,
@@ -58,10 +59,8 @@ export default function Home() {
   const totalSteps = questionSequence.length;
   const alternativeRecommendations = useMemo(() => showResults ? recommendBooks(books, profile, { seenIds }) : [], [profile, seenIds, showResults]);
   const canShowAlternatives = alternativeRecommendations.some(item => !recommendations.some(current => current.book.book_id === item.book.book_id));
-  const singleChoice = ['recipient', 'genre', 'intent', 'focus', 'mood', 'pace'].includes(currentQuestion);
-  const canContinue = (currentQuestion !== 'interests' || profile.interests.length > 0)
-    && (currentQuestion !== 'intent' || profile.intent.length > 0)
-    && (currentQuestion !== 'focus' || profile.focus.length > 0);
+  const singleChoice = ['recipient', 'genre', 'intent', 'focus', 'mood', 'pace', 'difficulty'].includes(currentQuestion);
+  const canContinue = isQuestionAnswered(profile, currentQuestion);
   const progress = Math.round(((step + 1) / totalSteps) * 100);
 
   useEffect(() => {
@@ -82,6 +81,7 @@ export default function Home() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
   const advance = (reader: ReaderProfile) => {
+    if (!isQuestionAnswered(reader, currentQuestion)) return;
     const sequence = getQuestionSequence(books, reader);
     const index = sequence.indexOf(currentQuestion);
     if (index < sequence.length - 1) setCurrentQuestion(sequence[index + 1]);
@@ -234,9 +234,8 @@ function Question({ questionId, profile, update, toggleInterest }: QuestionProps
   if (questionId === 'age') return (
     <QuestionFrame kicker="El lector" title={profile.recipient === 'gift' ? '¿Qué edad tiene quien lo recibirá?' : '¿Qué edad tienes?'} description="Esta demo incluye lecturas a partir de 13 años. La edad orienta la selección; no sustituye la valoración de una persona adulta.">
       <div className="rounded-xl border border-border bg-[#f9faf3] p-5 sm:p-6">
-        <div className="flex items-end justify-between gap-4"><span className="font-heading text-4xl font-semibold">{profile.age}</span><span className="text-sm font-medium text-primary">años</span></div>
-        <input className="range-control mt-6 w-full" aria-label="Edad del lector" type="range" min="13" max="100" step="1" value={profile.age} onChange={(event) => update('age', Number(event.target.value))} />
-        <div className="mt-3 flex justify-between text-xs text-muted-foreground"><span>13 años</span><span>100 años</span></div>
+        <label className="flex items-center gap-4"><input className="min-w-0 flex-1 bg-transparent font-heading text-4xl font-semibold outline-none placeholder:text-muted-foreground/50" aria-label="Edad del lector" type="number" inputMode="numeric" min="13" max="100" step="1" placeholder="Tu edad" value={profile.age ?? ''} onChange={(event) => update('age', event.target.value === '' ? null : Number(event.target.value))} /><span className="text-sm font-medium text-primary">años</span></label>
+        <p className="mt-4 text-xs text-muted-foreground">Indica una edad entre 13 y 100 años.</p>
       </div>
     </QuestionFrame>
   );
@@ -294,23 +293,19 @@ function Question({ questionId, profile, update, toggleInterest }: QuestionProps
 
   if (questionId === 'difficulty') return (
     <QuestionFrame kicker="El ritmo" title="¿Qué dificultad buscas?" description="Desde una lectura muy ligera hasta un libro que pida toda tu atención.">
-      <div className="rounded-xl border border-border bg-[#f9faf3] p-5 sm:p-6">
-        <div className="flex items-end justify-between gap-4"><span className="font-heading text-4xl font-semibold">{profile.difficulty ?? 'Libre'}</span><span className="text-sm font-medium text-primary">{profile.difficulty === null ? 'Sin preferencia' : difficultyLabels[profile.difficulty - 1]}</span></div>
-        <input className="range-control mt-6 w-full disabled:opacity-35" aria-label="Dificultad" type="range" min="1" max="5" step="1" disabled={profile.difficulty === null} value={profile.difficulty ?? 3} onChange={(event) => update('difficulty', Number(event.target.value))} />
-        <div className="mt-3 flex justify-between text-xs text-muted-foreground"><span>Ligera</span><span>Exigente</span></div>
+      <div className="grid gap-2 sm:grid-cols-2">
+        {difficultyLabels.map((label, index) => <Choice compact key={label} selected={profile.difficulty === index + 1} onClick={() => update('difficulty', index + 1)}>{label}</Choice>)}
+        <Choice compact selected={profile.difficulty === null} onClick={() => update('difficulty', null)}>No tengo preferencia</Choice>
       </div>
-      <button type="button" className="mt-4 text-sm font-medium text-primary underline-offset-4 hover:underline" onClick={() => update('difficulty', profile.difficulty === null ? 3 : null)}>{profile.difficulty === null ? 'Elegir una dificultad' : 'No tengo preferencia de dificultad'}</button>
     </QuestionFrame>
   );
 
   return (
     <QuestionFrame kicker="Último detalle" title="¿Cuál es el presupuesto?" description="Probamos el filtro con precios simulados. No son ofertas ni precios actuales de una librería.">
       <div className="rounded-xl border border-border bg-[#f9faf3] p-5 sm:p-6">
-        <div className="flex items-end justify-between gap-4"><span className="font-heading text-4xl font-semibold">{profile.budget === null ? 'Sin límite' : `${profile.budget} €`}</span><span className="text-sm text-muted-foreground">por libro</span></div>
-        <input className="range-control mt-6 w-full disabled:opacity-35" aria-label="Presupuesto máximo" type="range" min="12" max="30" step="1" disabled={profile.budget === null} value={profile.budget ?? 30} onChange={(event) => update('budget', Number(event.target.value))} />
-        <div className="mt-3 flex justify-between text-xs text-muted-foreground"><span>12 €</span><span>30 €</span></div>
+        {profile.budget === null ? <p className="font-heading text-4xl font-semibold">Sin límite</p> : <label className="flex items-center gap-4"><input className="min-w-0 flex-1 bg-transparent font-heading text-4xl font-semibold outline-none placeholder:text-muted-foreground/50" aria-label="Presupuesto máximo" type="number" inputMode="decimal" min="0" step="0.01" placeholder="Tu límite" value={profile.budget ?? ''} onChange={(event) => update('budget', event.target.value === '' ? undefined : Number(event.target.value))} /><span className="text-sm text-muted-foreground">€ por libro</span></label>}
       </div>
-      <button type="button" className="mt-4 text-sm font-medium text-primary underline-offset-4 hover:underline" onClick={() => update('budget', profile.budget === null ? 22 : null)}>{profile.budget === null ? 'Definir un límite' : 'No tengo límite de presupuesto'}</button>
+      <button type="button" className="mt-4 text-sm font-medium text-primary underline-offset-4 hover:underline" onClick={() => update('budget', profile.budget === null ? undefined : null)}>{profile.budget === null ? 'Definir un límite' : 'No tengo límite de presupuesto'}</button>
     </QuestionFrame>
   );
 }
