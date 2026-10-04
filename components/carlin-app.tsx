@@ -163,19 +163,18 @@ export default function CarlinApp() {
         <span className="carlin-logo-mark"><BookOpen size={18} strokeWidth={1.7} /></span><span>NextBook<span className="carlin-logo-dot">.</span></span>
       </a>
       <div className="carlin-header-center"><span className="carlin-header-line" /><span>Una experiencia de Carlin La Reina</span><span className="carlin-header-line" /></div>
-      <span className="carlin-edition">EDICIÓN LOCAL <span>01 / 01</span></span>
     </header>
 
     {recommendations ? <Results recommendations={recommendations} onRestart={restart} onBack={back} onMore={() => void moreRecommendations()} alternativesAvailable={alternativesAvailable} pending={pending} error={error} /> : (
       <div className="carlin-journey">
         <aside className="carlin-hero" style={{ backgroundImage: `linear-gradient(180deg,rgba(17,39,35,.25),rgba(10,31,27,.43) 34%,rgba(9,29,26,.92)),url('${siteBasePath}presentacion/hero-bookshop.png')` }}>
-          <div className="carlin-hero-top"><span className="carlin-hero-orbit">✳</span><span>CARLIN LA REINA <span className="carlin-hero-separator">/</span> NEXTBOOK</span></div>
+          <div className="carlin-hero-top"><span className="carlin-hero-orbit" aria-hidden="true"><BookOpen size={18} strokeWidth={1.5} /></span><span>CARLIN LA REINA <span className="carlin-hero-separator">/</span> NEXTBOOK</span></div>
           <div className="carlin-hero-content">
             <p className="carlin-overline carlin-overline-light"><span className="carlin-overline-rule" /> UNA LIBRERÍA. INFINITAS HISTORIAS.</p>
             <h1>Hay un libro<br />que <em>te está</em><br />esperando.</h1>
-            <p className="carlin-hero-subtitle">500 libros seleccionados de los estantes de Carlin La Reina, para encontrar una lectura que encaje contigo.</p>
+            <p className="carlin-hero-subtitle">Lecturas seleccionadas del catálogo de Carlin La Reina para encontrar una historia que encaje contigo.</p>
           </div>
-          <div className="carlin-hero-bottom"><span>EL PLACER DE ENCONTRARLO</span><span className="carlin-hero-star">✦</span><span>SIN PERDERSE ENTRE MILES</span></div>
+          <div className="carlin-hero-bottom"><span>EL PLACER DE ENCONTRARLO</span><span className="carlin-hero-book" aria-hidden="true"><BookOpen size={22} strokeWidth={1.5} /></span><span>SIN PERDERSE ENTRE MILES</span></div>
         </aside>
 
         <section className="carlin-workspace" aria-labelledby="question-title" aria-busy={pending}>
@@ -234,7 +233,7 @@ function descriptionFor(question: CarlinQuestion) {
   const values: Record<CarlinQuestion, string> = {
     recipient: 'Cada buena recomendación empieza con una persona. Cuéntanos a quién va dirigido este hallazgo.',
     age: 'Así podremos elegir libros adecuados para su momento lector.',
-    type: 'Nos guiarán los libros que la librería tiene disponibles para esta edad.',
+    type: 'Elige lo que más te atraiga entre las lecturas disponibles para esta edad. Después afinaremos la selección.',
     subgenre: 'Escoge el camino que más te tiente. También puedes dejarte sorprender.',
     theme: 'Explora los temas presentes en los libros disponibles. Hay más opciones en la lista; también puedes dejarte sorprender.',
     pace: 'Hay lecturas que se saborean y otras que no te dejan parar.',
@@ -260,7 +259,6 @@ function Choice({ selected, disabled, onClick, index, question, label }: {
 }) {
   const Icon = question === 'recipient' ? index === 0 ? UserRound : Gift : null;
   return <button type="button" className={`carlin-choice ${selected ? 'carlin-choice-selected' : ''}`} aria-pressed={selected} disabled={disabled} onClick={onClick}>
-    <span className="carlin-choice-index">{String(index + 1).padStart(2, '0')}</span>
     {Icon && <Icon size={20} strokeWidth={1.6} className="carlin-choice-icon" aria-hidden="true" />}
     <span className="carlin-choice-label">{label}</span>
     <span className="carlin-choice-indicator">{selected ? <Check size={15} strokeWidth={2.5} /> : <ArrowRight size={15} />}</span>
@@ -378,6 +376,7 @@ function Results({ recommendations, onRestart, onBack, onMore, alternativesAvail
 }) {
   const [details, setDetails] = useState<Record<string, BookDetails>>({});
   const [selectedBook, setSelectedBook] = useState<CarlinRecommendation['book'] | null>(null);
+  const selectedAffinity = recommendations.find(({ book }) => book.id === selectedBook?.id)?.affinity;
 
   useEffect(() => {
     const controller = new AbortController();
@@ -404,25 +403,26 @@ function Results({ recommendations, onRestart, onBack, onMore, alternativesAvail
       <p className="carlin-overline"><span className="carlin-overline-rule" /> TU SELECCIÓN PERSONAL</p>
       <h1 id="results-title">Las historias que<br /><em>podrían ser tuyas.</em></h1>
       <p>Elegidas de los libros de Carlin La Reina según tus respuestas. Quizá aquí empiece tu próxima gran lectura.</p>
-      <div className="carlin-results-meta"><span>✦</span> CURADO POR NEXTBOOK PARA CARLIN LA REINA</div>
+      <div className="carlin-results-meta"><BookOpen size={18} strokeWidth={1.5} aria-hidden="true" /> CURADO POR NEXTBOOK PARA CARLIN LA REINA</div>
+      {recommendations.some(item => item.affinity) && <p className="carlin-affinity-note">La afinidad resume la coincidencia con tus preferencias concretas de género, temas, ritmo y nivel. Es orientativa; puedes ver los criterios en la ficha.</p>}
     </div>
 
     {recommendations.length > 0 ? <div className="carlin-results-grid">
-      {recommendations.map(({ book, explanation }, index) => {
+      {recommendations.map(({ book, explanation, affinity }, index) => {
         const info = details[book.id] ?? catalogBookDetails(book);
         return <article className={`carlin-result-card carlin-result-card-${index + 1}`} key={book.id}>
         <button type="button" className="carlin-result-card-trigger" aria-label={`Ver más información sobre ${book.title}`} aria-haspopup="dialog" onClick={() => setSelectedBook(book)}><span className="carlin-sr-only">Abrir información del libro</span></button>
         <div className={`carlin-result-art carlin-result-art-${index + 1}`}>
           {info?.cover ? <img className="carlin-cover" src={info.cover} alt={`Portada de ${book.title}`} loading="lazy" onError={() => setDetails(current => ({ ...current, [book.id]: { ...info, cover: undefined } }))} /> : <div className="carlin-fallback-cover">
             <div className="carlin-fallback-brand"><BookOpen size={15} strokeWidth={1.5} /><span>CARLIN LA REINA</span><span>·</span><span>NB / 0{index + 1}</span></div>
-            <span className="carlin-fallback-mark" aria-hidden="true">✳</span>
+            <span className="carlin-fallback-mark" aria-hidden="true"><BookOpen size={56} strokeWidth={1.3} /></span>
             <h3>{book.title}</h3>
             <p>{book.author || 'Una lectura por descubrir'}</p>
             <div className="carlin-fallback-foot"><span>UNA HISTORIA PARA TI</span><ArrowRight size={17} /></div>
           </div>}
         </div>
         <div className="carlin-result-body">
-          <p className="carlin-result-kicker">RECOMENDACIÓN 0{index + 1}</p>
+          <div className="carlin-result-labels"><p className="carlin-result-kicker">PARA TU MOMENTO LECTOR</p>{affinity && <span className="carlin-affinity">{affinity.percent}% de afinidad</span>}</div>
           <h2>{book.title}</h2>
           {book.author && <p className="carlin-result-author">{book.author}</p>}
           <p className="carlin-result-synopsis">{info?.description || (info?.loaded ? fallbackBookDescription(book) : 'Buscando la sinopsis y los datos de esta edición…')}</p>
@@ -431,7 +431,7 @@ function Results({ recommendations, onRestart, onBack, onMore, alternativesAvail
         </div>
       </article>;
       })}
-    </div> : <div className="carlin-empty"><span>✳</span><h2>Esta vez no hemos dado con el libro.</h2><p>Prueba con un presupuesto más amplio o una sección diferente.</p><button type="button" onClick={onBack}>Cambiar mi presupuesto <ArrowRight size={16} /></button></div>}
+    </div> : <div className="carlin-empty"><BookOpen size={35} strokeWidth={1.5} aria-hidden="true" /><h2>Esta vez no hemos dado con el libro.</h2><p>Prueba con un presupuesto más amplio o una sección diferente.</p><button type="button" onClick={onBack}>Cambiar mi presupuesto <ArrowRight size={16} /></button></div>}
 
     {error && <p className="carlin-error" role="alert">{error}</p>}
     <div className="carlin-results-actions"><p>La disponibilidad y el precio pueden cambiar. Confírmalos con la librería antes de comprar.</p><div className="carlin-results-buttons">{alternativesAvailable && recommendations.length > 0 && <button type="button" onClick={onMore} disabled={pending}><RefreshCw size={16} className={pending ? 'carlin-spin' : ''} />{pending ? 'Buscando otras lecturas…' : 'Ver otras recomendaciones'}</button>}<button type="button" onClick={onRestart} disabled={pending}>Empezar de nuevo</button></div></div>
@@ -446,6 +446,7 @@ function Results({ recommendations, onRestart, onBack, onMore, alternativesAvail
           {selectedBook.price !== null && <p className="carlin-detail-price">{formatCarlinPrice(selectedBook.price)}</p>}
           <p className="carlin-detail-description">{details[selectedBook.id]?.description || (details[selectedBook.id]?.loaded ? fallbackBookDescription(selectedBook) : 'Buscando la sinopsis y los datos editoriales de esta edición…')}</p>
           <p className="carlin-detail-reason">{bookRecommendationReason(selectedBook, recommendations.find(({ book }) => book.id === selectedBook.id)?.explanation ?? '')}</p>
+          {selectedAffinity && <div className="carlin-detail-affinity"><h3>{selectedAffinity.percent}% de afinidad con tus respuestas</h3><p>Coincidencia orientativa con las preferencias que has concretado. «Sorpréndeme» deja ese criterio abierto.</p><ul>{selectedAffinity.criteria.map(criterion => <li key={criterion.label}><span aria-hidden="true">{criterion.matched ? '✓' : '—'}</span><span>{criterion.label}<small>{criterion.matched ? 'Coincide con tu elección' : 'Esta selección ofrece una alternativa'}</small></span></li>)}</ul></div>}
           {selectedBook.themes.length > 0 && <p className="carlin-detail-themes"><strong>Temas de la ficha:</strong> {selectedBook.themes.join(' · ')}</p>}
           <dl className="carlin-detail-facts">
             <div><dt>ISBN</dt><dd>{selectedBook.id}</dd></div>

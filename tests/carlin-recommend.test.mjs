@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { applyCarlinEnrichment, recommendCarlinBooks, nextCarlinResponse, parseCarlinSelectionContext } from '../supabase/functions/_shared/carlin.ts';
+import { applyCarlinEnrichment, recommendCarlinBooks, nextCarlinResponse, parseCarlinSelectionContext, typeOptions, carlinAffinity } from '../supabase/functions/_shared/carlin.ts';
 
 const titles = ['El faro', 'La bruma', 'El jardín', 'La frontera', 'El espejo', 'La promesa', 'El refugio', 'La marea', 'El sendero', 'La estación', 'El invierno', 'La ventana'];
 const books = titles.map((title, index) => ({ id: `book-${index}`, group: title, title, author: `Autor ${index % 4}`, genre: 'Ficción', subgenre: 'Thriller y misterio', type: 'Ficción/creativo', audience: 'Adulto/General', themes: ['misterio'], tone: 'Intrigante', pace: 'Rápido', difficulty: 'Media', price: 14, stock: 1, confidence: .8 }));
@@ -78,4 +78,46 @@ test('limita y valida el historial que llega del navegador', () => {
   assert.equal(context.seenIds.length, 120);
   assert.equal(context.seenIds.filter(id => id === 'valid').length, 1);
   assert.ok(!context.seenIds.includes('<invalid>'));
+});
+
+test('los caminos de lectura se adaptan a edad y stock y filtran la selección', () => {
+  const romance = { ...books[0], id: 'romance', group: 'romance', title: 'Un romance', subgenre: 'Romance' };
+  const child = { ...books[0], id: 'comic-child', subgenre: 'Cómic / novela gráfica', audience: 'Infantil 6-8' };
+  const soldOut = { ...books[0], id: 'sold-out', subgenre: 'Terror', stock: 0 };
+  const catalog = [...books, romance, child, soldOut];
+  const options = typeOptions(catalog, { ...profile, type: null });
+  assert.deepEqual(options.map(option => option.value), ['any', 'reading:mystery', 'reading:romance']);
+  assert.deepEqual(typeOptions(catalog, { ...profile, age: 7 }).map(option => option.value), ['any', 'reading:comic']);
+  const chosen = { ...profile, type: 'reading:romance', subgenre: null };
+  const response = nextCarlinResponse(catalog, chosen, { seed: 'romance' });
+  assert.equal(response.kind, 'results');
+  assert.deepEqual(ids(response.recommendations), ['romance']);
+  assert.equal(chosen.subgenre, null); // Resolver un camino no muta las respuestas originales.
+});
+
+test('un camino con varios géneros permite afinarlos sin salir de ese camino', () => {
+  const fantasy = { ...books[0], id: 'fantasy', group: 'fantasy', subgenre: 'Fantasía' };
+  const scifi = { ...books[0], id: 'scifi', group: 'scifi', subgenre: 'Ciencia ficción / distopía' };
+  const catalog = [...books, fantasy, scifi];
+  const chosen = { ...profile, type: 'reading:imagination', subgenre: null };
+  const question = nextCarlinResponse(catalog, chosen);
+  assert.equal(question.question, 'subgenre');
+  assert.deepEqual(new Set(question.options.map(option => option.value)), new Set(['any', 'Fantasía', 'Ciencia ficción / distopía']));
+  const results = nextCarlinResponse(catalog, { ...chosen, subgenre: 'Fantasía' });
+  assert.deepEqual(ids(results.recommendations), ['fantasy']);
+});
+
+test('la afinidad refleja las preferencias concretas y no inventa puntuaciones al sorprender', () => {
+  const specific = { ...profile, theme: 'MISTERIO', pace: 'Rápido', difficulty: 'Media' };
+  const exact = carlinAffinity(books[0], specific);
+  assert.equal(exact.percent, 100);
+  assert.ok(exact.criteria.every(criterion => criterion.matched));
+  const alternative = carlinAffinity({ ...books[0], difficulty: 'Difícil' }, specific);
+  assert.equal(alternative.percent, 86);
+  assert.equal(alternative.criteria.filter(criterion => !criterion.matched).length, 1);
+  assert.equal(carlinAffinity(books[0], { ...profile, type: 'any', subgenre: 'any' }), undefined);
+  assert.deepEqual(carlinAffinity({ ...books[0], confidence: 0, stock: 100 }, specific), exact);
+  const result = nextCarlinResponse(books, specific, { seed: 'affinity' });
+  assert.equal(result.kind, 'results');
+  assert.ok(result.recommendations.every(item => item.affinity.percent === 100));
 });

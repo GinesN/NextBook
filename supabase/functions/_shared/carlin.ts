@@ -37,7 +37,8 @@ export type CarlinProfile = {
 export type CatalogOption = { value: string; label: string; count: number };
 export type PublicCarlinBook = Pick<CarlinBook, 'id' | 'title' | 'author' | 'subgenre' | 'themes' | 'price' | 'description' | 'publisher' | 'coverUrl' | 'pageCount' | 'publishedDate' | 'binding'>;
 export type CarlinSelectionContext = { seed?: string; seenIds?: string[] };
-export type CarlinRecommendation = { book: PublicCarlinBook; explanation: string };
+export type CarlinAffinity = { percent: number; criteria: { label: string; matched: boolean }[] };
+export type CarlinRecommendation = { book: PublicCarlinBook; explanation: string; affinity?: CarlinAffinity };
 export type PublicCatalogOption = { value: string | number; label: string };
 export type CarlinResponse =
   | { kind: 'question'; question: CarlinQuestion; options: PublicCatalogOption[] }
@@ -97,10 +98,30 @@ function matchesAge(book: CarlinBook, age: number) {
     && !/infantil|juvenil/.test(normalize(book.subgenre)) && !adultAudienceNeedsReview.has(book.id);
 }
 
+const readingPaths = [
+  { value: 'reading:mystery', label: 'Misterio y suspense', genres: ['Thriller y misterio'] },
+  { value: 'reading:romance', label: 'Amor y relaciones', genres: ['Romance'] },
+  { value: 'reading:imagination', label: 'Fantasía, ciencia ficción y aventuras', genres: ['Fantasía', 'Ciencia ficción / distopía', 'Aventura'] },
+  { value: 'reading:history', label: 'Historia y otras épocas', genres: ['Novela histórica', 'Historia y sociedad'] },
+  { value: 'reading:literary', label: 'Novelas y clásicos', genres: ['Narrativa contemporánea', 'Narrativa literaria', 'Clásicos'] },
+  { value: 'reading:comic', label: 'Cómic y novela gráfica', genres: ['Cómic / novela gráfica'] },
+  { value: 'reading:horror', label: 'Terror y lo sobrenatural', genres: ['Terror'] },
+  { value: 'reading:lives', label: 'Vidas reales y biografías', genres: ['Biografía / memorias'] },
+  { value: 'reading:wellbeing', label: 'Bienestar y crecimiento personal', genres: ['Bienestar y crecimiento personal'] },
+  { value: 'reading:discovery', label: 'Aprender y descubrir', genres: ['Divulgación científica', 'Filosofía', 'Cocina'] },
+  { value: 'reading:poetry', label: 'Poesía y teatro', genres: ['Poesía', 'Teatro'] },
+  { value: 'reading:children', label: 'Cuentos y primeras historias', genres: ['Cuentos y narrativa infantil'] },
+];
+
+function matchesReadingPath(book: CarlinBook, value: string) {
+  const path = readingPaths.find(path => path.value === value);
+  return path ? path.genres.includes(book.subgenre) : book.type === value;
+}
+
 function inventoryFor(books: CarlinBook[], profile: CarlinProfile, through: 'age' | 'type' | 'subgenre' = 'subgenre') {
   return books.filter((book) => book.stock > 0 && book.price !== null
     && profile.age !== null && matchesAge(book, profile.age)
-    && (through === 'age' || !profile.type || profile.type === 'any' || book.type === profile.type)
+    && (through === 'age' || !profile.type || profile.type === 'any' || matchesReadingPath(book, profile.type))
     && (through !== 'subgenre' || !profile.subgenre || profile.subgenre === 'any' || book.subgenre === profile.subgenre));
 }
 
@@ -130,10 +151,10 @@ function withAny(options: CatalogOption[], count: number): CatalogOption[] {
 
 export function typeOptions(books: CarlinBook[], profile: CarlinProfile): CatalogOption[] {
   const pool = inventoryFor(books, profile, 'age');
-  const labels: Record<string, string> = profile.age !== null && profile.age >= 18
-    ? { 'Ficción/creativo': 'Novelas e historias', 'No ficción': 'Ideas y vida real', Educativo: 'Aprender y practicar' }
-    : { 'Ficción/creativo': 'Cuentos e historias', 'No ficción': 'Descubrir el mundo', Educativo: 'Aprender jugando' };
-  return withAny(optionsByCount(pool.map((book) => book.type), 3, 1).map((option) => ({ ...option, label: labels[option.value] ?? option.label })), pool.length);
+  const paths = readingPaths.map(path => ({ value: path.value, label: path.label,
+    count: pool.filter(book => matchesReadingPath(book, path.value)).length,
+  })).filter(path => path.count > 0);
+  return withAny(paths, pool.length);
 }
 
 export function subgenreOptions(books: CarlinBook[], profile: CarlinProfile): CatalogOption[] {
@@ -151,7 +172,7 @@ export function themeOptions(books: CarlinBook[], profile: CarlinProfile): Catal
 export function preferenceQuestions(books: CarlinBook[], profile: CarlinProfile): ('pace' | 'difficulty')[] {
   const pool = themedInventory(books, profile);
   const questions: ('pace' | 'difficulty')[] = [];
-  if (profile.type === 'Ficción/creativo'
+  if (pool.some(book => book.type === 'Ficción/creativo')
     && new Set(pool.map((book) => book.pace).filter(Boolean)).size >= 2) questions.push('pace');
   if (new Set(pool.map((book) => book.difficulty).filter(Boolean)).size >= 2) questions.push('difficulty');
   return questions;
@@ -173,7 +194,8 @@ export function budgetOptions(books: CarlinBook[], profile: CarlinProfile): { va
 }
 
 export function carlinQuestionSequence(books: CarlinBook[], profile: CarlinProfile): CarlinQuestion[] {
-  const questions: CarlinQuestion[] = ['recipient', 'age', 'type', 'subgenre'];
+  const questions: CarlinQuestion[] = ['recipient', 'age', 'type'];
+  if (subgenreOptions(books, profile).length > 2) questions.push('subgenre');
   if (themeOptions(books, profile).length > 1) questions.push('theme');
   questions.push(...preferenceQuestions(books, profile));
   questions.push('budget');
@@ -194,6 +216,24 @@ function selectionRandom(seed?: string) {
 
 function matchingBooks(books: CarlinBook[], profile: CarlinProfile) {
   return themedInventory(books, profile).filter(book => profile.budget === 'any' || (book.price ?? Infinity) <= (profile.budget ?? 0));
+}
+
+export function carlinAffinity(book: CarlinBook, profile: CarlinProfile): CarlinAffinity | undefined {
+  const criteria: { label: string; matched: boolean; weight: number }[] = [];
+  if (profile.subgenre && profile.subgenre !== 'any') {
+    criteria.push({ label: `Género: ${profile.subgenre}`, matched: book.subgenre === profile.subgenre, weight: 36 });
+  } else if (profile.type && profile.type !== 'any') {
+    const path = readingPaths.find(path => path.value === profile.type);
+    criteria.push({ label: `Lectura: ${path?.label ?? profile.type}`, matched: matchesReadingPath(book, profile.type), weight: 36 });
+  }
+  if (profile.theme && profile.theme !== 'any') criteria.push({ label: `Tema: ${readable(profile.theme)}`,
+    matched: book.themes.some(theme => normalize(theme) === normalize(profile.theme!)), weight: 36 });
+  if (profile.pace && profile.pace !== 'any') criteria.push({ label: `Ritmo: ${profile.pace}`, matched: book.pace === profile.pace, weight: 14 });
+  if (profile.difficulty && profile.difficulty !== 'any') criteria.push({ label: `Nivel: ${profile.difficulty}`, matched: book.difficulty === profile.difficulty, weight: 14 });
+  if (!criteria.length) return undefined;
+  const possible = criteria.reduce((sum, criterion) => sum + criterion.weight, 0);
+  const matched = criteria.reduce((sum, criterion) => sum + (criterion.matched ? criterion.weight : 0), 0);
+  return { percent: Math.round(100 * matched / possible), criteria: criteria.map(({ label, matched }) => ({ label, matched })) };
 }
 
 export function parseCarlinSelectionContext(value: unknown): CarlinSelectionContext {
@@ -222,13 +262,14 @@ export function recommendCarlinBooks(books: CarlinBook[], profile: CarlinProfile
     const themeMatch = selectedTheme !== null && book.themes.some((theme) => normalize(theme) === selectedTheme);
     const paceMatch = profile.pace && profile.pace !== 'any' && book.pace === profile.pace;
     const difficultyMatch = profile.difficulty && profile.difficulty !== 'any' && book.difficulty === profile.difficulty;
-    const score = (paceMatch ? 12 : 0) + (difficultyMatch ? 12 : 0);
+    const affinity = carlinAffinity(book, profile);
+    const score = affinity?.percent ?? 0;
     const reasons: string[] = [];
     if (themeMatch) reasons.push(`conecta con ${profile.theme}`);
     if (paceMatch) reasons.push(`avanza con un ritmo ${book.pace.toLowerCase()}`);
     if (difficultyMatch) reasons.push(`tiene un nivel ${book.difficulty.toLowerCase()}`);
     if (reasons.length === 0) reasons.push('se ajusta a la edad y al tipo de lectura que buscas');
-    return { book, score, recent: Math.min(recentGroup.get(book.group) ?? Infinity, recentTitle.get(titleKey(book.title)) ?? Infinity), explanation: `Te puede encajar porque ${reasons.join(' y ')}.` };
+    return { book, score, affinity, recent: Math.min(recentGroup.get(book.group) ?? Infinity, recentTitle.get(titleKey(book.title)) ?? Infinity), explanation: `Te puede encajar porque ${reasons.join(' y ')}.` };
   });
 
   const selected = new Set<string>();
@@ -268,7 +309,7 @@ export function recommendCarlinBooks(books: CarlinBook[], profile: CarlinProfile
     if (item.book.author) selectedAuthors.add(normalize(item.book.author));
     selectedGenres.add(item.book.subgenre);
     const { id, title, author, subgenre, themes, price, description, publisher, coverUrl, pageCount, publishedDate, binding } = item.book;
-    recommendations.push({ book: { id, title, author, subgenre, themes: themes.slice(0, 6), price, description, publisher, coverUrl, pageCount, publishedDate, binding }, explanation: item.explanation });
+    recommendations.push({ book: { id, title, author, subgenre, themes: themes.slice(0, 6), price, description, publisher, coverUrl, pageCount, publishedDate, binding }, explanation: item.explanation, affinity: item.affinity });
   }
   return recommendations;
 }
@@ -304,8 +345,11 @@ export function nextCarlinResponse(books: CarlinBook[], profile: CarlinProfile, 
   if (profile.age === null) return ask('age', Array.from({ length: 11 }, (_, age) => ({ value: age * 10, label: `${age * 10} años` })));
 
   const types = typeOptions(books, profile);
-  if (!selected(profile.type, types)) return ask('type', types);
+  const legacyType = inventoryFor(books, profile, 'age').some(book => book.type === profile.type);
+  if (!selected(profile.type, types) && !legacyType) return ask('type', types);
   const subgenres = subgenreOptions(books, profile);
+  // Un único género disponible no necesita una segunda elección idéntica.
+  if (profile.subgenre === null && subgenres.length === 2) profile = { ...profile, subgenre: subgenres[1].value };
   if (!selected(profile.subgenre, subgenres)) return ask('subgenre', subgenres);
 
   const themes = themeOptions(books, profile);
