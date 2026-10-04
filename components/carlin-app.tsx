@@ -203,7 +203,7 @@ export default function CarlinApp() {
         </section>
       </div>
     )}
-    <LegalFooter />
+    <LegalFooter showNextBookLink />
   </main>;
 }
 
