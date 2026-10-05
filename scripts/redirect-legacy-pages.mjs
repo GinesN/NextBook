@@ -21,7 +21,7 @@ for (const [file, path] of routes) {
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>NextBook — Nueva dirección</title>
   <link rel="canonical" href="${target}">
-  <link rel="icon" href="/NextBook/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/NextBook/favicon.svg?v=20261005-book" type="image/svg+xml">
   <style>body{margin:0;min-height:100vh;display:grid;place-items:center;background:#f5f2e9;color:#17352f;font-family:system-ui,sans-serif}main{text-align:center;padding:2rem;max-width:32rem}h1{font-family:Georgia,serif;font-size:2.5rem}a{display:inline-block;margin-top:1rem;padding:1rem 1.5rem;border-radius:.3rem;background:#17352f;color:#fff;text-decoration:none}</style>
   <script src="/NextBook/legacy-redirect.js" defer></script>
 </head>
