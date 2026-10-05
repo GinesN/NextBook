@@ -22,7 +22,11 @@
       "Literary / Classic",
       "Adventure"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/13846974-L.jpg?default=false",
+    "cover_work": "/works/OL26799707W",
+    "cover_title": "Don Quixote",
+    "cover_author": "Miguel de Cervantes Saavedra"
   },
   {
     "book_id": 2,
@@ -47,7 +51,11 @@
       "Literary / Classic",
       "Fantasy"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/10454740-L.jpg?default=false",
+    "cover_work": "/works/OL274505W",
+    "cover_title": "One Hundred Years of Solitude",
+    "cover_author": "Gabriel García Márquez"
   },
   {
     "book_id": 3,
@@ -72,7 +80,11 @@
       "Literary / Classic",
       "Romance / Contemporary"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/15122991-L.jpg?default=false",
+    "cover_work": "/works/OL274518W",
+    "cover_title": "Love In the Time of Cholera",
+    "cover_author": "Gabriel García Márquez"
   },
   {
     "book_id": 4,
@@ -97,7 +109,11 @@
       "Literary / Classic",
       "Mystery / Thriller"
     ],
-    "pace_1_3": 3
+    "pace_1_3": 3,
+    "cover_url": "https://covers.openlibrary.org/b/id/8489902-L.jpg?default=false",
+    "cover_work": "/works/OL274574W",
+    "cover_title": "Chronicle of a Death Foretold",
+    "cover_author": "Gabriel García Márquez"
   },
   {
     "book_id": 5,
@@ -121,7 +137,11 @@
     "genres": [
       "Literary / Classic"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/11723892-L.jpg?default=false",
+    "cover_work": "/works/OL274503W",
+    "cover_title": "The Autumn of the Patriarch",
+    "cover_author": "Gabriel García Márquez / Gregory Rabassa"
   },
   {
     "book_id": 6,
@@ -146,7 +166,11 @@
       "Science fiction",
       "Literary / Classic"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/15145130-L.jpg?default=false",
+    "cover_work": "/works/OL11326416W",
+    "cover_title": "1984",
+    "cover_author": "Michael Dean / George Orwell"
   },
   {
     "book_id": 7,
@@ -171,7 +195,11 @@
       "Literary / Classic",
       "Fantasy"
     ],
-    "pace_1_3": 3
+    "pace_1_3": 3,
+    "cover_url": "https://covers.openlibrary.org/b/id/15246098-L.jpg?default=false",
+    "cover_work": "/works/OL1168007W",
+    "cover_title": "Animal Farm",
+    "cover_author": "George Orwell"
   },
   {
     "book_id": 8,
@@ -195,7 +223,11 @@
     "genres": [
       "Memoir / Reportage"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/12847324-L.jpg?default=false",
+    "cover_work": "/works/OL1168169W",
+    "cover_title": "Homage to Catalonia",
+    "cover_author": "George Orwell"
   },
   {
     "book_id": 9,
@@ -220,7 +252,11 @@
       "Science fiction",
       "Literary / Classic"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/15170943-L.jpg?default=false",
+    "cover_work": "/works/OL64365W",
+    "cover_title": "Brave New World",
+    "cover_author": "Aldous Huxley"
   },
   {
     "book_id": 10,
@@ -245,7 +281,11 @@
       "Science fiction",
       "Literary / Classic"
     ],
-    "pace_1_3": 3
+    "pace_1_3": 3,
+    "cover_url": "https://covers.openlibrary.org/b/id/15141082-L.jpg?default=false",
+    "cover_work": "/works/OL103123W",
+    "cover_title": "Fahrenheit 451",
+    "cover_author": "Ray Bradbury"
   },
   {
     "book_id": 11,
@@ -269,7 +309,11 @@
     "genres": [
       "Literary / Classic"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/14635758-L.jpg?default=false",
+    "cover_work": "/works/OL468431W",
+    "cover_title": "The Great Gatsby",
+    "cover_author": "F. Scott Fitzgerald"
   },
   {
     "book_id": 12,
@@ -293,7 +337,11 @@
     "genres": [
       "Literary / Classic"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/6627574-L.jpg?default=false",
+    "cover_work": "/works/OL468485W",
+    "cover_title": "Tender is the night",
+    "cover_author": "F. Scott Fitzgerald"
   },
   {
     "book_id": 13,
@@ -317,7 +365,11 @@
     "genres": [
       "Literary / Classic"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/12622068-L.jpg?default=false",
+    "cover_work": "/works/OL468488W",
+    "cover_title": "This Side of Paradise",
+    "cover_author": "F. Scott Fitzgerald"
   },
   {
     "book_id": 14,
@@ -341,7 +393,11 @@
     "genres": [
       "Literary / Classic"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/15153500-L.jpg?default=false",
+    "cover_work": "/works/OL3140822W",
+    "cover_title": "To Kill a Mockingbird",
+    "cover_author": "Harper Lee"
   },
   {
     "book_id": 15,
@@ -365,7 +421,11 @@
     "genres": [
       "Literary / Classic"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/15253455-L.jpg?default=false",
+    "cover_work": "/works/OL17163917W",
+    "cover_title": "Go set a watchman",
+    "cover_author": "Harper Lee"
   },
   {
     "book_id": 16,
@@ -390,7 +450,11 @@
       "Romance / Contemporary",
       "Literary / Classic"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/15095637-L.jpg?default=false",
+    "cover_work": "/works/OL66554W",
+    "cover_title": "Pride and Prejudice",
+    "cover_author": "Jane Austen"
   },
   {
     "book_id": 17,
@@ -415,7 +479,11 @@
       "Romance / Contemporary",
       "Literary / Classic"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/15171553-L.jpg?default=false",
+    "cover_work": "/works/OL66562W",
+    "cover_title": "Sense and Sensibility",
+    "cover_author": "Jane Austen"
   },
   {
     "book_id": 18,
@@ -440,7 +508,11 @@
       "Romance / Contemporary",
       "Literary / Classic"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/14552684-L.jpg?default=false",
+    "cover_work": "/works/OL66513W",
+    "cover_title": "Emma",
+    "cover_author": "Jane Austen"
   },
   {
     "book_id": 19,
@@ -465,7 +537,11 @@
       "Romance / Contemporary",
       "Literary / Classic"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/15097269-L.jpg?default=false",
+    "cover_work": "/works/OL66544W",
+    "cover_title": "Persuasion",
+    "cover_author": "Jane Austen"
   },
   {
     "book_id": 20,
@@ -490,7 +566,11 @@
       "Literary / Classic",
       "Romance / Contemporary"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/12568684-L.jpg?default=false",
+    "cover_work": "/works/OL66530W",
+    "cover_title": "Mansfield Park",
+    "cover_author": "Jane Austen"
   },
   {
     "book_id": 21,
@@ -515,7 +595,11 @@
       "Literary / Classic",
       "Romance / Contemporary"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/14634130-L.jpg?default=false",
+    "cover_work": "/works/OL66534W",
+    "cover_title": "Northanger Abbey",
+    "cover_author": "Jane Austen"
   },
   {
     "book_id": 22,
@@ -540,7 +624,11 @@
       "Literary / Classic",
       "Romance / Contemporary"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/12195363-L.jpg?default=false",
+    "cover_work": "/works/OL1095427W",
+    "cover_title": "Jane Eyre",
+    "cover_author": "Charlotte Brontë"
   },
   {
     "book_id": 23,
@@ -564,7 +652,11 @@
     "genres": [
       "Literary / Classic"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/12622141-L.jpg?default=false",
+    "cover_work": "/works/OL1095403W",
+    "cover_title": "Villette",
+    "cover_author": "Charlotte Brontë"
   },
   {
     "book_id": 24,
@@ -589,7 +681,11 @@
       "Literary / Classic",
       "Historical fiction"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/12622142-L.jpg?default=false",
+    "cover_work": "/works/OL1095397W",
+    "cover_title": "Shirley",
+    "cover_author": "Charlotte Brontë"
   },
   {
     "book_id": 25,
@@ -614,7 +710,11 @@
       "Literary / Classic",
       "Romance / Contemporary"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/8255334-L.jpg?default=false",
+    "cover_work": "/works/OL21177W",
+    "cover_title": "Wuthering Heights",
+    "cover_author": "Emily Brontë"
   },
   {
     "book_id": 26,
@@ -638,7 +738,11 @@
     "genres": [
       "Literary / Classic"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/15105005-L.jpg?default=false",
+    "cover_work": "/works/OL2462427W",
+    "cover_title": "Agnes Grey",
+    "cover_author": "Anne Brontë"
   },
   {
     "book_id": 27,
@@ -662,7 +766,11 @@
     "genres": [
       "Literary / Classic"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/12622194-L.jpg?default=false",
+    "cover_work": "/works/OL260101W",
+    "cover_title": "The Tenant of Wildfell Hall",
+    "cover_author": "Anne Brontë"
   },
   {
     "book_id": 28,
@@ -686,7 +794,11 @@
     "genres": [
       "Literary / Classic"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/14304618-L.jpg?default=false",
+    "cover_work": "/works/OL8721462W",
+    "cover_title": "Great expectations",
+    "cover_author": "Charles Dickens"
   },
   {
     "book_id": 29,
@@ -711,7 +823,11 @@
       "Historical fiction",
       "Literary / Classic"
     ],
-    "pace_1_3": 3
+    "pace_1_3": 3,
+    "cover_url": "https://covers.openlibrary.org/b/id/7354327-L.jpg?default=false",
+    "cover_work": "/works/OL8193465W",
+    "cover_title": "A Tale of Two Cities",
+    "cover_author": "Charles Dickens"
   },
   {
     "book_id": 30,
@@ -735,7 +851,11 @@
     "genres": [
       "Literary / Classic"
     ],
-    "pace_1_3": 3
+    "pace_1_3": 3,
+    "cover_url": "https://covers.openlibrary.org/b/id/13008108-L.jpg?default=false",
+    "cover_work": "/works/OL15395994W",
+    "cover_title": "Oliver Twist",
+    "cover_author": "Marian Leighton / Charles Dickens"
   },
   {
     "book_id": 31,
@@ -759,7 +879,11 @@
     "genres": [
       "Literary / Classic"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/15120449-L.jpg?default=false",
+    "cover_work": "/works/OL8662242W",
+    "cover_title": "David Copperfield",
+    "cover_author": "Charles Dickens"
   },
   {
     "book_id": 32,
@@ -784,7 +908,11 @@
       "Literary / Classic",
       "Mystery / Thriller"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/13110379-L.jpg?default=false",
+    "cover_work": "/works/OL14868510W",
+    "cover_title": "Bleak house",
+    "cover_author": "Charles Dickens"
   },
   {
     "book_id": 33,
@@ -808,7 +936,11 @@
     "genres": [
       "Literary / Classic"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/12951692-L.jpg?default=false",
+    "cover_work": "/works/OL8193387W",
+    "cover_title": "Hard Times",
+    "cover_author": "Charles Dickens"
   },
   {
     "book_id": 34,
@@ -832,7 +964,11 @@
     "genres": [
       "Literary / Classic"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/13441064-L.jpg?default=false",
+    "cover_work": "/works/OL14869306W",
+    "cover_title": "Nicholas Nickleby",
+    "cover_author": "Charles Dickens"
   },
   {
     "book_id": 35,
@@ -857,7 +993,11 @@
       "Literary / Classic",
       "Fantasy"
     ],
-    "pace_1_3": 3
+    "pace_1_3": 3,
+    "cover_url": "https://covers.openlibrary.org/b/id/13133780-L.jpg?default=false",
+    "cover_work": "/works/OL32466W",
+    "cover_title": "A Christmas Carol",
+    "cover_author": "Charles Dickens"
   },
   {
     "book_id": 36,
@@ -881,7 +1021,11 @@
     "genres": [
       "Literary / Classic"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/14555938-L.jpg?default=false",
+    "cover_work": "/works/OL14869215W",
+    "cover_title": "Little Dorrit",
+    "cover_author": "Charles Dickens / Mary Sebag-Montefiore / Adam Leverton"
   },
   {
     "book_id": 37,
@@ -906,7 +1050,11 @@
       "Literary / Classic",
       "Mystery / Thriller"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/15183762-L.jpg?default=false",
+    "cover_work": "/works/OL45018229W",
+    "cover_title": "Crime and Punishment",
+    "cover_author": "Fyodor Dostoevsky"
   },
   {
     "book_id": 38,
@@ -930,7 +1078,11 @@
     "genres": [
       "Literary / Classic"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/12621719-L.jpg?default=false",
+    "cover_work": "/works/OL10432709W",
+    "cover_title": "The Brothers Karamazov",
+    "cover_author": "Fiódor Dostoievski"
   },
   {
     "book_id": 39,
@@ -954,7 +1106,11 @@
     "genres": [
       "Literary / Classic"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/15166240-L.jpg?default=false",
+    "cover_work": "/works/OL166925W",
+    "cover_title": "The Idiot",
+    "cover_author": "Fiódor Dostoievski"
   },
   {
     "book_id": 40,
@@ -978,7 +1134,11 @@
     "genres": [
       "Literary / Classic"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/15220861-L.jpg?default=false",
+    "cover_work": "/works/OL45429744W",
+    "cover_title": "Demons",
+    "cover_author": "Fyodor Dostoevsky"
   },
   {
     "book_id": 41,
@@ -1002,7 +1162,11 @@
     "genres": [
       "Literary / Classic"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/12634593-L.jpg?default=false",
+    "cover_work": "/works/OL21025633W",
+    "cover_title": "Notes from underground",
+    "cover_author": "Fiódor Dostoievski"
   },
   {
     "book_id": 42,
@@ -1026,7 +1190,11 @@
     "genres": [
       "Literary / Classic"
     ],
-    "pace_1_3": 3
+    "pace_1_3": 3,
+    "cover_url": "https://covers.openlibrary.org/b/id/10760598-L.jpg?default=false",
+    "cover_work": "/works/OL166923W",
+    "cover_title": "The gambler",
+    "cover_author": "Fiódor Dostoievski"
   },
   {
     "book_id": 43,
@@ -1051,7 +1219,11 @@
       "Historical fiction",
       "Literary / Classic"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/15183543-L.jpg?default=false",
+    "cover_work": "/works/OL45017724W",
+    "cover_title": "War and Peace",
+    "cover_author": "Leo Tolstoy"
   },
   {
     "book_id": 44,
@@ -1076,7 +1248,11 @@
       "Literary / Classic",
       "Romance / Contemporary"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/12915269-L.jpg?default=false",
+    "cover_work": "/works/OL267096W",
+    "cover_title": "Anna Karenina",
+    "cover_author": "Лев Толстой"
   },
   {
     "book_id": 45,
@@ -1100,7 +1276,11 @@
     "genres": [
       "Literary / Classic"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/368393-L.jpg?default=false",
+    "cover_work": "/works/OL267174W",
+    "cover_title": "The Death of Ivan Ilyich",
+    "cover_author": "Лев Толстой / Anthony Briggs / Anthony Horvath / Zinc Read"
   },
   {
     "book_id": 46,
@@ -1124,7 +1304,11 @@
     "genres": [
       "Literary / Classic"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/5820912-L.jpg?default=false",
+    "cover_work": "/works/OL457760W",
+    "cover_title": "Resurrection",
+    "cover_author": "Лев Толстой"
   },
   {
     "book_id": 47,
@@ -1148,7 +1332,11 @@
     "genres": [
       "Literary / Classic"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/12982988-L.jpg?default=false",
+    "cover_work": "/works/OL267110W",
+    "cover_title": "The Kreutzer sonata",
+    "cover_author": "Лев Толстой"
   },
   {
     "book_id": 48,
@@ -1172,7 +1360,11 @@
     "genres": [
       "Literary / Classic"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/15097112-L.jpg?default=false",
+    "cover_work": "/works/OL893707W",
+    "cover_title": "Madame Bovary",
+    "cover_author": "Gustave Flaubert"
   },
   {
     "book_id": 49,
@@ -1197,7 +1389,11 @@
       "Literary / Classic",
       "Historical fiction"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/15100230-L.jpg?default=false",
+    "cover_work": "/works/OL893802W",
+    "cover_title": "Sentimental education",
+    "cover_author": "Gustave Flaubert"
   },
   {
     "book_id": 50,
@@ -1222,7 +1418,11 @@
       "Literary / Classic",
       "Historical fiction"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/15097218-L.jpg?default=false",
+    "cover_work": "/works/OL1063588W",
+    "cover_title": "Les misérables",
+    "cover_author": "Victor Hugo"
   },
   {
     "book_id": 51,
@@ -1247,7 +1447,11 @@
       "Literary / Classic",
       "Historical fiction"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/14984364-L.jpg?default=false",
+    "cover_work": "/works/OL15202030W",
+    "cover_title": "The Hunchback of Notre-Dame",
+    "cover_author": "Victor Hugo"
   },
   {
     "book_id": 52,
@@ -1272,7 +1476,11 @@
       "Adventure",
       "Literary / Classic"
     ],
-    "pace_1_3": 3
+    "pace_1_3": 3,
+    "cover_url": "https://covers.openlibrary.org/b/id/14565013-L.jpg?default=false",
+    "cover_work": "/works/OL36287W",
+    "cover_title": "The Count of Monte Cristo",
+    "cover_author": "Alexandre Dumas"
   },
   {
     "book_id": 53,
@@ -1297,7 +1505,11 @@
       "Adventure",
       "Historical fiction"
     ],
-    "pace_1_3": 3
+    "pace_1_3": 3,
+    "cover_url": "https://covers.openlibrary.org/b/id/12622205-L.jpg?default=false",
+    "cover_work": "/works/OL36861W",
+    "cover_title": "The Three Musketeers",
+    "cover_author": "Alexandre Dumas"
   },
   {
     "book_id": 54,
@@ -1322,7 +1534,11 @@
       "Adventure",
       "Historical fiction"
     ],
-    "pace_1_3": 3
+    "pace_1_3": 3,
+    "cover_url": "https://covers.openlibrary.org/b/id/14557921-L.jpg?default=false",
+    "cover_work": "/works/OL36371W",
+    "cover_title": "The Man in the Iron Mask",
+    "cover_author": "Alexandre Dumas"
   },
   {
     "book_id": 55,
@@ -1347,7 +1563,11 @@
       "Literary / Classic",
       "Horror"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/14314700-L.jpg?default=false",
+    "cover_work": "/works/OL8193416W",
+    "cover_title": "The Picture of Dorian Gray",
+    "cover_author": "Oscar Wilde"
   },
   {
     "book_id": 56,
@@ -1371,7 +1591,11 @@
     "genres": [
       "Literary / Classic"
     ],
-    "pace_1_3": 3
+    "pace_1_3": 3,
+    "cover_url": "https://covers.openlibrary.org/b/id/12621856-L.jpg?default=false",
+    "cover_work": "/works/OL27776452W",
+    "cover_title": "The Importance of Being Earnest",
+    "cover_author": "Oscar Wilde"
   },
   {
     "book_id": 57,
@@ -1396,7 +1620,11 @@
       "Horror",
       "Literary / Classic"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/15185209-L.jpg?default=false",
+    "cover_work": "/works/OL85875W",
+    "cover_title": "Dracula ",
+    "cover_author": "Bram Stoker / Mary Shelley / Robert Louis Stevenson / Danide / Núria Pradas / Carmen Gil / Bram Stoker / Juan Antonio Molina Foix / Mario Montalbán / Leonard Wolf / ClassyBookRead / BRAM STOCKER / BRAM STOKER / Anna Gasol Trullols / Destinyalready Creative Writing Ink / Bram Stroker / Fay Weldon / Bram Stoker. / Bess Georges / Alba Pagán / David Stuart Davies / David Rogers / A. R. S. BEL / Ferdinand Du Chevalier / Abraham Stoker / Sarah Prescott / Alex Rouse / Bram Stoke / A. Nessi / Bram Stoker "
   },
   {
     "book_id": 58,
@@ -1421,7 +1649,11 @@
       "Horror",
       "Science fiction"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/12513880-L.jpg?default=false",
+    "cover_work": "/works/OL450063W",
+    "cover_title": "Frankenstein",
+    "cover_author": "Mary Shelley"
   },
   {
     "book_id": 59,
@@ -1446,7 +1678,11 @@
       "Science fiction",
       "Literary / Classic"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/14634041-L.jpg?default=false",
+    "cover_work": "/works/OL450124W",
+    "cover_title": "The Last Man",
+    "cover_author": "Mary Shelley"
   },
   {
     "book_id": 60,
@@ -1471,7 +1707,11 @@
       "Horror",
       "Mystery / Thriller"
     ],
-    "pace_1_3": 3
+    "pace_1_3": 3,
+    "cover_url": "https://covers.openlibrary.org/b/id/12621821-L.jpg?default=false",
+    "cover_work": "/works/OL24156W",
+    "cover_title": "The Strange Case of Dr. Jekyll and Mr. Hyde",
+    "cover_author": "Robert Louis Stevenson"
   },
   {
     "book_id": 61,
@@ -1496,7 +1736,11 @@
       "Adventure",
       "Literary / Classic"
     ],
-    "pace_1_3": 3
+    "pace_1_3": 3,
+    "cover_url": "https://covers.openlibrary.org/b/id/13280949-L.jpg?default=false",
+    "cover_work": "/works/OL29787769W",
+    "cover_title": "Treasure Island",
+    "cover_author": "Robert Louis Stevenson"
   },
   {
     "book_id": 62,
@@ -1521,7 +1765,11 @@
       "Adventure",
       "Historical fiction"
     ],
-    "pace_1_3": 3
+    "pace_1_3": 3,
+    "cover_url": "https://covers.openlibrary.org/b/id/10674884-L.jpg?default=false",
+    "cover_work": "/works/OL24166W",
+    "cover_title": "Kidnapped",
+    "cover_author": "Robert Louis Stevenson"
   },
   {
     "book_id": 63,
@@ -1546,7 +1794,11 @@
       "Literary / Classic",
       "Adventure"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/12621992-L.jpg?default=false",
+    "cover_work": "/works/OL102749W",
+    "cover_title": "Moby Dick",
+    "cover_author": "Herman Melville"
   },
   {
     "book_id": 64,
@@ -1570,7 +1822,11 @@
     "genres": [
       "Literary / Classic"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/9220727-L.jpg?default=false",
+    "cover_work": "/works/OL102708W",
+    "cover_title": "Billy Budd",
+    "cover_author": "Herman Melville"
   },
   {
     "book_id": 65,
@@ -1594,7 +1850,11 @@
     "genres": [
       "Literary / Classic"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/11137685-L.jpg?default=false",
+    "cover_work": "/works/OL455305W",
+    "cover_title": "The Scarlet Letter",
+    "cover_author": "Nathaniel Hawthorne"
   },
   {
     "book_id": 66,
@@ -1619,7 +1879,11 @@
       "Literary / Classic",
       "Horror"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/5582866-L.jpg?default=false",
+    "cover_work": "/works/OL455288W",
+    "cover_title": "The House of the Seven Gables",
+    "cover_author": "Nathaniel Hawthorne"
   },
   {
     "book_id": 67,
@@ -1644,7 +1908,11 @@
       "Adventure",
       "Literary / Classic"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/15208262-L.jpg?default=false",
+    "cover_work": "/works/OL53908W",
+    "cover_title": "The Adventures of Huckleberry Finn",
+    "cover_author": "Mark Twain"
   },
   {
     "book_id": 68,
@@ -1669,7 +1937,11 @@
       "Adventure",
       "Literary / Classic"
     ],
-    "pace_1_3": 3
+    "pace_1_3": 3,
+    "cover_url": "https://covers.openlibrary.org/b/id/12621885-L.jpg?default=false",
+    "cover_work": "/works/OL53919W",
+    "cover_title": "The Adventures of Tom Sawyer",
+    "cover_author": "Mark Twain"
   },
   {
     "book_id": 69,
@@ -1694,7 +1966,11 @@
       "Fantasy",
       "Literary / Classic"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/14935767-L.jpg?default=false",
+    "cover_work": "/works/OL54031W",
+    "cover_title": "A Connecticut Yankee in King Arthur's Court",
+    "cover_author": "Mark Twain"
   },
   {
     "book_id": 70,
@@ -1719,7 +1995,11 @@
       "Adventure",
       "Literary / Classic"
     ],
-    "pace_1_3": 3
+    "pace_1_3": 3,
+    "cover_url": "https://covers.openlibrary.org/b/id/10639539-L.jpg?default=false",
+    "cover_work": "/works/OL53994W",
+    "cover_title": "The Prince and the Pauper",
+    "cover_author": "Mark Twain"
   },
   {
     "book_id": 71,
@@ -1744,7 +2024,11 @@
       "Literary / Classic",
       "Adventure"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/14899799-L.jpg?default=false",
+    "cover_work": "/works/OL63073W",
+    "cover_title": "The Old Man and the Sea",
+    "cover_author": "Ernest Hemingway"
   },
   {
     "book_id": 72,
@@ -1769,7 +2053,11 @@
       "Historical fiction",
       "Romance / Contemporary"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/14914194-L.jpg?default=false",
+    "cover_work": "/works/OL63072W",
+    "cover_title": "A Farewell to Arms",
+    "cover_author": "Ernest Hemingway"
   },
   {
     "book_id": 73,
@@ -1794,7 +2082,11 @@
       "Historical fiction",
       "Literary / Classic"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/14962766-L.jpg?default=false",
+    "cover_work": "/works/OL63009W",
+    "cover_title": "For Whom the Bell Tolls",
+    "cover_author": "Ernest Hemingway"
   },
   {
     "book_id": 74,
@@ -1818,7 +2110,11 @@
     "genres": [
       "Literary / Classic"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/15072812-L.jpg?default=false",
+    "cover_work": "/works/OL62979W",
+    "cover_title": "The Sun Also Rises",
+    "cover_author": "Ernest Hemingway"
   },
   {
     "book_id": 75,
@@ -1842,7 +2138,11 @@
     "genres": [
       "Literary / Classic"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/4164716-L.jpg?default=false",
+    "cover_work": "/works/OL63055W",
+    "cover_title": "The garden of Eden",
+    "cover_author": "Ernest Hemingway"
   },
   {
     "book_id": 76,
@@ -1867,7 +2167,11 @@
       "Literary / Classic",
       "Historical fiction"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/15238642-L.jpg?default=false",
+    "cover_work": "/works/OL23166W",
+    "cover_title": "East of Eden",
+    "cover_author": "John Steinbeck"
   },
   {
     "book_id": 77,
@@ -1892,7 +2196,11 @@
       "Historical fiction",
       "Literary / Classic"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/15224672-L.jpg?default=false",
+    "cover_work": "/works/OL23205W",
+    "cover_title": "The Grapes of Wrath",
+    "cover_author": "John Steinbeck"
   },
   {
     "book_id": 78,
@@ -1916,7 +2224,11 @@
     "genres": [
       "Literary / Classic"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/15154068-L.jpg?default=false",
+    "cover_work": "/works/OL23204W",
+    "cover_title": "Of Mice and Men",
+    "cover_author": "John Steinbeck"
   },
   {
     "book_id": 79,
@@ -1940,7 +2252,11 @@
     "genres": [
       "Literary / Classic"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/14813375-L.jpg?default=false",
+    "cover_work": "/works/OL29232879W",
+    "cover_title": "Cannery row.",
+    "cover_author": "John Steinbeck"
   },
   {
     "book_id": 80,
@@ -1964,7 +2280,11 @@
     "genres": [
       "Literary / Classic"
     ],
-    "pace_1_3": 3
+    "pace_1_3": 3,
+    "cover_url": "https://covers.openlibrary.org/b/id/9157799-L.jpg?default=false",
+    "cover_work": "/works/OL7966118W",
+    "cover_title": "The pearl",
+    "cover_author": "John Steinbeck"
   },
   {
     "book_id": 81,
@@ -1989,7 +2309,11 @@
       "Literary / Classic",
       "Young adult"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/15172466-L.jpg?default=false",
+    "cover_work": "/works/OL3335245W",
+    "cover_title": "The Catcher in the Rye",
+    "cover_author": "J. D. Salinger / Shao jia yun"
   },
   {
     "book_id": 82,
@@ -2013,7 +2337,11 @@
     "genres": [
       "Literary / Classic"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/14964680-L.jpg?default=false",
+    "cover_work": "/works/OL3335291W",
+    "cover_title": "Franny and Zooey",
+    "cover_author": "J. D. Salinger"
   },
   {
     "book_id": 83,
@@ -2037,7 +2365,11 @@
     "genres": [
       "Literary / Classic"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/14911283-L.jpg?default=false",
+    "cover_work": "/works/OL3335290W",
+    "cover_title": "Nine Stories",
+    "cover_author": "J. D. Salinger"
   },
   {
     "book_id": 84,
@@ -2061,7 +2393,11 @@
     "genres": [
       "Literary / Classic"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/12752096-L.jpg?default=false",
+    "cover_work": "/works/OL1865528W",
+    "cover_title": "The Bell Jar",
+    "cover_author": "Sylvia Plath"
   },
   {
     "book_id": 85,
@@ -2086,7 +2422,11 @@
       "Literary / Classic",
       "Historical fiction"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/14818117-L.jpg?default=false",
+    "cover_work": "/works/OL273644W",
+    "cover_title": "The Color Purple",
+    "cover_author": "Alice Walker"
   },
   {
     "book_id": 86,
@@ -2111,7 +2451,11 @@
       "Literary / Classic",
       "Historical fiction"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/15169563-L.jpg?default=false",
+    "cover_work": "/works/OL50548W",
+    "cover_title": "Beloved",
+    "cover_author": "Toni Morrison"
   },
   {
     "book_id": 87,
@@ -2135,7 +2479,11 @@
     "genres": [
       "Literary / Classic"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/12001858-L.jpg?default=false",
+    "cover_work": "/works/OL50564W",
+    "cover_title": "Song of Solomon",
+    "cover_author": "Toni Morrison"
   },
   {
     "book_id": 88,
@@ -2159,7 +2507,11 @@
     "genres": [
       "Literary / Classic"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/15152657-L.jpg?default=false",
+    "cover_work": "/works/OL50565W",
+    "cover_title": "The Bluest Eye",
+    "cover_author": "Toni Morrison"
   },
   {
     "book_id": 89,
@@ -2183,7 +2535,11 @@
     "genres": [
       "Literary / Classic"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/10653439-L.jpg?default=false",
+    "cover_work": "/works/OL50567W",
+    "cover_title": "Sula",
+    "cover_author": "Toni Morrison"
   },
   {
     "book_id": 90,
@@ -2207,7 +2563,11 @@
     "genres": [
       "Literary / Classic"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/15104655-L.jpg?default=false",
+    "cover_work": "/works/OL495470W",
+    "cover_title": "Invisible Man",
+    "cover_author": "Ralph Ellison"
   },
   {
     "book_id": 91,
@@ -2232,7 +2592,11 @@
       "Literary / Classic",
       "Mystery / Thriller"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/12185691-L.jpg?default=false",
+    "cover_work": "/works/OL275128W",
+    "cover_title": "Native Son",
+    "cover_author": "Richard Wright / Richard Wright - undifferentiated / Richard Wright"
   },
   {
     "book_id": 92,
@@ -2257,7 +2621,11 @@
       "Literary / Classic",
       "Romance / Contemporary"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/13239873-L.jpg?default=false",
+    "cover_work": "/works/OL27778127W",
+    "cover_title": "Their Eyes Were Watching God",
+    "cover_author": "Zora Neale Hurston"
   },
   {
     "book_id": 93,
@@ -2281,7 +2649,11 @@
     "genres": [
       "Literary / Classic"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/15048177-L.jpg?default=false",
+    "cover_work": "/works/OL2916090W",
+    "cover_title": "A Raisin In the Sun",
+    "cover_author": "Lorraine Hansberry"
   },
   {
     "book_id": 94,
@@ -2306,7 +2678,11 @@
       "Science fiction",
       "Contemporary fiction"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/14818120-L.jpg?default=false",
+    "cover_work": "/works/OL40873W",
+    "cover_title": "The Road",
+    "cover_author": "Cormac McCarthy"
   },
   {
     "book_id": 95,
@@ -2331,7 +2707,11 @@
       "Historical fiction",
       "Literary / Classic"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/15248079-L.jpg?default=false",
+    "cover_work": "/works/OL40879W",
+    "cover_title": "Blood Meridian",
+    "cover_author": "Cormac McCarthy"
   },
   {
     "book_id": 96,
@@ -2356,7 +2736,11 @@
       "Mystery / Thriller",
       "Contemporary fiction"
     ],
-    "pace_1_3": 3
+    "pace_1_3": 3,
+    "cover_url": "https://covers.openlibrary.org/b/id/15248080-L.jpg?default=false",
+    "cover_work": "/works/OL40875W",
+    "cover_title": "No Country for Old Men",
+    "cover_author": "Cormac McCarthy"
   },
   {
     "book_id": 97,
@@ -2381,7 +2765,11 @@
       "Adventure",
       "Contemporary fiction"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/10654846-L.jpg?default=false",
+    "cover_work": "/works/OL40882W",
+    "cover_title": "All the Pretty Horses",
+    "cover_author": "Cormac McCarthy"
   },
   {
     "book_id": 98,
@@ -2406,7 +2794,11 @@
       "Adventure",
       "Contemporary fiction"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/12706413-L.jpg?default=false",
+    "cover_work": "/works/OL40883W",
+    "cover_title": "The crossing",
+    "cover_author": "Cormac McCarthy"
   },
   {
     "book_id": 99,
@@ -2430,7 +2822,11 @@
     "genres": [
       "Literary / Classic"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/8292194-L.jpg?default=false",
+    "cover_work": "/works/OL82870W",
+    "cover_title": "The Sound and the Fury",
+    "cover_author": "William Faulkner"
   },
   {
     "book_id": 100,
@@ -2454,7 +2850,11 @@
     "genres": [
       "Literary / Classic"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/12620040-L.jpg?default=false",
+    "cover_work": "/works/OL82929W",
+    "cover_title": "As I Lay Dying",
+    "cover_author": "William Faulkner"
   },
   {
     "book_id": 101,
@@ -2478,7 +2878,11 @@
     "genres": [
       "Literary / Classic"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/10658033-L.jpg?default=false",
+    "cover_work": "/works/OL82931W",
+    "cover_title": "Light in August",
+    "cover_author": "William Faulkner"
   },
   {
     "book_id": 102,
@@ -2503,7 +2907,11 @@
       "Literary / Classic",
       "Historical fiction"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/10718328-L.jpg?default=false",
+    "cover_work": "/works/OL82928W",
+    "cover_title": "Absalom, Absalom!",
+    "cover_author": "William Faulkner"
   },
   {
     "book_id": 103,
@@ -2527,7 +2935,11 @@
     "genres": [
       "Literary / Classic"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/14635756-L.jpg?default=false",
+    "cover_work": "/works/OL86318W",
+    "cover_title": "Ulysses",
+    "cover_author": "James Joyce"
   },
   {
     "book_id": 104,
@@ -2551,7 +2963,11 @@
     "genres": [
       "Literary / Classic"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/15215949-L.jpg?default=false",
+    "cover_work": "/works/OL86320W",
+    "cover_title": "Dubliners",
+    "cover_author": "James Joyce"
   },
   {
     "book_id": 105,
@@ -2575,7 +2991,11 @@
     "genres": [
       "Literary / Classic"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/10718609-L.jpg?default=false",
+    "cover_work": "/works/OL86343W",
+    "cover_title": "A Portrait of the Artist as a Young Man",
+    "cover_author": "James Joyce / James Joyce / james joyce / J Joyce"
   },
   {
     "book_id": 106,
@@ -2599,7 +3019,11 @@
     "genres": [
       "Literary / Classic"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/13333127-L.jpg?default=false",
+    "cover_work": "/works/OL34532885W",
+    "cover_title": "Finnegans wake",
+    "cover_author": "James Joyce"
   },
   {
     "book_id": 107,
@@ -2623,7 +3047,11 @@
     "genres": [
       "Literary / Classic"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/12752034-L.jpg?default=false",
+    "cover_work": "/works/OL39349W",
+    "cover_title": "Mrs. Dalloway",
+    "cover_author": "Virginia Woolf"
   },
   {
     "book_id": 108,
@@ -2647,7 +3075,11 @@
     "genres": [
       "Literary / Classic"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/13130678-L.jpg?default=false",
+    "cover_work": "/works/OL39396W",
+    "cover_title": "To the lighthouse",
+    "cover_author": "Virginia Woolf"
   },
   {
     "book_id": 109,
@@ -2672,7 +3104,11 @@
       "Fantasy",
       "Literary / Classic"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/14634229-L.jpg?default=false",
+    "cover_work": "/works/OL39360W",
+    "cover_title": "Orlando",
+    "cover_author": "Virginia Woolf"
   },
   {
     "book_id": 110,
@@ -2696,7 +3132,11 @@
     "genres": [
       "Literary / Classic"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/11016580-L.jpg?default=false",
+    "cover_work": "/works/OL39316W",
+    "cover_title": "The Waves",
+    "cover_author": "Virginia Woolf"
   },
   {
     "book_id": 111,
@@ -2720,7 +3160,11 @@
     "genres": [
       "Essay / Philosophy"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/14858513-L.jpg?default=false",
+    "cover_work": "/works/OL39379W",
+    "cover_title": "A Room of One's Own",
+    "cover_author": "Virginia Woolf"
   },
   {
     "book_id": 112,
@@ -2745,7 +3189,11 @@
       "Literary / Classic",
       "Fantasy"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/9753698-L.jpg?default=false",
+    "cover_work": "/works/OL498556W",
+    "cover_title": "The Metamorphosis",
+    "cover_author": "Franz Kafka"
   },
   {
     "book_id": 113,
@@ -2770,7 +3218,11 @@
       "Literary / Classic",
       "Mystery / Thriller"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/15082861-L.jpg?default=false",
+    "cover_work": "/works/OL498463W",
+    "cover_title": "The Trial",
+    "cover_author": "Franz Kafka"
   },
   {
     "book_id": 114,
@@ -2794,7 +3246,11 @@
     "genres": [
       "Literary / Classic"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/8096204-L.jpg?default=false",
+    "cover_work": "/works/OL498434W",
+    "cover_title": "The Castle",
+    "cover_author": "Franz Kafka"
   },
   {
     "book_id": 115,
@@ -2818,7 +3274,11 @@
     "genres": [
       "Literary / Classic"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/581711-L.jpg?default=false",
+    "cover_work": "/works/OL498411W",
+    "cover_title": "Amerika",
+    "cover_author": "Franz Kafka"
   },
   {
     "book_id": 116,
@@ -2842,7 +3302,11 @@
     "genres": [
       "Literary / Classic"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/15118287-L.jpg?default=false",
+    "cover_work": "/works/OL1230613W",
+    "cover_title": "The Stranger",
+    "cover_author": "Albert Camus"
   },
   {
     "book_id": 117,
@@ -2866,7 +3330,11 @@
     "genres": [
       "Literary / Classic"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/15038781-L.jpg?default=false",
+    "cover_work": "/works/OL1230715W",
+    "cover_title": "The Plague",
+    "cover_author": "Albert Camus"
   },
   {
     "book_id": 118,
@@ -2890,7 +3358,11 @@
     "genres": [
       "Literary / Classic"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/14434906-L.jpg?default=false",
+    "cover_work": "/works/OL1230631W",
+    "cover_title": "The Fall",
+    "cover_author": "Albert Camus"
   },
   {
     "book_id": 119,
@@ -2914,7 +3386,11 @@
     "genres": [
       "Essay / Philosophy"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/8824673-L.jpg?default=false",
+    "cover_work": "/works/OL1230601W",
+    "cover_title": "The Myth of Sisyphus",
+    "cover_author": "Albert Camus"
   },
   {
     "book_id": 120,
@@ -2938,7 +3414,11 @@
     "genres": [
       "Literary / Classic"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/6650943-L.jpg?default=false",
+    "cover_work": "/works/OL1161171W",
+    "cover_title": "Nausea",
+    "cover_author": "Jean-Paul Sartre"
   },
   {
     "book_id": 121,
@@ -2962,7 +3442,11 @@
     "genres": [
       "Literary / Classic"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/13414335-L.jpg?default=false",
+    "cover_work": "/works/OL1161329W",
+    "cover_title": "No exit (Huis clos)",
+    "cover_author": "Jean-Paul Sartre"
   },
   {
     "book_id": 122,
@@ -2986,7 +3470,11 @@
     "genres": [
       "Essay / Philosophy"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/14882069-L.jpg?default=false",
+    "cover_work": "/works/OL1161325W",
+    "cover_title": "Being and Nothingness",
+    "cover_author": "Jean-Paul Sartre"
   },
   {
     "book_id": 123,
@@ -3011,7 +3499,11 @@
       "Literary / Classic",
       "Romance / Contemporary"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/10817951-L.jpg?default=false",
+    "cover_work": "/works/OL8972751W",
+    "cover_title": "The unbearable lightness of being",
+    "cover_author": "Milan Kundera"
   },
   {
     "book_id": 124,
@@ -3035,7 +3527,11 @@
     "genres": [
       "Literary / Classic"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/6384387-L.jpg?default=false",
+    "cover_work": "/works/OL10402330W",
+    "cover_title": "The Book of Laughter and Forgetting",
+    "cover_author": "Milan Kundera"
   },
   {
     "book_id": 125,
@@ -3059,7 +3555,11 @@
     "genres": [
       "Literary / Classic"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/6609790-L.jpg?default=false",
+    "cover_work": "/works/OL10423422W",
+    "cover_title": "Life is elsewhere.",
+    "cover_author": "Milan Kundera"
   },
   {
     "book_id": 126,
@@ -3084,7 +3584,11 @@
       "Fantasy",
       "Literary / Classic"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/14428415-L.jpg?default=false",
+    "cover_work": "/works/OL676009W",
+    "cover_title": "The Master and Margarita",
+    "cover_author": "Михаил Афанасьевич Булгаков"
   },
   {
     "book_id": 127,
@@ -3109,7 +3613,11 @@
       "Historical fiction",
       "Romance / Contemporary"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/14896503-L.jpg?default=false",
+    "cover_work": "/works/OL38068744W",
+    "cover_title": "Doctor Zhivago",
+    "cover_author": "Boris Pasternak"
   },
   {
     "book_id": 128,
@@ -3133,7 +3641,11 @@
     "genres": [
       "Literary / Classic"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/12984540-L.jpg?default=false",
+    "cover_work": "/works/OL627084W",
+    "cover_title": "Lolita",
+    "cover_author": "Vladimir Nabokov"
   },
   {
     "book_id": 129,
@@ -3158,7 +3670,11 @@
       "Literary / Classic",
       "Mystery / Thriller"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/14488186-L.jpg?default=false",
+    "cover_work": "/works/OL627081W",
+    "cover_title": "Pale Fire",
+    "cover_author": "Vladimir Nabokov"
   },
   {
     "book_id": 130,
@@ -3182,7 +3698,11 @@
     "genres": [
       "Memoir / Reportage"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/225797-L.jpg?default=false",
+    "cover_work": "/works/OL627083W",
+    "cover_title": "Speak, memory",
+    "cover_author": "Vladimir Nabokov / Vladimir Nabokov"
   },
   {
     "book_id": 131,
@@ -3207,7 +3727,11 @@
       "Mystery / Thriller",
       "Historical fiction"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/6296161-L.jpg?default=false",
+    "cover_work": "/works/OL8996439W",
+    "cover_title": "The  name of the rose",
+    "cover_author": "Umberto Eco"
   },
   {
     "book_id": 132,
@@ -3232,7 +3756,11 @@
       "Mystery / Thriller",
       "Contemporary fiction"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/15124929-L.jpg?default=false",
+    "cover_work": "/works/OL8996438W",
+    "cover_title": "Foucault's Pendulum",
+    "cover_author": "Umberto Eco"
   },
   {
     "book_id": 133,
@@ -3257,7 +3785,11 @@
       "Mystery / Thriller",
       "Historical fiction"
     ],
-    "pace_1_3": 3
+    "pace_1_3": 3,
+    "cover_url": "https://covers.openlibrary.org/b/id/15148127-L.jpg?default=false",
+    "cover_work": "/works/OL278437W",
+    "cover_title": "The Shadow of the Wind",
+    "cover_author": "Carlos Ruiz Zafón"
   },
   {
     "book_id": 134,
@@ -3282,7 +3814,11 @@
       "Mystery / Thriller",
       "Historical fiction"
     ],
-    "pace_1_3": 3
+    "pace_1_3": 3,
+    "cover_url": "https://covers.openlibrary.org/b/id/11426346-L.jpg?default=false",
+    "cover_work": "/works/OL15165640W",
+    "cover_title": "The Angel's Game",
+    "cover_author": "Carlos Ruiz Zafón"
   },
   {
     "book_id": 135,
@@ -3307,7 +3843,11 @@
       "Mystery / Thriller",
       "Historical fiction"
     ],
-    "pace_1_3": 3
+    "pace_1_3": 3,
+    "cover_url": "https://covers.openlibrary.org/b/id/10833372-L.jpg?default=false",
+    "cover_work": "/works/OL16708051W",
+    "cover_title": "The Prisoner of Heaven",
+    "cover_author": "Carlos Ruiz Zafón"
   },
   {
     "book_id": 136,
@@ -3332,7 +3872,11 @@
       "Mystery / Thriller",
       "Historical fiction"
     ],
-    "pace_1_3": 3
+    "pace_1_3": 3,
+    "cover_url": "https://covers.openlibrary.org/b/id/10690942-L.jpg?default=false",
+    "cover_work": "/works/OL24227567W",
+    "cover_title": "The Labyrinth of the Spirits",
+    "cover_author": "Carlos Ruiz Zafón"
   },
   {
     "book_id": 137,
@@ -3356,7 +3900,11 @@
     "genres": [
       "Fantasy"
     ],
-    "pace_1_3": 3
+    "pace_1_3": 3,
+    "cover_url": "https://covers.openlibrary.org/b/id/15121528-L.jpg?default=false",
+    "cover_work": "/works/OL796465W",
+    "cover_title": "The Alchemist",
+    "cover_author": "Paulo Coelho"
   },
   {
     "book_id": 138,
@@ -3381,7 +3929,11 @@
       "Fantasy",
       "Romance / Contemporary"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/9551551-L.jpg?default=false",
+    "cover_work": "/works/OL796480W",
+    "cover_title": "Brida",
+    "cover_author": "Paulo Coelho"
   },
   {
     "book_id": 139,
@@ -3405,7 +3957,11 @@
     "genres": [
       "Contemporary fiction"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/23205-L.jpg?default=false",
+    "cover_work": "/works/OL796597W",
+    "cover_title": "Veronika decides to die",
+    "cover_author": "Paulo Coelho"
   },
   {
     "book_id": 140,
@@ -3429,7 +3985,11 @@
     "genres": [
       "Memoir / Reportage"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/10796383-L.jpg?default=false",
+    "cover_work": "/works/OL796594W",
+    "cover_title": "The Pilgrimage",
+    "cover_author": "Paulo Coelho"
   },
   {
     "book_id": 141,
@@ -3454,7 +4014,11 @@
       "Fantasy",
       "Literary / Classic"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/13578797-L.jpg?default=false",
+    "cover_work": "/works/OL34814029W",
+    "cover_title": "The little prince",
+    "cover_author": "Antoine de Saint-Exupéry"
   },
   {
     "book_id": 142,
@@ -3478,7 +4042,11 @@
     "genres": [
       "Literary / Classic"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/6562532-L.jpg?default=false",
+    "cover_work": "/works/OL872932W",
+    "cover_title": "Siddhartha",
+    "cover_author": "Hermann Hesse"
   },
   {
     "book_id": 143,
@@ -3502,7 +4070,11 @@
     "genres": [
       "Literary / Classic"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/8070647-L.jpg?default=false",
+    "cover_work": "/works/OL872773W",
+    "cover_title": "Steppenwolf",
+    "cover_author": "Hermann Hesse"
   },
   {
     "book_id": 144,
@@ -3526,7 +4098,11 @@
     "genres": [
       "Literary / Classic"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/14858668-L.jpg?default=false",
+    "cover_work": "/works/OL30457295W",
+    "cover_title": "Demian",
+    "cover_author": "Hermann Hesse"
   },
   {
     "book_id": 145,
@@ -3551,7 +4127,11 @@
       "Literary / Classic",
       "Science fiction"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/178024-L.jpg?default=false",
+    "cover_work": "/works/OL872724W",
+    "cover_title": "The glass bead game",
+    "cover_author": "Hermann Hesse"
   },
   {
     "book_id": 146,
@@ -3576,7 +4156,11 @@
       "Historical fiction",
       "Young adult"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/11473474-L.jpg?default=false",
+    "cover_work": "/works/OL5819456W",
+    "cover_title": "The Book Thief",
+    "cover_author": "Markus Zusak"
   },
   {
     "book_id": 147,
@@ -3600,7 +4184,11 @@
     "genres": [
       "Historical fiction"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/15171248-L.jpg?default=false",
+    "cover_work": "/works/OL16821606W",
+    "cover_title": "All the Light We Cannot See",
+    "cover_author": "Anthony Doerr"
   },
   {
     "book_id": 148,
@@ -3625,7 +4213,11 @@
       "Contemporary fiction",
       "Science fiction"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/13253465-L.jpg?default=false",
+    "cover_work": "/works/OL24164954W",
+    "cover_title": "Cloud Cuckoo Land",
+    "cover_author": "Anthony Doerr"
   },
   {
     "book_id": 149,
@@ -3650,7 +4242,11 @@
       "Historical fiction",
       "Contemporary fiction"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/12059765-L.jpg?default=false",
+    "cover_work": "/works/OL1855944W",
+    "cover_title": "Atonement",
+    "cover_author": "Ian McEwan"
   },
   {
     "book_id": 150,
@@ -3674,7 +4270,11 @@
     "genres": [
       "Contemporary fiction"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/12389881-L.jpg?default=false",
+    "cover_work": "/works/OL1855943W",
+    "cover_title": "Amsterdam",
+    "cover_author": "Ian McEwan"
   },
   {
     "book_id": 151,
@@ -3699,7 +4299,11 @@
       "Romance / Contemporary",
       "Contemporary fiction"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/11280745-L.jpg?default=false",
+    "cover_work": "/works/OL1855940W",
+    "cover_title": "On Chesil Beach",
+    "cover_author": "Ian McEwan"
   },
   {
     "book_id": 152,
@@ -3724,7 +4328,11 @@
       "Science fiction",
       "Contemporary fiction"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/13160732-L.jpg?default=false",
+    "cover_work": "/works/OL59038W",
+    "cover_title": "Never Let Me Go",
+    "cover_author": "Kazuo Ishiguro"
   },
   {
     "book_id": 153,
@@ -3749,7 +4357,11 @@
       "Contemporary fiction",
       "Historical fiction"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/15241866-L.jpg?default=false",
+    "cover_work": "/works/OL59048W",
+    "cover_title": "The Remains of the Day",
+    "cover_author": "Kazuo Ishiguro"
   },
   {
     "book_id": 154,
@@ -3774,7 +4386,11 @@
       "Science fiction",
       "Contemporary fiction"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/12818437-L.jpg?default=false",
+    "cover_work": "/works/OL20883297W",
+    "cover_title": "Klara and the Sun",
+    "cover_author": "Kazuo Ishiguro"
   },
   {
     "book_id": 155,
@@ -3799,7 +4415,11 @@
       "Contemporary fiction",
       "Historical fiction"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/10168547-L.jpg?default=false",
+    "cover_work": "/works/OL59041W",
+    "cover_title": "An artist of the floating world",
+    "cover_author": "Kazuo Ishiguro"
   },
   {
     "book_id": 156,
@@ -3824,7 +4444,11 @@
       "Romance / Contemporary",
       "Contemporary fiction"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/6391163-L.jpg?default=false",
+    "cover_work": "/works/OL2625457W",
+    "cover_title": "Norwegian Wood",
+    "cover_author": "村上春樹"
   },
   {
     "book_id": 157,
@@ -3849,7 +4473,11 @@
       "Fantasy",
       "Contemporary fiction"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/11522102-L.jpg?default=false",
+    "cover_work": "/works/OL2625431W",
+    "cover_title": "Kafka on the Shore",
+    "cover_author": "村上春樹"
   },
   {
     "book_id": 158,
@@ -3874,7 +4502,11 @@
       "Fantasy",
       "Mystery / Thriller"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/11526100-L.jpg?default=false",
+    "cover_work": "/works/OL15029001W",
+    "cover_title": "1Q84",
+    "cover_author": "村上春樹"
   },
   {
     "book_id": 159,
@@ -3899,7 +4531,11 @@
       "Contemporary fiction",
       "Fantasy"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/15252613-L.jpg?default=false",
+    "cover_work": "/works/OL2625412W",
+    "cover_title": "The Wind-up Bird Chronicle",
+    "cover_author": "村上春樹"
   },
   {
     "book_id": 160,
@@ -3924,7 +4560,11 @@
       "Romance / Contemporary",
       "Contemporary fiction"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/15255152-L.jpg?default=false",
+    "cover_work": "/works/OL2625443W",
+    "cover_title": "Sputnik Sweetheart",
+    "cover_author": "村上春樹"
   },
   {
     "book_id": 161,
@@ -3948,7 +4588,11 @@
     "genres": [
       "Contemporary fiction"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/12076245-L.jpg?default=false",
+    "cover_work": "/works/OL16810121W",
+    "cover_title": "Colorless tsukuru tazaki and his years of pilgrimage",
+    "cover_author": "村上春樹 / Philip Gabriel"
   },
   {
     "book_id": 162,
@@ -3972,7 +4616,11 @@
     "genres": [
       "Contemporary fiction"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/15228140-L.jpg?default=false",
+    "cover_work": "/works/OL19744024W",
+    "cover_title": "Convenience Store Woman",
+    "cover_author": "村田沙耶香 / Nancy Wu / Mathilde Tamae-Bouhon / Albert Nolla Cabellos / Marina Bornas Montaña"
   },
   {
     "book_id": 163,
@@ -3997,7 +4645,11 @@
       "Contemporary fiction",
       "Horror"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/12416434-L.jpg?default=false",
+    "cover_work": "/works/OL24350404W",
+    "cover_title": "Earthlings",
+    "cover_author": "村田沙耶香 / Mathilde Tamae-Bouhon / Ginny Tapley Takemori"
   },
   {
     "book_id": 164,
@@ -4021,7 +4673,11 @@
     "genres": [
       "Contemporary fiction"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/6627473-L.jpg?default=false",
+    "cover_work": "/works/OL2637599W",
+    "cover_title": "Kitchen",
+    "cover_author": "吉本 ばなな"
   },
   {
     "book_id": 165,
@@ -4045,7 +4701,11 @@
     "genres": [
       "Contemporary fiction"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/8469702-L.jpg?default=false",
+    "cover_work": "/works/OL17334243W",
+    "cover_title": "The Vegetarian",
+    "cover_author": "Han Kang"
   },
   {
     "book_id": 166,
@@ -4070,7 +4730,11 @@
       "Historical fiction",
       "Contemporary fiction"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/8047485-L.jpg?default=false",
+    "cover_work": "/works/OL17764836W",
+    "cover_title": "Human Acts",
+    "cover_author": "Han Kang / Alba Cunill Fulquet"
   },
   {
     "book_id": 167,
@@ -4094,7 +4758,11 @@
     "genres": [
       "Historical fiction"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/14829324-L.jpg?default=false",
+    "cover_work": "/works/OL17762217W",
+    "cover_title": "Pachinko",
+    "cover_author": "Min Jin Lee"
   },
   {
     "book_id": 168,
@@ -4119,7 +4787,11 @@
       "Historical fiction",
       "Mystery / Thriller"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/7913176-L.jpg?default=false",
+    "cover_work": "/works/OL17345497W",
+    "cover_title": "The Sympathizer",
+    "cover_author": "Viet Thanh Nguyen / Francois Chau / Beruryah Ben Barukh"
   },
   {
     "book_id": 169,
@@ -4144,7 +4816,11 @@
       "Contemporary fiction",
       "Historical fiction"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/15162763-L.jpg?default=false",
+    "cover_work": "/works/OL5781992W",
+    "cover_title": "The Kite Runner",
+    "cover_author": "Khaled Hosseini"
   },
   {
     "book_id": 170,
@@ -4169,7 +4845,11 @@
       "Historical fiction",
       "Contemporary fiction"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/12581285-L.jpg?default=false",
+    "cover_work": "/works/OL5782000W",
+    "cover_title": "A Thousand Splendid Suns",
+    "cover_author": "Khaled Hosseini"
   },
   {
     "book_id": 171,
@@ -4193,7 +4873,11 @@
     "genres": [
       "Contemporary fiction"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/12490035-L.jpg?default=false",
+    "cover_work": "/works/OL16804912W",
+    "cover_title": "And the Mountains Echoed",
+    "cover_author": "Khaled Hosseini"
   },
   {
     "book_id": 172,
@@ -4218,7 +4902,11 @@
       "Adventure",
       "Contemporary fiction"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/15190573-L.jpg?default=false",
+    "cover_work": "/works/OL2827199W",
+    "cover_title": "Life of Pi",
+    "cover_author": "Yann Martel"
   },
   {
     "book_id": 173,
@@ -4242,7 +4930,11 @@
     "genres": [
       "Contemporary fiction"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/10513792-L.jpg?default=false",
+    "cover_work": "/works/OL1052133W",
+    "cover_title": "The God of Small Things",
+    "cover_author": "Arundhati Roy"
   },
   {
     "book_id": 174,
@@ -4267,7 +4959,11 @@
       "Fantasy",
       "Historical fiction"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/12001965-L.jpg?default=false",
+    "cover_work": "/works/OL457179W",
+    "cover_title": "Midnight's Children",
+    "cover_author": "Salman Rushdie"
   },
   {
     "book_id": 175,
@@ -4292,7 +4988,11 @@
       "Fantasy",
       "Contemporary fiction"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/15057025-L.jpg?default=false",
+    "cover_work": "/works/OL457175W",
+    "cover_title": "The Satanic Verses",
+    "cover_author": "Salman Rushdie"
   },
   {
     "book_id": 176,
@@ -4317,7 +5017,11 @@
       "Contemporary fiction",
       "Historical fiction"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/11830702-L.jpg?default=false",
+    "cover_work": "/works/OL457170W",
+    "cover_title": "The Moor's last sigh",
+    "cover_author": "Salman Rushdie"
   },
   {
     "book_id": 177,
@@ -4342,7 +5046,11 @@
       "Historical fiction",
       "Literary / Classic"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/15159693-L.jpg?default=false",
+    "cover_work": "/works/OL891786W",
+    "cover_title": "Things Fall Apart",
+    "cover_author": "Chinua Achebe"
   },
   {
     "book_id": 178,
@@ -4367,7 +5075,11 @@
       "Contemporary fiction",
       "Historical fiction"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/6627849-L.jpg?default=false",
+    "cover_work": "/works/OL891789W",
+    "cover_title": "No longer at ease",
+    "cover_author": "Chinua Achebe"
   },
   {
     "book_id": 179,
@@ -4391,7 +5103,11 @@
     "genres": [
       "Historical fiction"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/14597881-L.jpg?default=false",
+    "cover_work": "/works/OL5731542W",
+    "cover_title": "Half of a Yellow Sun",
+    "cover_author": "Chimamanda Ngozi Adichie"
   },
   {
     "book_id": 180,
@@ -4416,7 +5132,11 @@
       "Contemporary fiction",
       "Romance / Contemporary"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/12627263-L.jpg?default=false",
+    "cover_work": "/works/OL16805415W",
+    "cover_title": "Americanah",
+    "cover_author": "Chimamanda Ngozi Adichie"
   },
   {
     "book_id": 181,
@@ -4440,7 +5160,11 @@
     "genres": [
       "Contemporary fiction"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/14551248-L.jpg?default=false",
+    "cover_work": "/works/OL5731538W",
+    "cover_title": "Purple Hibiscus",
+    "cover_author": "Chimamanda Ngozi Adichie"
   },
   {
     "book_id": 182,
@@ -4464,7 +5188,11 @@
     "genres": [
       "Historical fiction"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/14333333-L.jpg?default=false",
+    "cover_work": "/works/OL17795349W",
+    "cover_title": "Homegoing",
+    "cover_author": "Yaa Gyasi"
   },
   {
     "book_id": 183,
@@ -4488,7 +5216,11 @@
     "genres": [
       "Contemporary fiction"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/10401376-L.jpg?default=false",
+    "cover_work": "/works/OL20760225W",
+    "cover_title": "Transcendent Kingdom",
+    "cover_author": "Yaa Gyasi"
   },
   {
     "book_id": 184,
@@ -4512,7 +5244,11 @@
     "genres": [
       "Contemporary fiction"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/14599648-L.jpg?default=false",
+    "cover_work": "/works/OL1843720W",
+    "cover_title": "The Joy Luck Club",
+    "cover_author": "Amy Tan / Gwendoline Yeo / Tsai Chin / Ronald Bass / Wayne Wang / Jordi Fibla"
   },
   {
     "book_id": 185,
@@ -4536,7 +5272,11 @@
     "genres": [
       "Contemporary fiction"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/14430981-L.jpg?default=false",
+    "cover_work": "/works/OL1843703W",
+    "cover_title": "The Bonesetter's Daughter",
+    "cover_author": "Amy Tan"
   },
   {
     "book_id": 186,
@@ -4560,7 +5300,11 @@
     "genres": [
       "Historical fiction"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/8231782-L.jpg?default=false",
+    "cover_work": "/works/OL1856675W",
+    "cover_title": "Memoirs of a Geisha",
+    "cover_author": "Arthur Golden"
   },
   {
     "book_id": 187,
@@ -4585,7 +5329,11 @@
       "Historical fiction",
       "Contemporary fiction"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/22342-L.jpg?default=false",
+    "cover_work": "/works/OL1846845W",
+    "cover_title": "The poisonwood Bible",
+    "cover_author": "Barbara Kingsolver / Dean Robertson / Aurora Ballester Gasso"
   },
   {
     "book_id": 188,
@@ -4609,7 +5357,11 @@
     "genres": [
       "Contemporary fiction"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/14817081-L.jpg?default=false",
+    "cover_work": "/works/OL27052926W",
+    "cover_title": "Demon Copperhead",
+    "cover_author": "Barbara Kingsolver"
   },
   {
     "book_id": 189,
@@ -4634,7 +5386,11 @@
       "Science fiction",
       "Contemporary fiction"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/15154656-L.jpg?default=false",
+    "cover_work": "/works/OL675783W",
+    "cover_title": "The Handmaid's Tale",
+    "cover_author": "Margaret Atwood"
   },
   {
     "book_id": 190,
@@ -4659,7 +5415,11 @@
       "Science fiction",
       "Contemporary fiction"
     ],
-    "pace_1_3": 3
+    "pace_1_3": 3,
+    "cover_url": "https://covers.openlibrary.org/b/id/14413099-L.jpg?default=false",
+    "cover_work": "/works/OL20129837W",
+    "cover_title": "The Testaments",
+    "cover_author": "Margaret Atwood"
   },
   {
     "book_id": 191,
@@ -4684,7 +5444,11 @@
       "Mystery / Thriller",
       "Historical fiction"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/12507599-L.jpg?default=false",
+    "cover_work": "/works/OL675834W",
+    "cover_title": "Alias Grace",
+    "cover_author": "Margaret Atwood"
   },
   {
     "book_id": 192,
@@ -4709,7 +5473,11 @@
       "Science fiction",
       "Contemporary fiction"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/14534480-L.jpg?default=false",
+    "cover_work": "/works/OL675722W",
+    "cover_title": "Oryx and Crake",
+    "cover_author": "Margaret Atwood"
   },
   {
     "book_id": 193,
@@ -4734,7 +5502,11 @@
       "Science fiction",
       "Contemporary fiction"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/14657677-L.jpg?default=false",
+    "cover_work": "/works/OL17202418W",
+    "cover_title": "Station Eleven",
+    "cover_author": "Emily St. John Mandel"
   },
   {
     "book_id": 194,
@@ -4759,7 +5531,11 @@
       "Science fiction",
       "Contemporary fiction"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/13270675-L.jpg?default=false",
+    "cover_work": "/works/OL24731706W",
+    "cover_title": "Sea of Tranquility",
+    "cover_author": "Emily St. John Mandel"
   },
   {
     "book_id": 195,
@@ -4784,7 +5560,11 @@
       "Fantasy",
       "Romance / Contemporary"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/14579344-L.jpg?default=false",
+    "cover_work": "/works/OL16086747W",
+    "cover_title": "The Night Circus",
+    "cover_author": "Erin Morgenstern"
   },
   {
     "book_id": 196,
@@ -4808,7 +5588,11 @@
     "genres": [
       "Fantasy"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/9084503-L.jpg?default=false",
+    "cover_work": "/works/OL20416941W",
+    "cover_title": "The Starless Sea",
+    "cover_author": "Erin Morgenstern"
   },
   {
     "book_id": 197,
@@ -4833,7 +5617,11 @@
       "Romance / Contemporary",
       "Science fiction"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/9273734-L.jpg?default=false",
+    "cover_work": "/works/OL4720160W",
+    "cover_title": "The Time Traveler's Wife",
+    "cover_author": "Audrey Niffenegger"
   },
   {
     "book_id": 198,
@@ -4858,7 +5646,11 @@
       "Contemporary fiction",
       "Fantasy"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/15213512-L.jpg?default=false",
+    "cover_work": "/works/OL5962664W",
+    "cover_title": "The Lovely Bones",
+    "cover_author": "Alice Sebold"
   },
   {
     "book_id": 199,
@@ -4883,7 +5675,11 @@
       "Mystery / Thriller",
       "Contemporary fiction"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/14826536-L.jpg?default=false",
+    "cover_work": "/works/OL4321141W",
+    "cover_title": "The Secret History",
+    "cover_author": "Donna Tartt"
   },
   {
     "book_id": 200,
@@ -4907,7 +5703,11 @@
     "genres": [
       "Contemporary fiction"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/7267111-L.jpg?default=false",
+    "cover_work": "/works/OL16809803W",
+    "cover_title": "The Goldfinch",
+    "cover_author": "Donna Tartt / Katia Benovich"
   },
   {
     "book_id": 201,
@@ -4932,7 +5732,11 @@
       "Mystery / Thriller",
       "Contemporary fiction"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/15136711-L.jpg?default=false",
+    "cover_work": "/works/OL4321136W",
+    "cover_title": "The Little Friend",
+    "cover_author": "Donna Tartt"
   },
   {
     "book_id": 202,
@@ -4957,7 +5761,11 @@
       "Romance / Contemporary",
       "Contemporary fiction"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/15213474-L.jpg?default=false",
+    "cover_work": "/works/OL20150260W",
+    "cover_title": "Normal People",
+    "cover_author": "Sally Rooney"
   },
   {
     "book_id": 203,
@@ -4982,7 +5790,11 @@
       "Contemporary fiction",
       "Romance / Contemporary"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/13130141-L.jpg?default=false",
+    "cover_work": "/works/OL17887575W",
+    "cover_title": "Conversations With Friends",
+    "cover_author": "Sally Rooney"
   },
   {
     "book_id": 204,
@@ -5007,7 +5819,11 @@
       "Contemporary fiction",
       "Romance / Contemporary"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/12809098-L.jpg?default=false",
+    "cover_work": "/works/OL24151602W",
+    "cover_title": "Beautiful World, Where Are You",
+    "cover_author": "Sally Rooney / Octavi Gil Pujol"
   },
   {
     "book_id": 205,
@@ -5031,7 +5847,11 @@
     "genres": [
       "Contemporary fiction"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/14849932-L.jpg?default=false",
+    "cover_work": "/works/OL26004554W",
+    "cover_title": "Tomorrow, and Tomorrow, and Tomorrow",
+    "cover_author": "Gabrielle Zevin"
   },
   {
     "book_id": 206,
@@ -5055,7 +5875,11 @@
     "genres": [
       "Contemporary fiction"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/12742200-L.jpg?default=false",
+    "cover_work": "/works/OL16819586W",
+    "cover_title": "The storied life of A. J. Fikry",
+    "cover_author": "Gabrielle Zevin / Scott Brick"
   },
   {
     "book_id": 207,
@@ -5080,7 +5904,11 @@
       "Contemporary fiction",
       "Historical fiction"
     ],
-    "pace_1_3": 3
+    "pace_1_3": 3,
+    "cover_url": "https://covers.openlibrary.org/b/id/15179919-L.jpg?default=false",
+    "cover_work": "/works/OL25344431W",
+    "cover_title": "Lessons in Chemistry",
+    "cover_author": "Bonnie Garmus"
   },
   {
     "book_id": 208,
@@ -5105,7 +5933,11 @@
       "Mystery / Thriller",
       "Contemporary fiction"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/8743774-L.jpg?default=false",
+    "cover_work": "/works/OL18766691W",
+    "cover_title": "Where the crawdads sing",
+    "cover_author": "Delia Owens"
   },
   {
     "book_id": 209,
@@ -5130,7 +5962,11 @@
       "Romance / Contemporary",
       "Contemporary fiction"
     ],
-    "pace_1_3": 3
+    "pace_1_3": 3,
+    "cover_url": "https://covers.openlibrary.org/b/id/8354226-L.jpg?default=false",
+    "cover_work": "/works/OL18203673W",
+    "cover_title": "The Seven Husbands of Evelyn Hugo",
+    "cover_author": "Taylor Jenkins Reid"
   },
   {
     "book_id": 210,
@@ -5154,7 +5990,11 @@
     "genres": [
       "Contemporary fiction"
     ],
-    "pace_1_3": 3
+    "pace_1_3": 3,
+    "cover_url": "https://covers.openlibrary.org/b/id/14631309-L.jpg?default=false",
+    "cover_work": "/works/OL19922194W",
+    "cover_title": "Daisy Jones and the Six",
+    "cover_author": "Taylor Jenkins Reid"
   },
   {
     "book_id": 211,
@@ -5178,7 +6018,11 @@
     "genres": [
       "Contemporary fiction"
     ],
-    "pace_1_3": 3
+    "pace_1_3": 3,
+    "cover_url": "https://covers.openlibrary.org/b/id/12842068-L.jpg?default=false",
+    "cover_work": "/works/OL22135561W",
+    "cover_title": "Malibu Rising",
+    "cover_author": "Taylor Jenkins Reid"
   },
   {
     "book_id": 212,
@@ -5202,7 +6046,11 @@
     "genres": [
       "Contemporary fiction"
     ],
-    "pace_1_3": 3
+    "pace_1_3": 3,
+    "cover_url": "https://covers.openlibrary.org/b/id/14824611-L.jpg?default=false",
+    "cover_work": "/works/OL27305925W",
+    "cover_title": "Carrie Soto is Back",
+    "cover_author": "Taylor Jenkins Reid"
   },
   {
     "book_id": 213,
@@ -5227,7 +6075,11 @@
       "Romance / Contemporary",
       "Contemporary fiction"
     ],
-    "pace_1_3": 3
+    "pace_1_3": 3,
+    "cover_url": "https://covers.openlibrary.org/b/id/15123232-L.jpg?default=false",
+    "cover_work": "/works/OL18020194W",
+    "cover_title": "It Ends With Us",
+    "cover_author": "Colleen Hoover"
   },
   {
     "book_id": 214,
@@ -5252,7 +6104,11 @@
       "Mystery / Thriller",
       "Contemporary fiction"
     ],
-    "pace_1_3": 3
+    "pace_1_3": 3,
+    "cover_url": "https://covers.openlibrary.org/b/id/13009038-L.jpg?default=false",
+    "cover_work": "/works/OL20068530W",
+    "cover_title": "Verity",
+    "cover_author": "Colleen Hoover"
   },
   {
     "book_id": 215,
@@ -5277,7 +6133,11 @@
       "Romance / Contemporary",
       "Contemporary fiction"
     ],
-    "pace_1_3": 3
+    "pace_1_3": 3,
+    "cover_url": "https://covers.openlibrary.org/b/id/14809993-L.jpg?default=false",
+    "cover_work": "/works/OL20577143W",
+    "cover_title": "Ugly Love",
+    "cover_author": "Colleen Hoover"
   },
   {
     "book_id": 216,
@@ -5302,7 +6162,11 @@
       "Romance / Contemporary",
       "Contemporary fiction"
     ],
-    "pace_1_3": 3
+    "pace_1_3": 3,
+    "cover_url": "https://covers.openlibrary.org/b/id/15198339-L.jpg?default=false",
+    "cover_work": "/works/OL20018811W",
+    "cover_title": "November 9",
+    "cover_author": "Colleen Hoover"
   },
   {
     "book_id": 217,
@@ -5327,7 +6191,11 @@
       "Young adult",
       "Romance / Contemporary"
     ],
-    "pace_1_3": 3
+    "pace_1_3": 3,
+    "cover_url": "https://covers.openlibrary.org/b/id/7285167-L.jpg?default=false",
+    "cover_work": "/works/OL16444438W",
+    "cover_title": "The Fault in Our Stars",
+    "cover_author": "John Green"
   },
   {
     "book_id": 218,
@@ -5351,7 +6219,11 @@
     "genres": [
       "Young adult"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/15254593-L.jpg?default=false",
+    "cover_work": "/works/OL265426W",
+    "cover_title": "Looking for Alaska",
+    "cover_author": "John Green / John Green"
   },
   {
     "book_id": 219,
@@ -5376,7 +6248,11 @@
       "Young adult",
       "Mystery / Thriller"
     ],
-    "pace_1_3": 3
+    "pace_1_3": 3,
+    "cover_url": "https://covers.openlibrary.org/b/id/10556399-L.jpg?default=false",
+    "cover_work": "/works/OL11822690W",
+    "cover_title": "Paper towns",
+    "cover_author": "John Green"
   },
   {
     "book_id": 220,
@@ -5400,7 +6276,11 @@
     "genres": [
       "Young adult"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/9255739-L.jpg?default=false",
+    "cover_work": "/works/OL17842319W",
+    "cover_title": "Turtles All the Way Down",
+    "cover_author": "John Green"
   },
   {
     "book_id": 221,
@@ -5425,7 +6305,11 @@
       "Young adult",
       "Romance / Contemporary"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/15216441-L.jpg?default=false",
+    "cover_work": "/works/OL16803752W",
+    "cover_title": "Eleanor & Park",
+    "cover_author": "Rainbow Rowell"
   },
   {
     "book_id": 222,
@@ -5450,7 +6334,11 @@
       "Young adult",
       "Romance / Contemporary"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/7316505-L.jpg?default=false",
+    "cover_work": "/works/OL17052872W",
+    "cover_title": "Fangirl",
+    "cover_author": "Rainbow Rowell"
   },
   {
     "book_id": 223,
@@ -5474,7 +6362,11 @@
     "genres": [
       "Young adult"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/15152723-L.jpg?default=false",
+    "cover_work": "/works/OL875437W",
+    "cover_title": "The Perks of Being a Wallflower",
+    "cover_author": "Stephen Chbosky"
   },
   {
     "book_id": 224,
@@ -5498,7 +6390,11 @@
     "genres": [
       "Young adult"
     ],
-    "pace_1_3": 3
+    "pace_1_3": 3,
+    "cover_url": "https://covers.openlibrary.org/b/id/15152933-L.jpg?default=false",
+    "cover_work": "/works/OL17714701W",
+    "cover_title": "The Hate U Give",
+    "cover_author": "Angie Thomas / Angie Thomas"
   },
   {
     "book_id": 225,
@@ -5522,7 +6418,11 @@
     "genres": [
       "Young adult"
     ],
-    "pace_1_3": 3
+    "pace_1_3": 3,
+    "cover_url": "https://covers.openlibrary.org/b/id/10768533-L.jpg?default=false",
+    "cover_work": "/works/OL2718328W",
+    "cover_title": "The Outsiders",
+    "cover_author": "S. E. Hinton / Jim Fyfe / Jodi Picoult"
   },
   {
     "book_id": 226,
@@ -5546,7 +6446,11 @@
     "genres": [
       "Young adult"
     ],
-    "pace_1_3": 3
+    "pace_1_3": 3,
+    "cover_url": "https://covers.openlibrary.org/b/id/15105282-L.jpg?default=false",
+    "cover_work": "/works/OL16142094W",
+    "cover_title": "Wonder",
+    "cover_author": "R. J. Palacio"
   },
   {
     "book_id": 227,
@@ -5571,7 +6475,11 @@
       "Contemporary fiction",
       "Mystery / Thriller"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/15163272-L.jpg?default=false",
+    "cover_work": "/works/OL2965102W",
+    "cover_title": "The Curious Incident of the Dog in the Night-Time",
+    "cover_author": "Mark Haddon"
   },
   {
     "book_id": 228,
@@ -5595,7 +6503,11 @@
     "genres": [
       "Contemporary fiction"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/13264741-L.jpg?default=false",
+    "cover_work": "/works/OL15212619W",
+    "cover_title": "Room",
+    "cover_author": "Emma Donoghue"
   },
   {
     "book_id": 229,
@@ -5619,7 +6531,11 @@
     "genres": [
       "Contemporary fiction"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/15144009-L.jpg?default=false",
+    "cover_work": "/works/OL3359138W",
+    "cover_title": "We Need to Talk about Kevin",
+    "cover_author": "Lionel Shriver"
   },
   {
     "book_id": 230,
@@ -5644,7 +6560,11 @@
       "Historical fiction",
       "Young adult"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/10086260-L.jpg?default=false",
+    "cover_work": "/works/OL19798655W",
+    "cover_title": "Lovely War",
+    "cover_author": "Julie Berry"
   },
   {
     "book_id": 231,
@@ -5669,7 +6589,11 @@
       "Fantasy",
       "Contemporary fiction"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/15164860-L.jpg?default=false",
+    "cover_work": "/works/OL20965973W",
+    "cover_title": "The Midnight Library",
+    "cover_author": "Matt Haig"
   },
   {
     "book_id": 232,
@@ -5694,7 +6618,11 @@
       "Fantasy",
       "Historical fiction"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/10198976-L.jpg?default=false",
+    "cover_work": "/works/OL19730220W",
+    "cover_title": "How to Stop Time",
+    "cover_author": "Matt Haig"
   },
   {
     "book_id": 233,
@@ -5719,7 +6647,11 @@
       "Science fiction",
       "Contemporary fiction"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/15235385-L.jpg?default=false",
+    "cover_work": "/works/OL19551989W",
+    "cover_title": "The humans",
+    "cover_author": "Matt Haig"
   },
   {
     "book_id": 234,
@@ -5744,7 +6676,11 @@
       "Fantasy",
       "Romance / Contemporary"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/13943891-L.jpg?default=false",
+    "cover_work": "/works/OL20796936W",
+    "cover_title": "The Invisible Life of Addie Larue",
+    "cover_author": "V. E. Schwab"
   },
   {
     "book_id": 235,
@@ -5769,7 +6705,11 @@
       "Fantasy",
       "Mystery / Thriller"
     ],
-    "pace_1_3": 3
+    "pace_1_3": 3,
+    "cover_url": "https://covers.openlibrary.org/b/id/7410940-L.jpg?default=false",
+    "cover_work": "/works/OL17332806W",
+    "cover_title": "Vicious",
+    "cover_author": "V. E. Schwab"
   },
   {
     "book_id": 236,
@@ -5794,7 +6734,11 @@
       "Fantasy",
       "Adventure"
     ],
-    "pace_1_3": 3
+    "pace_1_3": 3,
+    "cover_url": "https://covers.openlibrary.org/b/id/9157270-L.jpg?default=false",
+    "cover_work": "/works/OL17332803W",
+    "cover_title": "A Darker Shade of Magic",
+    "cover_author": "V. E. Schwab"
   },
   {
     "book_id": 237,
@@ -5819,7 +6763,11 @@
       "Fantasy",
       "Historical fiction"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/14817448-L.jpg?default=false",
+    "cover_work": "/works/OL16509148W",
+    "cover_title": "The Song Of Achilles",
+    "cover_author": "Madeline Miller"
   },
   {
     "book_id": 238,
@@ -5843,7 +6791,11 @@
     "genres": [
       "Fantasy"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/8739376-L.jpg?default=false",
+    "cover_work": "/works/OL18012166W",
+    "cover_title": "Circe",
+    "cover_author": "Madeline Miller"
   },
   {
     "book_id": 239,
@@ -5867,7 +6819,11 @@
     "genres": [
       "Historical fiction"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/8834880-L.jpg?default=false",
+    "cover_work": "/works/OL19749360W",
+    "cover_title": "The Silence of the Girls",
+    "cover_author": "Pat Barker"
   },
   {
     "book_id": 240,
@@ -5891,7 +6847,11 @@
     "genres": [
       "Historical fiction"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/12064129-L.jpg?default=false",
+    "cover_work": "/works/OL17797130W",
+    "cover_title": "A Gentleman in Moscow",
+    "cover_author": "Amor Towles"
   },
   {
     "book_id": 241,
@@ -5915,7 +6875,11 @@
     "genres": [
       "Historical fiction"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/12064075-L.jpg?default=false",
+    "cover_work": "/works/OL16190495W",
+    "cover_title": "Rules of Civility",
+    "cover_author": "Amor Towles"
   },
   {
     "book_id": 242,
@@ -5940,7 +6904,11 @@
       "Adventure",
       "Historical fiction"
     ],
-    "pace_1_3": 3
+    "pace_1_3": 3,
+    "cover_url": "https://covers.openlibrary.org/b/id/10648601-L.jpg?default=false",
+    "cover_work": "/works/OL24205227W",
+    "cover_title": "The Lincoln Highway",
+    "cover_author": "Amor Towles"
   },
   {
     "book_id": 243,
@@ -5964,7 +6932,11 @@
     "genres": [
       "Historical fiction"
     ],
-    "pace_1_3": 3
+    "pace_1_3": 3,
+    "cover_url": "https://covers.openlibrary.org/b/id/15090833-L.jpg?default=false",
+    "cover_work": "/works/OL17116910W",
+    "cover_title": "The Nightingale",
+    "cover_author": "Kristin Hannah"
   },
   {
     "book_id": 244,
@@ -5988,7 +6960,11 @@
     "genres": [
       "Historical fiction"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/10627721-L.jpg?default=false",
+    "cover_work": "/works/OL20848243W",
+    "cover_title": "The Four Winds",
+    "cover_author": "Kristin Hannah / Laura Vidal Sanz"
   },
   {
     "book_id": 245,
@@ -6013,7 +6989,11 @@
       "Historical fiction",
       "Contemporary fiction"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/15208265-L.jpg?default=false",
+    "cover_work": "/works/OL18147688W",
+    "cover_title": "The great alone",
+    "cover_author": "Kristin Hannah"
   },
   {
     "book_id": 246,
@@ -6037,7 +7017,11 @@
     "genres": [
       "Contemporary fiction"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/2370853-L.jpg?default=false",
+    "cover_work": "/works/OL488468W",
+    "cover_title": "Firefly Lane",
+    "cover_author": "Kristin Hannah"
   },
   {
     "book_id": 247,
@@ -6061,7 +7045,11 @@
     "genres": [
       "Historical fiction"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/10181699-L.jpg?default=false",
+    "cover_work": "/works/OL11999891W",
+    "cover_title": "The help",
+    "cover_author": "Kathryn Stockett / Álvaro Abella Villar / Alvaro Abella"
   },
   {
     "book_id": 248,
@@ -6086,7 +7074,11 @@
       "Historical fiction",
       "Romance / Contemporary"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/10621310-L.jpg?default=false",
+    "cover_work": "/works/OL5813796W",
+    "cover_title": "Water for Elephants",
+    "cover_author": "Sara Gruen / David LeDoux / John Randolph Jones"
   },
   {
     "book_id": 249,
@@ -6111,7 +7103,11 @@
       "Historical fiction",
       "Romance / Contemporary"
     ],
-    "pace_1_3": 2
+    "pace_1_3": 2,
+    "cover_url": "https://covers.openlibrary.org/b/id/14859218-L.jpg?default=false",
+    "cover_work": "/works/OL9334371W",
+    "cover_title": "The Guernsey Literary and Potato Peel Pie Society",
+    "cover_author": "Mary Ann Shaffer / Annie Barrows"
   },
   {
     "book_id": 250,
@@ -6135,6 +7131,10 @@
     "genres": [
       "Contemporary fiction"
     ],
-    "pace_1_3": 1
+    "pace_1_3": 1,
+    "cover_url": "https://covers.openlibrary.org/b/id/10560539-L.jpg?default=false",
+    "cover_work": "/works/OL13351631W",
+    "cover_title": "The elegance of the hedgehog",
+    "cover_author": "Muriel Barbery"
   }
 ]

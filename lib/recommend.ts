@@ -4,6 +4,7 @@ export type Book = {
   pace_1_3?: number; difficulty_1_5: number; popularity_1_100: number; gift_score_1_5: number;
   demo_price_eur: number; demo_stock: boolean; language_seed: string;
   description_seed: string; keywords: string; catalog_status: string;
+  cover_url?: string; cover_work?: string; cover_title?: string; cover_author?: string;
 };
 export type ReaderProfile = {
   recipient: 'self' | 'gift' | ''; age: number | null; interests: string[]; intent: string;

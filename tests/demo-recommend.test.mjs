@@ -34,6 +34,9 @@ test('250 distinct books have individual Spanish descriptions and usable editori
   assert.equal(new Set(books.flatMap(bookGenres)).size, 12);
   for (const book of books) {
     assert.ok(book.description_seed.length >= 80);
+    assert.match(book.cover_url, /^https:\/\/covers\.openlibrary\.org\/b\/id\/[1-9]\d*-L\.jpg\?default=false$/);
+    assert.match(book.cover_work, /^\/works\/OL\d+W$/);
+    assert.ok(book.cover_title && book.cover_author, `Missing cover provenance for ${book.title}`);
     assert.ok(!book.description_seed.includes('A well-known'));
     assert.ok(book.themes.split(', ').length >= 3);
     assert.ok([1, 2, 3].includes(book.pace_1_3));

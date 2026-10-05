@@ -222,10 +222,7 @@ function Question({ questionId, profile, update, toggleInterest }: QuestionProps
 
   if (questionId === 'age') return (
     <QuestionFrame kicker="El lector" title={profile.recipient === 'gift' ? '¿Qué edad tiene quien lo recibirá?' : '¿Qué edad tienes?'} description="Esta demo incluye lecturas a partir de 13 años. La edad orienta la selección; no sustituye la valoración de una persona adulta.">
-      <div className="rounded-xl border border-border bg-[#f9faf3] p-5 sm:p-6">
-        <label className="flex items-center gap-4"><input className="min-w-0 flex-1 bg-transparent font-heading text-4xl font-semibold outline-none placeholder:text-muted-foreground/50" aria-label="Edad del lector" type="number" inputMode="numeric" min="13" max="100" step="1" placeholder="Tu edad" value={profile.age ?? ''} onChange={(event) => update('age', event.target.value === '' ? null : Number(event.target.value))} /><span className="text-sm font-medium text-primary">años</span></label>
-        <p className="mt-4 text-xs text-muted-foreground">Indica una edad entre 13 y 100 años.</p>
-      </div>
+      <RangePicker id="demo-age-range" label="Edad del lector" value={profile.age} min={13} max={100} initialPosition={30} unit="años" placeholder="Elige tu edad" hint="Desliza para elegir una edad entre 13 y 100 años." onSelect={(value) => update('age', value)} />
     </QuestionFrame>
   );
 
@@ -291,12 +288,29 @@ function Question({ questionId, profile, update, toggleInterest }: QuestionProps
 
   return (
     <QuestionFrame kicker="Último detalle" title="¿Cuál es el presupuesto?" description="Probamos el filtro con precios simulados. No son ofertas ni precios actuales de una librería.">
-      <div className="rounded-xl border border-border bg-[#f9faf3] p-5 sm:p-6">
-        {profile.budget === null ? <p className="font-heading text-4xl font-semibold">Sin límite</p> : <label className="flex items-center gap-4"><input className="min-w-0 flex-1 bg-transparent font-heading text-4xl font-semibold outline-none placeholder:text-muted-foreground/50" aria-label="Presupuesto máximo" type="number" inputMode="decimal" min="0" step="0.01" placeholder="Tu límite" value={profile.budget ?? ''} onChange={(event) => update('budget', event.target.value === '' ? undefined : Number(event.target.value))} /><span className="text-sm text-muted-foreground">€ por libro</span></label>}
-      </div>
+      {profile.budget === null ? <div className="rounded-xl border border-border bg-[#f9faf3] p-5 sm:p-6"><p className="font-heading text-4xl font-semibold">Sin límite</p></div> :
+        <RangePicker id="demo-budget-range" label="Presupuesto máximo" value={profile.budget} min={0} max={100} initialPosition={25} unit="€ por libro" placeholder="Elige tu presupuesto" hint="Desliza para ajustar el máximo que quieres gastar por libro." onSelect={(value) => update('budget', value)} />}
       <button type="button" className="mt-4 text-sm font-medium text-primary underline-offset-4 hover:underline" onClick={() => update('budget', profile.budget === null ? undefined : null)}>{profile.budget === null ? 'Definir un límite' : 'No tengo límite de presupuesto'}</button>
     </QuestionFrame>
   );
+}
+
+function RangePicker({ id, label, value, min, max, initialPosition, unit, placeholder, hint, onSelect }: {
+  id: string; label: string; value: number | null | undefined; min: number; max: number;
+  initialPosition: number; unit: string; placeholder: string; hint: string; onSelect: (value: number) => void;
+}) {
+  return <div className="rounded-xl border border-border bg-[#f9faf3] p-5 sm:p-6">
+    <div className="flex min-h-12 items-center gap-3">
+      {value == null ? <p className="font-heading text-2xl font-semibold text-muted-foreground">{placeholder}</p> :
+        <><p className="font-heading text-4xl font-semibold tabular-nums">{value}</p><span className="text-sm font-medium text-primary">{unit}</span></>}
+    </div>
+    <input id={id} className="range-control mt-4 block h-8 w-full cursor-pointer rounded-full outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-4" aria-label={label} aria-describedby={`${id}-hint`} aria-valuetext={value == null ? 'Sin elegir' : `${value} ${unit}`} type="range" min={min} max={max} step={1} value={value ?? initialPosition}
+      onChange={(event) => onSelect(Number(event.target.value))}
+      onPointerUp={(event) => onSelect(Number(event.currentTarget.value))}
+      onKeyDown={(event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); onSelect(Number(event.currentTarget.value)); } }} />
+    <div className="flex justify-between text-xs text-muted-foreground"><span>{min} {unit === 'años' ? 'años' : '€'}</span><span>{max} {unit === 'años' ? 'años' : '€'}</span></div>
+    <p id={`${id}-hint`} className="mt-4 text-xs leading-5 text-muted-foreground">{hint}</p>
+  </div>;
 }
 
 function QuestionFrame({ kicker, title, description, children }: { kicker: string; title: string; description: string; children: React.ReactNode }) {
@@ -305,6 +319,15 @@ function QuestionFrame({ kicker, title, description, children }: { kicker: strin
 
 function Choice({ selected, onClick, children, compact = false, disabled = false }: { selected: boolean; onClick: () => void; children: React.ReactNode; compact?: boolean; disabled?: boolean }) {
   return <button type="button" disabled={disabled} aria-pressed={selected} onClick={onClick} className={`choice-card ${compact ? 'choice-card--compact' : ''} ${selected ? 'choice-card--selected' : ''}`}><span className={`choice-dot ${selected ? 'choice-dot--selected' : ''}`}>{selected && <Check className="size-3.5" />}</span>{children}</button>;
+}
+
+function DemoBookCover({ book, compact = false }: { book: Book; compact?: boolean }) {
+  const [failed, setFailed] = useState(false);
+  const cover = !failed && book.cover_url && /^https:\/\/covers\.openlibrary\.org\/b\/id\/[1-9]\d*-L\.jpg\?default=false$/.test(book.cover_url) ? book.cover_url : undefined;
+  return <div className={`flex items-center justify-center overflow-hidden bg-[#e7ebdf] ${compact ? 'h-64 rounded-xl p-4' : 'h-72 p-5 sm:h-80'}`}>
+    {cover ? <img src={cover} alt={`Portada de ${book.title}`} loading="lazy" decoding="async" referrerPolicy="no-referrer" className="h-full max-w-full rounded-sm object-contain shadow-[0_12px_24px_rgba(23,53,47,.20)]" onError={() => setFailed(true)} onLoad={(event) => { if (event.currentTarget.naturalWidth < 40 || event.currentTarget.naturalHeight < 60) setFailed(true); }} /> :
+      <div className="flex h-full w-full max-w-48 flex-col items-center justify-center rounded-sm border border-primary/20 bg-[#f5f2e9] px-5 text-center shadow-sm"><BookOpen className="mb-5 size-8 text-primary/70" aria-hidden="true" /><p className="font-heading text-xl font-semibold leading-tight text-primary">{book.title}</p><p className="mt-3 text-xs text-muted-foreground">{book.author}</p><p className="mt-5 text-[10px] text-muted-foreground">Portada no disponible</p></div>}
+  </div>;
 }
 
 function Results({ recommendations, eligibleCount, onRestart, onEdit, onAlternatives }: {
@@ -326,6 +349,7 @@ function Results({ recommendations, eligibleCount, onRestart, onEdit, onAlternat
               <Card className={`result-card h-full justify-between overflow-hidden rounded-[1.5rem] border-0 py-0 ring-1 ${index === 0 ? 'ring-primary/30' : 'ring-border'} transition-shadow hover:shadow-xl hover:shadow-primary/10`}>
                 <div>
                   <p className={`recommendation-heading ${index === 0 ? 'recommendation-heading-first' : ''}`}><span className="recommendation-position">{index + 1}</span><span aria-hidden="true">·</span>{['Tu primera opción', 'Segunda opción', 'Tercera opción'][index]}</p>
+                  <DemoBookCover book={recommendation.book} />
                   <CardHeader className="p-6 pb-3">
                     <div className="min-h-28"><h2 className="font-heading text-3xl font-semibold leading-[1.03] tracking-[-0.045em]">{recommendation.book.title}</h2><p className="mt-3 text-sm text-muted-foreground">{recommendation.book.author}</p></div>
                   </CardHeader>
@@ -347,6 +371,7 @@ function Results({ recommendations, eligibleCount, onRestart, onEdit, onAlternat
                   <section><p className="text-xs font-medium uppercase tracking-[.13em] text-primary">Temas que encontrarás</p><div className="mt-3 flex flex-wrap gap-2">{bookThemeLabels(recommendation.book).map(theme => <Badge key={theme} variant="outline">{theme}</Badge>)}</div></section>
                 </div>
                 <aside className="rounded-2xl bg-muted/60 p-5">
+                  <div className="mb-5"><DemoBookCover book={recommendation.book} compact /></div>
                   <dl className="space-y-5 text-sm">
                     <div><dt className="text-xs uppercase tracking-[.12em] text-muted-foreground">Género</dt><dd className="mt-1 font-medium">{(recommendation.book.genres ?? [recommendation.book.subgenre]).map(genreLabel).join(' · ')}</dd></div>
                     <div><dt className="text-xs uppercase tracking-[.12em] text-muted-foreground">Ritmo</dt><dd className="mt-1 leading-6">{paceOptions.find(pace => pace.value === recommendation.book.pace_1_3)?.label ?? 'Sin clasificar'}</dd></div>
