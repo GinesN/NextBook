@@ -15,4 +15,8 @@ async function harden(directory) {
     }
   }
 }
-await harden('github-pages-dist');
+const outputDirectory = process.argv[2] ?? 'github-pages-dist';
+await harden(outputDirectory);
+if (process.argv.includes('--headers')) {
+  await writeFile(join(outputDirectory, '_headers'), `/*\n  Content-Security-Policy: ${policy}; frame-ancestors 'none'\n  Referrer-Policy: no-referrer\n  X-Content-Type-Options: nosniff\n  X-Frame-Options: DENY\n  Permissions-Policy: camera=(), microphone=(), geolocation=()\n  Strict-Transport-Security: max-age=31536000\n`);
+}

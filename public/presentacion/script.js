@@ -1,4 +1,5 @@
-const demoUrl = 'https://ginesn.github.io/NextBook/';
+const demoUrl = new URL(document.documentElement.dataset.demoPath || '../', window.location.href).href;
+const qrImageUrl = new URL('./qr-demo.png', document.currentScript.src).href;
 const panel = document.querySelector('#step-panel');
 const examples = {
   reflexivo: { label: 'Para pensar', description: 'Historias que invitan a mirar el mundo desde otro lugar.', books: [['Don Quijote', 'Miguel de Cervantes'], ['Cien años de soledad', 'Gabriel García Márquez'], ['Orgullo y prejuicio', 'Jane Austen']] },
@@ -13,7 +14,7 @@ function renderStep(index) {
     button.setAttribute('aria-pressed', String(active));
   });
   if (index === 0) {
-    panel.innerHTML = `<h3>¿Y si tu próximo libro<br>está aquí?</h3><p>Escanea y descubre la demo.</p><a class="qr-link" href="${demoUrl}"><img src="./qr-demo.png" width="128" height="128" alt="Código QR para abrir la demo de NextBook"></a><a class="text-link" style="align-self:center" href="${demoUrl}">O ábrela desde aquí ↗</a>`;
+    panel.innerHTML = `<h3>¿Y si tu próximo libro<br>está aquí?</h3><p>Escanea y descubre la demo.</p><a class="qr-link" href="${demoUrl}"><img src="${qrImageUrl}" width="128" height="128" alt="Código QR para abrir la demo de NextBook"></a><a class="text-link" style="align-self:center" href="${demoUrl}">O ábrela desde aquí ↗</a>`;
   } else if (index === 1) {
     panel.innerHTML = `<h3>¿Qué te apetece leer?</h3><p>Prueba a elegir un momento.</p><div class="mood-options" aria-label="Tu momento lector">${Object.entries(examples).map(([key, value]) => `<button type="button" data-mood="${key}" aria-pressed="${key === mood}">${value.label}</button>`).join('')}</div><p class="preview-hint" id="mood-hint">${examples[mood].description}</p><button type="button" class="button" id="show-example" style="align-self:center">Ver ejemplo <span aria-hidden="true">→</span></button>`;
     panel.querySelectorAll('[data-mood]').forEach(button => button.addEventListener('click', () => {

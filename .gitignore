@@ -34,6 +34,7 @@ yarn-error.log*
 next-env.d.ts
 /dist/
 /github-pages-dist/
+/cloudflare-pages-dist/
 /.wrangler/
 /outputs/
 /work/

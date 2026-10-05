@@ -1,11 +1,11 @@
 import { ArrowUpRight, BookOpen } from 'lucide-react';
 
-const siteBasePath = import.meta.env.BASE_URL;
+import { siteBasePath, presentationPath } from '@/lib/site-paths';
 
 export function LegalFooter({ showNextBookLink = false }: { showNextBookLink?: boolean }) {
   return <footer className="nextbook-legal-footer">
     <div className="nextbook-legal-copy">
-      {showNextBookLink && <a className="nextbook-about-link" href={`${siteBasePath}presentacion/`}>
+      {showNextBookLink && <a className="nextbook-about-link" href={presentationPath}>
         <BookOpen size={16} strokeWidth={1.7} aria-hidden="true" />
         <span>Descubre NextBook</span>
         <ArrowUpRight size={14} aria-hidden="true" />

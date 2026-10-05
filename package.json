@@ -9,6 +9,7 @@
     "dev": "node scripts/bundle-auth.mjs && vite --config vite.github-pages.config.ts",
     "build": "pnpm run build:github-pages",
     "build:github-pages": "node scripts/bundle-auth.mjs && vite build --config vite.github-pages.config.ts && node scripts/harden-pages.mjs && node scripts/check-pages.mjs",
+    "build:cloudflare": "node scripts/bundle-auth.mjs && vite build --config vite.cloudflare.config.ts && node scripts/prepare-cloudflare-pages.mjs && node scripts/harden-pages.mjs cloudflare-pages-dist --headers && node scripts/check-pages.mjs cloudflare-pages-dist /",
     "start": "vite preview --config vite.github-pages.config.ts",
     "lint": "oxlint",
     "format": "oxfmt",
@@ -40,13 +41,14 @@
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
     "@vitejs/plugin-react": "6.0.2",
+    "esbuild": "0.28.2",
     "oxfmt": "0.61.0",
     "oxlint": "1.76.0",
     "oxlint-tsgolint": "7.0.2001",
+    "qrcode": "1.5.4",
     "tailwindcss": "4.2.1",
     "typescript": "5.9.3",
-    "vite": "8.0.16",
-    "esbuild": "0.28.2"
+    "vite": "8.0.16"
   },
   "type": "module"
 }

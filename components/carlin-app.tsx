@@ -12,7 +12,7 @@ import {
   type CarlinResponse, type CarlinSelectionContext, type PublicCatalogOption,
 } from '@/supabase/functions/_shared/carlin';
 
-const siteBasePath = import.meta.env.BASE_URL;
+import { siteBasePath, presentationPath } from '@/lib/site-paths';
 const apiUrl = import.meta.env.VITE_CARLIN_API_URL
   || 'https://aesmyvfjcfcjegytsacy.supabase.co/functions/v1/carlin-recommend';
 const publicApiKey = 'sb_publishable_7hEvf7ILNYgc5cKar9_u6w_oFgQJgsk';
@@ -152,7 +152,7 @@ export default function CarlinApp() {
 
   return <main id="top" className="carlin-page">
     <header className="carlin-header">
-      <a className="carlin-logo" href={`${siteBasePath}presentacion/`} aria-label="NextBook, volver a la presentación">
+      <a className="carlin-logo" href={presentationPath} aria-label="NextBook, volver a la presentación">
         <span className="carlin-logo-mark"><BookOpen size={18} strokeWidth={1.7} /></span><span>NextBook<span className="carlin-logo-dot">.</span></span>
       </a>
       <div className="carlin-header-center"><span className="carlin-header-line" /><span>Una experiencia de Carlin La Reina</span><span className="carlin-header-line" /></div>
