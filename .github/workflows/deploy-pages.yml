@@ -47,6 +47,11 @@ jobs:
         run: deno check --no-config --node-modules-dir=none supabase/functions/carlin-recommend/index.ts
       - name: Crear la web estática
         run: pnpm build:github-pages
+      - name: Redirigir las direcciones anteriores a Cloudflare
+        run: |
+          node scripts/redirect-legacy-pages.mjs
+          node scripts/harden-pages.mjs
+          node scripts/check-pages.mjs
       - name: Preparar publicación
         uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5
       - name: Subir la web

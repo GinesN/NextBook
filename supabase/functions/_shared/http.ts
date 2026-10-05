@@ -5,7 +5,7 @@ export class RequestInputError extends Error {
 
 export function allowedCarlinOrigin(origin: string | null) {
   if (!origin) return null;
-  if (origin === 'https://ginesn.github.io') return origin;
+  if (origin === 'https://ginesn.github.io' || origin === 'https://nextbookesp.pages.dev') return origin;
   try {
     const url = new URL(origin);
     if (url.protocol === 'http:' && ['localhost', '127.0.0.1'].includes(url.hostname)

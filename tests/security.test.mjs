@@ -25,8 +25,8 @@ test('streaming payloads cannot bypass the byte limit by omitting Content-Length
   assert.equal(cancelled, true);
 });
 test('CORS accepts exact production and local origins and rejects lookalikes', () => {
-  for (const origin of ['https://ginesn.github.io', 'http://localhost:4319', 'http://127.0.0.1:4319']) assert.equal(allowedCarlinOrigin(origin), origin);
-  for (const origin of ['null', 'https://ginesn.github.io.evil.test', 'https://evil.test', 'http://localhost.evil.test', 'http://localhost:4319/path', 'http://user@localhost:4319']) assert.equal(allowedCarlinOrigin(origin), null);
+  for (const origin of ['https://ginesn.github.io', 'https://nextbookesp.pages.dev', 'http://localhost:4319', 'http://127.0.0.1:4319']) assert.equal(allowedCarlinOrigin(origin), origin);
+  for (const origin of ['null', 'https://ginesn.github.io.evil.test', 'https://nextbookesp.pages.dev.evil.test', 'https://other-project.pages.dev', 'https://preview.nextbookesp.pages.dev', 'https://evil.test', 'http://localhost.evil.test', 'http://localhost:4319/path', 'http://user@localhost:4319']) assert.equal(allowedCarlinOrigin(origin), null);
   const response = carlinJson({ error: 'Método no permitido.' }, 405, 'https://ginesn.github.io');
   assert.equal(response.headers.get('cache-control'), 'no-store');
   assert.equal(response.headers.get('x-content-type-options'), 'nosniff');
