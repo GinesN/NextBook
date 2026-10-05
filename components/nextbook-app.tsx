@@ -323,11 +323,11 @@ function Results({ recommendations, eligibleCount, onRestart, onEdit, onAlternat
         {recommendations.map((recommendation, index) => (
           <Dialog key={recommendation.book.book_id}>
             <DialogTrigger render={<button type="button" aria-label={`Ver ficha de ${recommendation.book.title}`} className="block h-full w-full text-left transition-transform duration-200 hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-4" />}>
-              <Card className="result-card h-full justify-between rounded-[1.5rem] border-0 py-0 ring-1 ring-border transition-shadow hover:shadow-xl hover:shadow-primary/10">
+              <Card className={`result-card h-full justify-between rounded-[1.5rem] border-0 py-0 ring-1 ${index === 0 ? 'ring-primary/30' : 'ring-border'} transition-shadow hover:shadow-xl hover:shadow-primary/10`}>
                 <div>
                   <div className={`h-2 ${accentClasses[index]}`} />
                   <CardHeader className="p-6 pb-3">
-                    <div className="flex items-center justify-between gap-4"><BookOpen className="size-6 text-primary/60" aria-hidden="true" />{recommendation.match !== null && <Badge variant="secondary" aria-label={`${recommendation.match}% de afinidad`} className="h-7 px-3 text-sm">{recommendation.match}%</Badge>}</div>
+                    <div className="flex min-h-10 items-center justify-between gap-4"><div className="flex min-w-0 items-center gap-3"><BookOpen className="size-6 shrink-0 text-primary/60" aria-hidden="true" /><p className="recommendation-label">{index === 0 ? 'Nuestra primera recomendación' : 'Para tu momento lector'}</p></div><span className={`recommendation-rank ${index === 0 ? 'recommendation-rank-first' : ''}`} aria-label={`Recomendación ${index + 1}`}>{index + 1}</span></div>
                     <div className="mt-8 min-h-28"><h2 className="font-heading text-3xl font-semibold leading-[1.03] tracking-[-0.045em]">{recommendation.book.title}</h2><p className="mt-3 text-sm text-muted-foreground">{recommendation.book.author}</p></div>
                   </CardHeader>
                   <CardContent className="px-6 pb-6"><p className="min-h-28 leading-6 text-foreground/80">{recommendation.book.description_seed}</p><div className="mt-5 flex flex-wrap gap-2"><Badge variant="outline">{genreLabel(recommendation.book.subgenre)}</Badge><Badge variant="outline">{difficultyLabels[recommendation.book.difficulty_1_5 - 1]}</Badge></div></CardContent>

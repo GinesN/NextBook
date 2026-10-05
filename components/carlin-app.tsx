@@ -401,11 +401,11 @@ function Results({ recommendations, onRestart, onBack, onMore, alternativesAvail
       <h1 id="results-title">Las historias que<br /><em>podrían ser tuyas.</em></h1>
       <p>Elegidas de los libros de Carlin La Reina según tus respuestas. Quizá aquí empiece tu próxima gran lectura.</p>
       <div className="carlin-results-meta"><BookOpen size={18} strokeWidth={1.5} aria-hidden="true" /> CURADO POR NEXTBOOK PARA CARLIN LA REINA</div>
-      {recommendations.length > 0 && recommendations.length < 3 && <p className="carlin-affinity-note">Con la edad y el presupuesto indicados no hay tres títulos distintos disponibles. Puedes ampliar el presupuesto para explorar más opciones.</p>}
+      {recommendations.length > 0 && recommendations.length < 3 && <p className="carlin-availability-note">Con la edad y el presupuesto indicados no hay tres títulos distintos disponibles. Puedes ampliar el presupuesto para explorar más opciones.</p>}
     </div>
 
     {recommendations.length > 0 ? <div className="carlin-results-grid">
-      {recommendations.map(({ book, affinity }, index) => {
+      {recommendations.map(({ book }, index) => {
         const info = details[book.id] ?? catalogBookDetails(book);
         return <article className={`carlin-result-card carlin-result-card-${index + 1}`} key={book.id}>
         <button type="button" className="carlin-result-card-trigger" aria-label={`Ver más información sobre ${book.title}`} aria-haspopup="dialog" onClick={() => setSelectedBook(book)}><span className="carlin-sr-only">Abrir información del libro</span></button>
@@ -419,7 +419,7 @@ function Results({ recommendations, onRestart, onBack, onMore, alternativesAvail
           </div>}
         </div>
         <div className="carlin-result-body">
-          <div className="carlin-result-labels"><p className="carlin-result-kicker">PARA TU MOMENTO LECTOR</p>{affinity && <span className="carlin-affinity" aria-label={`${affinity.percent}% de afinidad`}>{affinity.percent}%</span>}</div>
+          <div className="carlin-result-labels"><p className="carlin-result-kicker">{index === 0 ? 'NUESTRA PRIMERA RECOMENDACIÓN' : 'PARA TU MOMENTO LECTOR'}</p><span className={`recommendation-rank ${index === 0 ? 'recommendation-rank-first' : ''}`} aria-label={`Recomendación ${index + 1}`}>{index + 1}</span></div>
           <h2>{book.title}</h2>
           {book.author && <p className="carlin-result-author">{book.author}</p>}
           <p className="carlin-result-synopsis">{info?.description || (info?.loaded ? fallbackBookDescription(book) : 'Buscando la sinopsis y los datos de esta edición…')}</p>
