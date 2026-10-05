@@ -408,10 +408,11 @@ function Results({ recommendations, onRestart, onBack, onMore, alternativesAvail
       {recommendations.map(({ book }, index) => {
         const info = details[book.id] ?? catalogBookDetails(book);
         return <article className={`carlin-result-card carlin-result-card-${index + 1}`} key={book.id}>
-        <button type="button" className="carlin-result-card-trigger" aria-label={`Ver más información sobre ${book.title}`} aria-haspopup="dialog" onClick={() => setSelectedBook(book)}><span className="carlin-sr-only">Abrir información del libro</span></button>
+        <button type="button" className="carlin-result-card-trigger" aria-label={`Recomendación ${index + 1}: ver más información sobre ${book.title}`} aria-haspopup="dialog" onClick={() => setSelectedBook(book)}><span className="carlin-sr-only">Abrir información del libro</span></button>
+        <p className={`recommendation-heading ${index === 0 ? 'recommendation-heading-first' : ''}`}><span className="recommendation-position">{index + 1}</span><span aria-hidden="true">·</span>{['Tu primera opción', 'Segunda opción', 'Tercera opción'][index]}</p>
         <div className={`carlin-result-art carlin-result-art-${index + 1}`}>
           {info?.cover ? <img className="carlin-cover" src={info.cover} alt={`Portada de ${book.title}`} loading="lazy" onError={() => setDetails(current => ({ ...current, [book.id]: { ...info, cover: undefined } }))} /> : <div className="carlin-fallback-cover">
-            <div className="carlin-fallback-brand"><BookOpen size={15} strokeWidth={1.5} /><span>CARLIN LA REINA</span><span>·</span><span>NB / 0{index + 1}</span></div>
+            <div className="carlin-fallback-brand"><BookOpen size={15} strokeWidth={1.5} /><span>CARLIN LA REINA</span><span>·</span><span>NEXTBOOK</span></div>
             <span className="carlin-fallback-mark" aria-hidden="true"><BookOpen size={56} strokeWidth={1.3} /></span>
             <h3>{book.title}</h3>
             <p>{book.author || 'Una lectura por descubrir'}</p>
@@ -419,7 +420,6 @@ function Results({ recommendations, onRestart, onBack, onMore, alternativesAvail
           </div>}
         </div>
         <div className="carlin-result-body">
-          <div className="carlin-result-labels"><p className="carlin-result-kicker">{index === 0 ? 'NUESTRA PRIMERA RECOMENDACIÓN' : 'PARA TU MOMENTO LECTOR'}</p><span className={`recommendation-rank ${index === 0 ? 'recommendation-rank-first' : ''}`} aria-label={`Recomendación ${index + 1}`}>{index + 1}</span></div>
           <h2>{book.title}</h2>
           {book.author && <p className="carlin-result-author">{book.author}</p>}
           <p className="carlin-result-synopsis">{info?.description || (info?.loaded ? fallbackBookDescription(book) : 'Buscando la sinopsis y los datos de esta edición…')}</p>
