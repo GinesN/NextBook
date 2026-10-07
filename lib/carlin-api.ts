@@ -26,12 +26,13 @@ export function isCarlinResponse(value: unknown): value is CarlinResponse {
   });
 }
 
-export async function fetchCarlinNext(apiUrl: string, publicApiKey: string, profile: CarlinProfile, selection: CarlinSelectionContext): Promise<CarlinResponse> {
+export async function fetchCarlinNext(apiUrl: string, publicApiKey: string, profile: CarlinProfile, selection: CarlinSelectionContext,
+  tracking?: { bookstoreSlug: string; runId: string }): Promise<CarlinResponse> {
   try {
     const response = await fetch(apiUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', apikey: publicApiKey, Authorization: `Bearer ${publicApiKey}` },
-      body: JSON.stringify({ profile, selection }),
+      body: JSON.stringify({ profile, selection, ...tracking }),
       signal: AbortSignal.timeout(25_000),
     });
     const data: unknown = await response.json().catch(() => null);

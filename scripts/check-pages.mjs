@@ -29,5 +29,6 @@ async function check(directory) {
   }
 }
 await check(root);
-assert.equal(pages, basePath === '/' ? 7 : 5);
+const bookstores = JSON.parse(await readFile(new URL('../lib/bookstores.json', import.meta.url), 'utf8'));
+assert.equal(pages, basePath === '/' ? 6 + bookstores.length : 5);
 console.log(`${pages} pages: security policies and internal links verified.`);

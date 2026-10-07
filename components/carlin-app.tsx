@@ -5,11 +5,12 @@ import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { ArrowLeft, ArrowRight, BookOpen, Check, Gift, UserRound, X } from 'lucide-react';
 import { LegalFooter } from '@/components/legal-footer';
 import { fetchCarlinNext } from '@/lib/carlin-api';
+import { bookstores, type Bookstore } from '@/lib/bookstores';
 
 import {
   formatCarlinPrice, initialCarlinProfile,
   type CarlinProfile, type CarlinQuestion, type CarlinRecommendation,
-  type CarlinResponse, type CarlinSelectionContext, type PublicCatalogOption,
+  type CarlinResponse, type PublicCatalogOption,
 } from '@/supabase/functions/_shared/carlin';
 
 import { siteBasePath, presentationPath } from '@/lib/site-paths';
@@ -36,11 +37,7 @@ function keepQuestionVisible() {
 const recentBooksStorageKey = 'nextbook:carlin:recent-books:v1';
 const newSelectionSeed = () => crypto.randomUUID();
 
-async function fetchNext(profile: CarlinProfile, selection: CarlinSelectionContext): Promise<CarlinResponse> {
-  return fetchCarlinNext(apiUrl, publicApiKey, profile, selection);
-}
-
-export default function CarlinApp() {
+export default function CarlinApp({ bookstore = bookstores[0] }: { bookstore?: Bookstore }) {
   const [profile, setProfile] = useState<CarlinProfile>(initialCarlinProfile);
   const [question, setQuestion] = useState<CarlinQuestion>('recipient');
   const [options, setOptions] = useState<PublicCatalogOption[]>(recipientOptions);
@@ -93,7 +90,9 @@ export default function CarlinApp() {
     }
     setPending(true);
     try {
-      const response = await fetchNext(nextProfile, { seed: selectionSeed.current ?? undefined, seenIds: recentBooks.current ?? [] });
+      const response = await fetchCarlinNext(apiUrl, publicApiKey, nextProfile,
+        { seed: selectionSeed.current ?? undefined, seenIds: recentBooks.current ?? [] },
+        { bookstoreSlug: bookstore.slug, runId: selectionSeed.current! });
       setHistory((current) => [...current, entry]);
       if (response.kind === 'question') {
         setQuestion(response.question);
@@ -139,17 +138,17 @@ export default function CarlinApp() {
       <a className="carlin-logo" href={presentationPath} aria-label="NextBook, volver a la presentación">
         <span className="carlin-logo-mark"><BookOpen size={18} strokeWidth={1.7} /></span><span>NextBook<span className="carlin-logo-dot">.</span></span>
       </a>
-      <div className="carlin-header-center"><span className="carlin-header-line" /><span>Una experiencia de Carlin La Reina</span><span className="carlin-header-line" /></div>
+      <div className="carlin-header-center"><span className="carlin-header-line" /><span>Una experiencia de {bookstore.name}</span><span className="carlin-header-line" /></div>
     </header>
 
-    {recommendations ? <Results recommendations={recommendations} onRestart={restart} onBack={back} pending={pending} error={error} /> : (
+    {recommendations ? <Results bookstore={bookstore} recommendations={recommendations} onRestart={restart} onBack={back} pending={pending} error={error} /> : (
       <div className="carlin-journey">
         <aside className="carlin-hero" style={{ backgroundImage: `linear-gradient(180deg,rgba(17,39,35,.25),rgba(10,31,27,.43) 34%,rgba(9,29,26,.92)),url('${siteBasePath}presentacion/hero-bookshop.png')` }}>
-          <div className="carlin-hero-top"><span className="carlin-hero-orbit" aria-hidden="true"><BookOpen size={18} strokeWidth={1.5} /></span><span>CARLIN LA REINA <span className="carlin-hero-separator">/</span> NEXTBOOK</span></div>
+          <div className="carlin-hero-top"><span className="carlin-hero-orbit" aria-hidden="true"><BookOpen size={18} strokeWidth={1.5} /></span><span>{bookstore.name.toUpperCase()} <span className="carlin-hero-separator">/</span> NEXTBOOK</span></div>
           <div className="carlin-hero-content">
             <p className="carlin-overline carlin-overline-light"><span className="carlin-overline-rule" /> UNA LIBRERÍA. INFINITAS HISTORIAS.</p>
             <h1>Hay un libro<br />que <em>te está</em><br />esperando.</h1>
-            <p className="carlin-hero-subtitle">Lecturas seleccionadas del catálogo de Carlin La Reina para encontrar una historia que encaje contigo.</p>
+            <p className="carlin-hero-subtitle">Lecturas seleccionadas del catálogo de {bookstore.name} para encontrar una historia que encaje contigo.</p>
           </div>
           <div className="carlin-hero-bottom"><span>EL PLACER DE ENCONTRARLO</span><span className="carlin-hero-book" aria-hidden="true"><BookOpen size={22} strokeWidth={1.5} /></span><span>SIN PERDERSE ENTRE MILES</span></div>
         </aside>
@@ -343,7 +342,8 @@ function fallbackBookDescription(book: CarlinRecommendation['book']) {
   return 'No encontramos una sinopsis editorial para esta edición. Abre la ficha para consultar los datos disponibles del libro.';
 }
 
-function Results({ recommendations, onRestart, onBack, pending, error }: {
+function Results({ bookstore, recommendations, onRestart, onBack, pending, error }: {
+  bookstore: Bookstore;
   recommendations: CarlinRecommendation[]; onRestart: () => void; onBack: () => void; pending: boolean; error: string;
 }) {
   const [details, setDetails] = useState<Record<string, BookDetails>>({});
@@ -383,8 +383,8 @@ function Results({ recommendations, onRestart, onBack, pending, error }: {
     <div className="carlin-results-intro">
       <p className="carlin-overline"><span className="carlin-overline-rule" /> TU SELECCIÓN PERSONAL</p>
       <h1 id="results-title">Las historias que<br /><em>podrían ser tuyas.</em></h1>
-      <p>Elegidas de los libros de Carlin La Reina según tus respuestas. Quizá aquí empiece tu próxima gran lectura.</p>
-      <div className="carlin-results-meta"><BookOpen size={18} strokeWidth={1.5} aria-hidden="true" /> CURADO POR NEXTBOOK PARA CARLIN LA REINA</div>
+      <p>Elegidas de los libros de {bookstore.name} según tus respuestas. Quizá aquí empiece tu próxima gran lectura.</p>
+      <div className="carlin-results-meta"><BookOpen size={18} strokeWidth={1.5} aria-hidden="true" /> CURADO POR NEXTBOOK PARA {bookstore.name.toUpperCase()}</div>
       {recommendations.length > 0 && recommendations.length < 3 && <p className="carlin-availability-note">Con la edad y el presupuesto indicados no hay tres títulos distintos disponibles. Puedes ampliar el presupuesto para explorar más opciones.</p>}
     </div>
 
@@ -396,7 +396,7 @@ function Results({ recommendations, onRestart, onBack, pending, error }: {
         <p className={`recommendation-heading ${index === 0 ? 'recommendation-heading-first' : ''}`}><span className="recommendation-position">{index + 1}</span><span aria-hidden="true">·</span>{['Tu primera opción', 'Segunda opción', 'Tercera opción'][index]}</p>
         <div className={`carlin-result-art carlin-result-art-${index + 1}`}>
           {info?.cover ? <img className="carlin-cover" src={info.cover} alt={`Portada de ${book.title}`} loading="lazy" onError={() => setDetails(current => ({ ...current, [book.id]: { ...info, cover: undefined } }))} /> : <div className="carlin-fallback-cover">
-            <div className="carlin-fallback-brand"><BookOpen size={15} strokeWidth={1.5} /><span>CARLIN LA REINA</span><span>·</span><span>NEXTBOOK</span></div>
+            <div className="carlin-fallback-brand"><BookOpen size={15} strokeWidth={1.5} /><span>{bookstore.name.toUpperCase()}</span><span>·</span><span>NEXTBOOK</span></div>
             <span className="carlin-fallback-mark" aria-hidden="true"><BookOpen size={56} strokeWidth={1.3} /></span>
             <h3>{book.title}</h3>
             <p>{book.author || 'Una lectura por descubrir'}</p>
@@ -420,7 +420,7 @@ function Results({ recommendations, onRestart, onBack, pending, error }: {
         <button className="carlin-detail-close" type="button" aria-label="Cerrar ficha" onClick={() => setSelectedBook(null)}><X size={20} /></button>
         {details[selectedBook.id]?.cover && <img className="carlin-detail-cover" src={details[selectedBook.id].cover} alt={`Portada de ${selectedBook.title}`} />}
         <div className="carlin-detail-copy">
-          <p className="carlin-result-kicker">FICHA DEL LIBRO · CARLIN LA REINA</p>
+          <p className="carlin-result-kicker">FICHA DEL LIBRO · {bookstore.name.toUpperCase()}</p>
           <h2 id="carlin-detail-title">{selectedBook.title}</h2>
           {selectedBook.author && <p className="carlin-result-author">{selectedBook.author}</p>}
           {selectedBook.price !== null && <p className="carlin-detail-price">{formatCarlinPrice(selectedBook.price)}</p>}

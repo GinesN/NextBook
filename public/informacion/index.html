@@ -19,6 +19,8 @@
       <h3>Un cuestionario sin cuenta de lector</h3><p>Para recibir recomendaciones no necesitas registrarte ni introducir tu nombre, correo o teléfono. Puedes responder sobre ti o sobre la persona a la que quieres regalar un libro. No introduzcas información que permita identificar a otra persona.</p>
       <h3>Para qué usamos las respuestas</h3><p>La edad indicada, los gustos, los temas, el ritmo o dificultad de lectura y el presupuesto se utilizan para seleccionar libros acordes a tus preferencias. Las recomendaciones se calculan automáticamente; son sugerencias de lectura y puedes cambiarlas o volver a empezar.</p>
       <p>En la demo general, el cálculo se realiza en tu navegador. En los cuestionarios conectados al catálogo de una librería, enviamos las respuestas y los identificadores de libros ya mostrados durante la visita al servicio de recomendaciones alojado en Supabase. La aplicación no crea una cuenta ni guarda un historial de respuestas en la base de datos.</p>
+      <h3>Estadísticas de las librerías</h3><p>Al completar un cuestionario de una librería, guardamos en Supabase la librería, la fecha de finalización y los identificadores, títulos, autores y posiciones de los libros recomendados. Si no se encuentran libros, se registra únicamente la finalización. Esto permite llevar un recuento de uso y mostrar los libros más recomendados en el panel privado de esa librería.</p>
+      <p>Cada cuestionario utiliza un identificador aleatorio que se mantiene en la memoria de la página para evitar recuentos duplicados al reintentar una conexión. No se vincula a una cuenta de lector ni se utiliza para reconocer a una persona en futuras visitas. El registro estadístico no incluye las respuestas, nombres, correos ni direcciones IP. Conservamos estos registros para mantener el histórico de actividad; las cuentas autorizadas de cada librería solo pueden consultar sus estadísticas agregadas.</p>
       <h3>Qué permanece y durante cuánto tiempo</h3><p>Las respuestas y los libros mostrados se mantienen en la memoria de la página. Al recargarla o cerrarla se reinician. El acceso privado para librerías utiliza una sesión de autenticación distinta, que puede permanecer guardada en ese navegador hasta su cierre o caducidad.</p>
       <h3>Servicios que intervienen</h3><p>GitHub Pages sirve la web y Supabase gestiona el acceso privado y las recomendaciones de las librerías conectadas. Las fuentes se cargan desde Google Fonts y las portadas pueden proceder de CEGAL u otros proveedores bibliográficos, como Open Library o Google Books.</p>
       <p>Al conectar con estos servicios, sus servidores reciben información técnica de la conexión, como la dirección IP y datos del navegador. Pueden conservar registros operativos y de seguridad conforme a sus propias condiciones. Sus plazos de conservación y el tratamiento internacional de esos registros se describen en la información de cada proveedor.</p>
@@ -28,7 +30,7 @@
     </section>
     <section id="cookies" aria-labelledby="cookies-title">
       <p class="eyebrow">EN TU NAVEGADOR</p><h2 id="cookies-title">Cookies y almacenamiento</h2>
-      <p>La aplicación no incorpora herramientas de publicidad ni de analítica de navegación. Actualmente no ofrecemos categorías opcionales de seguimiento que tengas que aceptar para utilizar el cuestionario.</p>
+      <p>La aplicación no incorpora herramientas de publicidad ni de seguimiento de personas entre visitas. Los recuentos de cuestionarios y recomendaciones se realizan en el servidor, sin instalar cookies ni identificadores persistentes de lector en el navegador. Actualmente no ofrecemos categorías opcionales de seguimiento que tengas que aceptar para utilizar el cuestionario.</p>
       <div class="storage-list">
         <article><h3>Presentación y demo</h3><p>La presentación no guarda preferencias de seguimiento. La demo mantiene tus respuestas únicamente en la memoria de la página.</p><span>Sin historial permanente de lector</span></article>
         <article><h3>Cuestionarios de librerías</h3><p>Recordamos los libros mostrados durante la visita para ofrecer alternativas. Esta lista permanece en memoria y no se guarda para futuras visitas. Al abrir la nueva versión se elimina el historial local que podían haber guardado versiones anteriores.</p><span>Se reinicia al recargar o cerrar la página</span></article>
@@ -39,6 +41,6 @@
       <p>Más información: <a href="https://www.aepd.es/guias/guia-cookies.pdf" target="_blank" rel="noopener noreferrer">guía sobre cookies de la AEPD</a>.</p>
     </section>
   </main>
-  <footer><a href="../presentacion/">NextBook</a><span>Actualizado el 4 de octubre de 2026</span><a href="#contenido">Volver arriba ↑</a></footer>
+  <footer><a href="../presentacion/">NextBook</a><span>Actualizado el 7 de octubre de 2026</span><a href="#contenido">Volver arriba ↑</a></footer>
 </body>
 </html>

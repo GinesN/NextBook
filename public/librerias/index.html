@@ -8,9 +8,9 @@
   <meta name="robots" content="noindex,nofollow">
   <meta name="theme-color" content="#f5f2e9">
   <link rel="icon" href="../favicon.svg?v=20261005-book" type="image/svg+xml">
-  <link rel="stylesheet" href="./style.css?v=20261004-access">
+  <link rel="stylesheet" href="./style.css?v=20261007-statistics">
   <script src="./auth-config.js?v=1"></script>
-  <script type="module" src="./auth.js?v=20261004-security"></script>
+  <script type="module" src="./auth.js?v=20261007-statistics"></script>
 </head>
 <body>
   <a class="skip-link" href="#contenido">Saltar al contenido</a>
@@ -25,7 +25,7 @@
       <div class="access-copy">
         <p class="eyebrow">ÁREA PRIVADA DE LIBRERÍAS</p>
         <h1 id="login-title">Tu librería,<br><em>en un solo lugar.</em></h1>
-        <p>Accede al espacio privado de tu librería para entrar en su experiencia NextBook.</p>
+        <p>Consulta la actividad de tu librería, descubre qué libros se recomiendan más y comparte tu experiencia NextBook.</p>
         <div class="privacy-note"><span aria-hidden="true">↳</span><p>Este acceso es exclusivo para librerías autorizadas. No se permite crear cuentas desde esta página.</p></div>
       </div>
 
@@ -52,17 +52,45 @@
 
     <section id="private-view" class="dashboard container" hidden aria-labelledby="dashboard-title">
       <div class="dashboard-top">
-        <div><p class="eyebrow">ESPACIO PRIVADO</p><h1 id="dashboard-title">Carlin La Reina</h1><p>Tu espacio NextBook está preparado para acceder al recomendador de la librería.</p></div>
+        <div><p class="eyebrow">TU LIBRERÍA EN CIFRAS</p><h1 id="dashboard-title">Carlin La Reina</h1><p>De cada cuestionario, una nueva historia. Sigue la actividad de tu espacio NextBook.</p></div>
         <button id="logout-button" class="text-button" type="button">Cerrar sesión</button>
       </div>
       <p id="access-status" role="status" aria-live="polite"></p>
+      <section class="statistics" aria-labelledby="statistics-title">
+        <div class="stats-heading"><div><p class="eyebrow">ACTIVIDAD NEXTBOOK</p><h2 id="statistics-title">Lo que está pasando.</h2></div><span class="private-badge"><span aria-hidden="true">●</span> Solo para tu librería</span></div>
+        <div id="bookstore-selector-wrap" class="store-selector" hidden><label for="bookstore-selector">Librería</label><select id="bookstore-selector"></select></div>
+        <form id="statistics-filters" class="stats-toolbar">
+          <div class="period-control"><label for="statistics-period">Periodo</label><select id="statistics-period"><option value="today">Hoy</option><option value="7days">Últimos 7 días</option><option value="month" selected>Este mes</option><option value="all">Todo el historial</option><option value="custom">Elegir fechas</option></select></div>
+          <div id="custom-dates" class="custom-dates" hidden><div><label for="statistics-start">Desde</label><input id="statistics-start" type="date"></div><div><label for="statistics-end">Hasta</label><input id="statistics-end" type="date"></div><button class="button small" type="submit">Aplicar</button></div>
+          <div class="stats-toolbar-actions"><button id="statistics-refresh" class="button small secondary" type="button">Actualizar <span aria-hidden="true">↻</span></button><button id="statistics-export" class="button small" type="button" disabled>Descargar CSV <span aria-hidden="true">↓</span></button></div>
+        </form>
+        <p id="statistics-status" class="stats-status" role="status" aria-live="polite"></p>
+        <div id="statistics-content" hidden>
+          <div class="stats-cards">
+            <article class="stat-card stat-card-primary"><p>Total acumulado</p><strong id="stat-total">—</strong><span>cuestionarios completados</span><span id="stats-tracking" class="stat-since"></span></article>
+            <article class="stat-card"><p>En este periodo</p><strong id="stat-period">—</strong><span>cuestionarios completados</span><span id="stats-range" class="stat-since"></span></article>
+            <article class="stat-card"><p>Libros recomendados</p><strong id="stat-recommendations">—</strong><span>apariciones en este periodo</span><span class="stat-since">Hasta 3 por cuestionario</span></article>
+            <article class="stat-card"><p>Títulos diferentes</p><strong id="stat-unique">—</strong><span>libros en este periodo</span><span class="stat-since">Cada título cuenta una vez</span></article>
+          </div>
+          <div class="stats-chart-panel"><div class="panel-heading"><div><p class="eyebrow">EL RITMO DE TU LIBRERÍA</p><h3>Cuestionarios a lo largo del tiempo</h3></div><span id="chart-unit" class="panel-label"></span></div><div id="statistics-chart" class="stats-chart"></div><p id="chart-caption" class="panel-note"></p></div>
+          <div class="stats-ranking-panel">
+            <div class="panel-heading"><div><p class="eyebrow">LAS LECTURAS QUE MÁS APARECEN</p><h3>Libros más recomendados</h3></div><div class="ranking-order"><label for="ranking-order">Ordenar por</label><select id="ranking-order"><option value="count">Más apariciones</option><option value="first">Más veces como primera opción</option></select></div></div>
+            <p class="panel-note">Una aparición significa que el libro formó parte de la selección de un cuestionario. «Primera opción» indica las veces que ocupó el primer puesto.</p>
+            <div id="ranking-empty" class="stats-empty" hidden><span aria-hidden="true">↗</span><h4>Tu próxima recomendación empieza aquí.</h4><p>Cuando se complete un cuestionario con libros en este periodo, aparecerán en este listado.</p></div>
+            <div id="ranking-table-wrap" class="table-scroll" tabindex="0" role="region" aria-label="Tabla de libros. Desplázate horizontalmente para ver todas las columnas."><table class="ranking-table"><caption class="sr-only">Ranking de libros recomendados en el periodo seleccionado</caption><thead><tr><th scope="col">Puesto</th><th scope="col">Libro</th><th scope="col" class="number-column">Apariciones</th><th scope="col" class="number-column">Primera opción</th><th scope="col" class="number-column">% cuestionarios</th></tr></thead><tbody id="ranking-body"></tbody></table></div>
+            <div id="ranking-pagination" class="ranking-pagination"><p id="ranking-page-label"></p><div><button id="ranking-previous" type="button" class="pagination-button" aria-label="Página anterior">←</button><button id="ranking-next" type="button" class="pagination-button" aria-label="Página siguiente">→</button></div></div>
+          </div>
+          <p class="stats-footnote">Contamos cuestionarios completados, incluidos los que no encuentran libros disponibles. Los reintentos de un mismo cuestionario no suman de nuevo. El histórico comienza al activar el registro; la demo general tiene su propio funcionamiento y no se incluye.</p>
+          <p id="statistics-updated" class="stats-updated"></p>
+        </div>
+      </section>
       <article class="bookstore-card">
-        <div class="bookstore-mark" aria-hidden="true">CL</div>
+        <div id="bookstore-mark" class="bookstore-mark" aria-hidden="true">CL</div>
         <div class="bookstore-copy">
-          <span class="pilot-label">CATÁLOGO DE CARLIN LA REINA</span>
-          <h2>Carlin La Reina</h2>
+          <span id="bookstore-catalog-label" class="pilot-label">CATÁLOGO DE CARLIN LA REINA</span>
+          <h2 id="bookstore-card-title">Carlin La Reina</h2>
           <p>Abre el cuestionario adaptativo conectado con los libros de tu catálogo.</p>
-          <a class="button" href="../?libreria=carlin-la-reina">Ver el cuestionario <span aria-hidden="true">→</span></a>
+          <a id="bookstore-quiz-link" class="button" href="../?libreria=carlin-la-reina">Ver el cuestionario <span aria-hidden="true">→</span></a>
         </div>
       </article>
 
@@ -70,15 +98,15 @@
         <div class="qr-panel-copy">
           <p class="eyebrow">QR DE TU LIBRERÍA</p>
           <h2 id="qr-title">Del estante al siguiente libro.</h2>
-          <p>Coloca este QR en Carlin La Reina. Quien lo escanee abrirá directamente el cuestionario de la librería, sin iniciar sesión.</p>
+          <p id="bookstore-qr-description">Coloca este QR en Carlin La Reina. Quien lo escanee abrirá directamente el cuestionario de la librería, sin iniciar sesión.</p>
           <div class="qr-actions">
-            <a class="button" href="./carlin-la-reina/qr.svg" download="NextBook-Carlin-La-Reina-QR.svg">Descargar QR <span aria-hidden="true">↓</span></a>
-            <a class="text-button" href="../?libreria=carlin-la-reina">Abrir el enlace</a>
+            <a id="bookstore-qr-download" class="button" href="./carlin-la-reina/qr.svg" download="NextBook-Carlin-La-Reina-QR.svg">Descargar QR <span aria-hidden="true">↓</span></a>
+            <a id="bookstore-qr-link" class="text-button" href="../?libreria=carlin-la-reina">Abrir el enlace</a>
           </div>
         </div>
         <div class="qr-preview">
-          <img src="./carlin-la-reina/qr.svg" width="280" height="280" alt="Código QR que abre el cuestionario de NextBook para Carlin La Reina">
-          <span>Carlin La Reina · NextBook</span>
+          <img id="bookstore-qr-image" src="./carlin-la-reina/qr.svg" width="280" height="280" alt="Código QR que abre el cuestionario de NextBook para Carlin La Reina">
+          <span id="bookstore-qr-caption">Carlin La Reina · NextBook</span>
         </div>
       </section>
     </section>

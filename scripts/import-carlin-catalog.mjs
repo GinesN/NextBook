@@ -3,6 +3,9 @@ import { createClient } from '@supabase/supabase-js';
 import { readCarlinCatalog } from './carlin-source.mjs';
 
 const args = process.argv.slice(2);
+const bookstoreOption = args.find(arg => arg.startsWith('--bookstore='));
+const bookstoreSlug = bookstoreOption?.slice('--bookstore='.length) ?? 'carlin-la-reina';
+if (!/^[a-z0-9][a-z0-9-]{0,79}$/.test(bookstoreSlug)) throw new Error('Identificador de librería no válido.');
 const dryRun = args.includes('--dry-run');
 const inputPath = args.find((arg) => !arg.startsWith('--'));
 if (!inputPath) throw new Error('Uso: node scripts/import-carlin-catalog.mjs <catalogo.jsonl> [--dry-run]');
@@ -20,7 +23,7 @@ const batchSize = 200;
 
 for (let start = 0; start < books.length; start += batchSize) {
   const rows = books.slice(start, start + batchSize).map((book) => ({
-    bookstore_slug: 'carlin-la-reina',
+    bookstore_slug: bookstoreSlug,
     book_id: book.id,
     group_key: book.group,
     title: book.title,
@@ -46,8 +49,8 @@ for (let start = 0; start < books.length; start += batchSize) {
 }
 
 const { data: activated, error: activationError } = await supabase.rpc('activate_bookstore_catalog', {
-  p_bookstore_slug: 'carlin-la-reina', p_import_token: importToken,
+  p_bookstore_slug: bookstoreSlug, p_import_token: importToken,
 });
 if (activationError) throw new Error(`Fichas cargadas pero activación pendiente: ${activationError.message}`);
 if (activated !== books.length) throw new Error(`Activación incompleta: ${activated} de ${books.length} fichas.`);
-console.log(`Catálogo de Carlin La Reina activado con ${activated} fichas.`);
+console.log(`Catálogo de ${bookstoreSlug} activado con ${activated} fichas.`);

@@ -4,3 +4,5 @@ onlyBuiltDependencies:
   - esbuild
 overrides:
   ws: 8.22.0
+  tinypool: 2.1.2
+  source-map-js: 1.2.2

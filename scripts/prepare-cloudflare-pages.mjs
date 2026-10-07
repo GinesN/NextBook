@@ -3,6 +3,11 @@ import { join } from 'node:path';
 import QRCode from 'qrcode';
 
 const root = 'cloudflare-pages-dist';
+const bookstores = JSON.parse(await readFile(new URL('../lib/bookstores.json', import.meta.url), 'utf8'));
+for (const store of bookstores) {
+  if (!/^[a-z0-9][a-z0-9-]{0,79}$/.test(store.slug) || typeof store.name !== 'string') throw new Error('Invalid bookstore configuration.');
+}
+const escapeHtml = text => text.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
 const siteOrigin = process.env.NEXTBOOK_SITE_ORIGIN ?? 'https://nextbookesp.pages.dev';
 const siteUrl = new URL(siteOrigin);
 if (siteUrl.protocol !== 'https:' || siteUrl.origin !== siteOrigin || !siteUrl.hostname.endsWith('.pages.dev')) {
@@ -16,8 +21,9 @@ function siteLink(value, pagePath) {
   if (url.origin !== legacyOrigin) return value;
   let path = url.pathname.replace(/^\/NextBook(?=\/|$)/, '') || '/';
   if (path === '/' || path === '/index.html') {
-    if (url.searchParams.get('libreria') === 'carlin-la-reina') {
-      path = '/carlin-la-reina/';
+    const store = bookstores.find(item => item.slug === url.searchParams.get('libreria'));
+    if (store) {
+      path = `/${store.slug}/`;
       url.searchParams.delete('libreria');
     } else path = '/demo/';
   } else if (path === '/presentacion/' || path === '/presentacion/index.html') path = '/';
@@ -51,15 +57,20 @@ async function prepare(directory, relative = '') {
 await prepare(root);
 const quiz = await readFile(join(root, 'index.html'), 'utf8');
 await mkdir(join(root, 'demo'), { recursive: true });
-await mkdir(join(root, 'carlin-la-reina'), { recursive: true });
 await writeFile(join(root, 'demo/index.html'), quiz);
-await writeFile(join(root, 'carlin-la-reina/index.html'), quiz
-  .replaceAll(`${siteOrigin}/demo/`, `${siteOrigin}/carlin-la-reina/`)
-  .replace('<title>NextBook — Encuentra tu próxima gran lectura</title>', '<title>Carlin La Reina · NextBook</title>'));
+for (const store of bookstores) {
+  await mkdir(join(root, store.slug), { recursive: true });
+  await writeFile(join(root, store.slug, 'index.html'), quiz
+    .replaceAll(`${siteOrigin}/demo/`, `${siteOrigin}/${store.slug}/`)
+    .replace('<title>NextBook — Encuentra tu próxima gran lectura</title>', `<title>${escapeHtml(store.name)} · NextBook</title>`));
+}
 await writeFile(join(root, 'index.html'), await readFile(join(root, 'presentacion/index.html')));
 
 const qrOptions = { errorCorrectionLevel: 'H', margin: 4, color: { dark: '#17352fff', light: '#ffffffff' } };
 await QRCode.toFile(join(root, 'presentacion/qr-demo.png'), `${siteOrigin}/demo/`, { ...qrOptions, width: 512 });
-await QRCode.toFile(join(root, 'librerias/carlin-la-reina/qr.svg'), `${siteOrigin}/carlin-la-reina/`, { ...qrOptions, type: 'svg' });
+for (const store of bookstores) {
+  await mkdir(join(root, 'librerias', store.slug), { recursive: true });
+  await QRCode.toFile(join(root, 'librerias', store.slug, 'qr.svg'), `${siteOrigin}/${store.slug}/`, { ...qrOptions, type: 'svg' });
+}
 await writeFile(join(root, '_redirects'), '/presentacion / 301\n/presentacion/ / 301\n');
 console.log(`Cloudflare routes, metadata, privacy information and QR codes prepared for ${siteOrigin}.`);

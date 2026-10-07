@@ -1,4 +1,7 @@
 project_id = "nextbook"
 
+[edge_runtime]
+policy = "per_worker"
+
 [functions.carlin-recommend]
 verify_jwt = true
